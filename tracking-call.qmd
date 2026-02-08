@@ -1,0 +1,430 @@
+---
+title: "APPELS ET VISITES"
+subtitle: "Caris Foundation | Rapport des appels et visites des agents"
+author: "M&E Department"
+date: today
+format:
+  html:
+    theme: flatly
+    css:
+      - styles.css
+    fig-align: center
+    page-layout: article
+    toc: true
+    toc-location: left
+    toc-depth: 3
+    number-sections: true
+    self-contained: true
+    df-print: paged
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+<style>
+  h2, h3 { color: #003366; border-bottom: 2px solid #0055a5; padding-bottom: 0.3em; }
+  th { background-color: #003366; color: #fff; text-align: left; padding: 12px; }
+  td { padding: 10px; border-top: 1px solid #ddd; }
+  tr:nth-child(even) { background-color: #f9f9f9; }
+
+  .data-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+
+  .data-card{
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 220px;
+    min-height: 180px;
+  }
+
+  .card-plot-container{
+    width: 100%;
+    margin: 0.75rem auto 1.25rem auto;
+    padding: 0.75rem;
+    box-sizing: border-box;
+    border: 2px solid #e0e0e0;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    background: #fafbfc;
+  }
+
+  .data-card.primary { border-left: 4px solid #007bff; }
+  .data-card.success { border-left: 4px solid #28a745; }
+  .data-card.info { border-left: 4px solid #17a2b8; }
+  .data-card.warning { border-left: 4px solid #ffc107; }
+  .data-card.secondary { border-left: 4px solid #6c757d; }
+
+  .data-card .value { font-size: 2rem; font-weight: bold; color: #333; margin: 0.5rem 0; }
+  .data-card .subtitle { font-size: 0.9rem; color: #666; }
+  .data-card h3 { font-size: 1rem; margin: 0 0 0.5rem 0; border: none; padding: 0; }
+</style>
+
+```{python}
+#| label: setup_appels_visites
+#| include: false
+import os, re, warnings
+import pandas as pd
+import numpy as np
+from datetime import date, timedelta
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+warnings.filterwarnings("ignore")
+os.makedirs("outputs/SERVICES", exist_ok=True)
+
+def assign_commune(name):
+    if pd.isna(name): return "Autre"
+    s = str(name)
+    if re.match(r"^1", s): return "Cap-Haïtien"
+    if re.match(r"^2", s): return "Port-au-Prince"
+    if re.match(r"^5", s): return "Port-de-Paix"
+    if re.match(r"^6", s): return "Gonaïves"
+    return "Autre"
+```
+
+```{python}
+#| label: load_data_appels_visites
+#| include: false
+data_cleaned = pd.read_excel("outputs/SERVICES/data_cleaned.xlsx", parse_dates=["date"])
+
+today = date.today()
+monday_current_week = today - timedelta(days=today.weekday())
+monday_last_week = monday_current_week - timedelta(days=7)
+sunday_last_week = monday_last_week + timedelta(days=6)
+
+mask = (data_cleaned["date"].dt.date >= monday_last_week) & (data_cleaned["date"].dt.date <= sunday_last_week)
+data_cleaned = data_cleaned.loc[mask].copy()
+
+if "username" in data_cleaned.columns:
+    data_cleaned["commune"] = data_cleaned["username"].apply(assign_commune)
+
+total_interventions = len(data_cleaned)
+total_trouve = int((data_cleaned["Trouvé"] == "Oui").sum()) if "Trouvé" in data_cleaned.columns else 0
+total_non_trouve = total_interventions - total_trouve
+taux_succes_global = (total_trouve / total_interventions * 100) if total_interventions else 0.0
+
+total_appels = int((data_cleaned["Type"] == "Appel").sum()) if "Type" in data_cleaned.columns else 0
+total_visites = int((data_cleaned["Type"] == "Visite").sum()) if "Type" in data_cleaned.columns else 0
+
+total_ptme = int((data_cleaned["Programme"] == "PTME").sum()) if "Programme" in data_cleaned.columns else 0
+total_oev = int((data_cleaned["Programme"] == "OEV").sum()) if "Programme" in data_cleaned.columns else 0
+
+nb_communes = int(data_cleaned["commune"].nunique()) if "commune" in data_cleaned.columns else 0
+nb_agents = int(data_cleaned["username"].nunique()) if "username" in data_cleaned.columns else 0
+
+top_agent, top_agent_count = "", 0
+if total_interventions and "username" in data_cleaned.columns and not data_cleaned["username"].isna().all():
+    vc = data_cleaned["username"].value_counts()
+    top_agent = vc.index[0]
+    top_agent_count = int(vc.iloc[0])
+
+actual_start = data_cleaned["date"].min().strftime("%d/%m/%Y") if total_interventions else "N/A"
+actual_end = data_cleaned["date"].max().strftime("%d/%m/%Y") if total_interventions else "N/A"
+actual_days = int((data_cleaned["date"].max() - data_cleaned["date"].min()).days + 1) if total_interventions else 0
+```
+
+# 📊 Tableau de Bord - Indicateurs Clés
+
+## Vue d'Ensemble des Performances
+
+::: {.data-cards-container}
+
+::: {.data-card .primary}
+### Total Interventions
+::: {.value}
+`{python} f"{total_interventions:,}"`
+:::
+::: {.subtitle}
+Appels + Visites
+:::
+:::
+
+::: {.data-card .success}
+### Taux de Succès
+::: {.value}
+`{python} f"{taux_succes_global:.1f}%"`
+:::
+::: {.subtitle}
+`{python} f"{total_trouve:,}"` trouvé(s) sur `{python} f"{total_interventions:,}"`
+:::
+:::
+
+::: {.data-card .warning}
+### Non Réussies
+::: {.value}
+`{python} f"{total_non_trouve:,}"`
+:::
+::: {.subtitle}
+Bénéficiaires non trouvés
+:::
+:::
+
+:::
+
+## Répartition par Type
+
+::: {.data-cards-container}
+
+::: {.data-card .secondary}
+### Appels Téléphoniques
+::: {.value}
+`{python} f"{total_appels:,}"`
+:::
+::: {.subtitle}
+`{python} f"{(total_appels/total_interventions*100):.1f}%" if total_interventions else "0%"`
+:::
+:::
+
+::: {.data-card .secondary}
+### Visites à Domicile
+::: {.value}
+`{python} f"{total_visites:,}"`
+:::
+::: {.subtitle}
+`{python} f"{(total_visites/total_interventions*100):.1f}%" if total_interventions else "0%"`
+:::
+:::
+
+:::
+
+## Répartition par Programme
+
+::: {.data-cards-container}
+
+::: {.data-card .info}
+### Programme PTME
+::: {.value}
+`{python} f"{total_ptme:,}"`
+:::
+::: {.subtitle}
+Prévention transmission mère-enfant
+:::
+:::
+
+::: {.data-card .info}
+### Programme OEV
+::: {.value}
+`{python} f"{total_oev:,}"`
+:::
+::: {.subtitle}
+Orphelins et enfants vulnérables
+:::
+:::
+
+:::
+
+## Opérationnel
+
+::: {.data-cards-container}
+
+::: {.data-card .primary}
+### Communes
+::: {.value}
+`{python} f"{nb_communes}"`
+:::
+::: {.subtitle}
+Zones d'intervention
+:::
+:::
+
+::: {.data-card .primary}
+### Agents actifs
+::: {.value}
+`{python} f"{nb_agents}"`
+:::
+::: {.subtitle}
+Équipe de terrain
+:::
+:::
+
+::: {.data-card .success}
+### Top agent
+::: {.value}
+`{python} f"{top_agent_count}"`
+:::
+::: {.subtitle}
+`{python} (top_agent[:20] + "…") if top_agent and len(top_agent) > 20 else (top_agent if top_agent else "N/A")`
+:::
+:::
+
+:::
+
+## Période d’analyse
+
+::: {.data-cards-container}
+
+::: {.data-card .warning}
+### Fenêtre retenue
+::: {.value}
+`{python} f"{actual_days} jours"`
+:::
+::: {.subtitle}
+`{python} f"{actual_start} - {actual_end}"`
+:::
+:::
+
+:::
+
+# 📈 Graphiques (1 graphique = 1 cadre)
+
+```{python}
+#| label: prepare_graphs_appels_visites
+#| include: false
+data_cleaned["date"] = pd.to_datetime(data_cleaned["date"], errors="coerce")
+data_cleaned["day"] = data_cleaned["date"].dt.date
+
+success_rate = pd.DataFrame()
+visits = pd.DataFrame()
+calls = pd.DataFrame()
+
+if not data_cleaned.empty:
+    if "Trouvé" in data_cleaned.columns:
+        success_rate = (
+            data_cleaned.groupby("day")["Trouvé"]
+            .apply(lambda x: (x == "Oui").mean() * 100)
+            .reset_index(name="Success Rate (%)")
+        )
+        success_rate["Success Rate (%)"] = success_rate["Success Rate (%)"].round(0).astype(int)
+
+    if "Type" in data_cleaned.columns:
+        visits = (data_cleaned[data_cleaned["Type"] == "Visite"].groupby("day").size()
+                  .reset_index(name="Visits"))
+        calls = (data_cleaned[data_cleaned["Type"] == "Appel"].groupby("day").size()
+                 .reset_index(name="Calls"))
+
+        if not visits.empty:
+            total_visits = visits["Visits"].sum()
+            visits["Visits (%)"] = ((visits["Visits"] / total_visits) * 100).round(0).astype(int) if total_visits else 0
+
+        if not calls.empty:
+            total_calls = calls["Calls"].sum()
+            calls["Calls (%)"] = ((calls["Calls"] / total_calls) * 100).round(0).astype(int) if total_calls else 0
+```
+
+## Taux de succès par jour (%)
+
+<div class="card-plot-container">
+```{python}
+#| label: plot_success_rate_appels_visites
+#| fig-width: 10
+#| fig-height: 5
+if not success_rate.empty:
+    sorted_data = success_rate.sort_values("Success Rate (%)", ascending=False)
+    sns.set_style("whitegrid")
+    ax = sns.barplot(data=sorted_data, y="day", x="Success Rate (%)", palette="viridis", orient="h")
+    ax.set_title("Taux de Succès par Jour (%)")
+    ax.set_xlabel("Pourcentage (%)")
+    ax.set_ylabel("Jour")
+    for c in ax.containers:
+        ax.bar_label(c, fmt="%d%%", padding=3)
+    plt.tight_layout()
+    plt.show()
+else:
+    plt.figure(figsize=(10,2))
+    plt.text(0.5, 0.5, "Aucune donnée disponible.", ha="center", va="center")
+    plt.axis("off")
+    plt.tight_layout()
+    plt.show()
+```
+</div>
+
+## Pourcentage de visites par jour
+
+<div class="card-plot-container">
+```{python}
+#| label: plot_visits_percent_appels_visites
+#| fig-width: 10
+#| fig-height: 5
+if not visits.empty:
+    sorted_data = visits.sort_values("Visits (%)", ascending=False)
+    sns.set_style("whitegrid")
+    ax = sns.barplot(data=sorted_data, y="day", x="Visits (%)", palette="viridis", orient="h")
+    ax.set_title("Pourcentage de Visites par Jour")
+    ax.set_xlabel("Pourcentage (%)")
+    ax.set_ylabel("Jour")
+    for c in ax.containers:
+        ax.bar_label(c, fmt="%d%%", padding=3)
+    plt.tight_layout()
+    plt.show()
+else:
+    plt.figure(figsize=(10,2))
+    plt.text(0.5, 0.5, "Aucune donnée de visites.", ha="center", va="center")
+    plt.axis("off")
+    plt.tight_layout()
+    plt.show()
+```
+</div>
+
+## Nombre d’appels par jour
+
+<div class="card-plot-container">
+```{python}
+#| label: plot_calls_count_appels_visites
+#| fig-width: 10
+#| fig-height: 5
+if not calls.empty:
+    sorted_data = calls.sort_values("Calls", ascending=False)
+    sns.set_style("whitegrid")
+    ax = sns.barplot(data=sorted_data, y="day", x="Calls", palette="viridis", orient="h")
+    ax.set_title("Nombre d'Appels par Jour")
+    ax.set_xlabel("Nombre d'appels")
+    ax.set_ylabel("Jour")
+    for c in ax.containers:
+        ax.bar_label(c, padding=3)
+    plt.tight_layout()
+    plt.show()
+else:
+    plt.figure(figsize=(10,2))
+    plt.text(0.5, 0.5, "Aucune donnée d'appels.", ha="center", va="center")
+    plt.axis("off")
+    plt.tight_layout()
+    plt.show()
+```
+</div>
+
+## Performance par agent (taux de succès)
+
+<div class="card-plot-container">
+```{python}
+#| label: plot_agent_success_appels_visites
+#| fig-width: 10
+#| fig-height: 6
+if (not data_cleaned.empty) and ("username" in data_cleaned.columns) and ("Trouvé" in data_cleaned.columns):
+    success_by_user = (
+        data_cleaned.groupby("username")["Trouvé"]
+        .apply(lambda x: (x == "Oui").mean() * 100)
+        .round(0).astype(int)
+        .reset_index(name="Success Rate (%)")
+        .sort_values("Success Rate (%)", ascending=False)
+    )
+    sns.set_style("whitegrid")
+    ax = sns.barplot(data=success_by_user, y="username", x="Success Rate (%)", palette="viridis", orient="h")
+    ax.set_title("Taux de Succès par Agent (%)")
+    ax.set_xlabel("Pourcentage (%)")
+    ax.set_ylabel("Agent")
+    for c in ax.containers:
+        ax.bar_label(c, fmt="%d%%", padding=3)
+    plt.tight_layout()
+    plt.show()
+else:
+    plt.figure(figsize=(10,2))
+    plt.text(0.5, 0.5, "Données insuffisantes pour générer ce graphique.", ha="center", va="center")
+    plt.axis("off")
+    plt.tight_layout()
+    plt.show()
+```
+</div>

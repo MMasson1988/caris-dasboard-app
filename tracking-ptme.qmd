@@ -1,0 +1,1508 @@
+---
+title: "PROGRAMME PTME"
+subtitle: "Caris Foundation | Tracking des femmes enceintes en PTME"
+author: "M&E Department"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+format:
+  html:
+    theme: flatly
+    css:
+      - styles.css
+    fig-align: center
+    fig-width: 8
+    fig-height: 5
+    fig-responsive: true
+    toc: true
+    toc-location: left
+    toc-depth: 3
+    number-sections: true
+    self-contained: true
+    # AJOUT DE CETTE LIGNE
+    df-print: paged
+---
+<style>
+
+  /* Applique au titre de niveau 1 à 3 */
+  h2, h3 {
+    color: #003366;                             /* Bleu foncé pour les titres */
+    border-bottom: 2px solid #0055a5;           /* Ligne décorative sous les titres */
+    padding-bottom: 0.3em;                      /* Espace entre le titre et la ligne */
+  }
+
+  /* Applique aux en-têtes de colonne */
+  th {
+    background-color: #003366;                  /* Fond bleu foncé */
+    color: #fff;                                /* Texte blanc */
+    text-align: left;                           /* Alignement à gauche */
+    padding: 12px;                              /* Espace interne */
+  }
+
+  /* Applique aux cellules du tableau */
+  td {
+    padding: 10px;                              /* Espace interne */
+    border-top: 1px solid #ddd;                 /* Ligne de séparation entre lignes */
+  }
+
+  /* Applique une couleur de fond alternée à une ligne sur deux */
+  tr:nth-child(even) {
+    background-color: #f9f9f9;                  /* Fond gris très clair */
+  }
+
+  /* Style pour les cartes ("cards") visuelles */
+  .card {
+    background: white;                          /* Fond blanc */
+    border: 1px solid #ddd;                     /* Bordure grise claire */
+    border-radius: 10px;                        /* Coins arrondis */
+    padding: 1.5rem;                            /* Espace interne généreux */
+    margin-bottom: 2rem;                        /* Espace entre les cartes */
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);       /* Ombre portée discrète */
+  }
+</style>
+
+
+<style>
+.card {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  overflow: hidden;
+  text-align: center; /* Centrage du texte */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centrage horizontal */
+  justify-content: center; /* Centrage vertical si nécessaire */
+}
+
+/* Centrage des paragraphes dans les cartes */
+.card p {
+  text-align: center;
+  margin: 0.5rem auto;
+  max-width: 90%;
+}
+
+/* Centrage des graphiques Plotly */
+.card .plotly {
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto; /* Centrage horizontal */
+  display: block;
+}
+
+.card .plotly-graph-div {
+  max-width: 100% !important;
+  overflow: hidden !important;
+  margin: 0 auto !important; /* Centrage des graphiques */
+}
+
+/* Centrage du contenu des chunks R */
+.card .cell-output {
+  text-align: center;
+  margin: 0 auto;
+}
+
+/* Centrage spécifique pour les éléments div */
+.card div {
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>
+
+```{r cleanup_connections, include=FALSE}
+# Fermer toutes les connexions ouvertes
+if(exists("con")) {
+  try(dbDisconnect(con), silent = TRUE)
+}
+
+# Fermer toutes les connexions MySQL
+tryCatch({
+  lapply(dbListConnections(MySQL()), dbDisconnect)
+}, error = function(e) {
+  # Ignorer les erreurs de déconnexion
+})
+
+# Nettoyer l'environnement R
+gc()
+```
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+
+```{r libraries, echo=FALSE,warning = FALSE, message = FALSE}
+Sys.setenv(TZ='GMT')
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(RMySQL))
+suppressPackageStartupMessages(library(odbc))
+suppressPackageStartupMessages(library(DBI))
+suppressPackageStartupMessages(library(viridis))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(ggrepel))
+suppressPackageStartupMessages(library(hrbrthemes))
+suppressPackageStartupMessages(library(plotly))
+suppressPackageStartupMessages(library(stringr))
+suppressPackageStartupMessages(library(RColorBrewer))
+suppressPackageStartupMessages(library(tidytext))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(purrr))
+suppressPackageStartupMessages(library(lubridate))
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(scales))
+suppressPackageStartupMessages(library(extrafont))
+suppressPackageStartupMessages(library(forcats))
+suppressPackageStartupMessages(library(DT))
+suppressPackageStartupMessages(library(data.table))
+suppressPackageStartupMessages(library(readxl))
+suppressPackageStartupMessages(library(writexl))
+suppressPackageStartupMessages(library(reticulate))
+suppressPackageStartupMessages(library(gridExtra))
+```
+
+```{r, echo=FALSE}
+reticulate::use_virtualenv("C:/Users/moise/Downloads/caris-meal-app/.venv", required = TRUE)
+
+#use_virtualenv("./../../python_env", required = TRUE)
+```
+
+```{python, echo=FALSE, results='hide', warning=FALSE, message=FALSE}
+#Import relevant libraries
+import os
+import re
+import time
+import warnings
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+from dateutil.parser import parse
+
+# Third-party imports
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+import plotly.graph_objects as go
+from itables import show, init_notebook_mode, options
+from IPython.display import display, HTML
+import openpyxl
+import xlsxwriter
+import pymysql
+from sqlalchemy import create_engine
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+from dotenv import load_dotenv
+from script.utils import is_screened_in_period,today_str,detect_duplicates_with_groups,load_excel_to_df,extraire_data, age_range,get_age_in_year, get_age_in_months, clean_column_names,creer_colonne_match_conditional,combine_columns, commcare_match_person
+# Load environment variables from .env file
+load_dotenv('dot.env')
+pd.set_option('display.float_format', '{:.2f}'.format)  # Set float format
+
+# Suppress warnings
+warnings.filterwarnings('ignore')
+```
+
+
+
+```{python, echo=FALSE}
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import numpy as np
+import pandas as pd
+
+def plot_monthly_data_oev(df, date_column, plot_title):
+    df[date_column] = pd.to_datetime(df[date_column])
+    df['Month'] = df[date_column].dt.strftime('%B %Y')
+    monthly_counts = df.groupby('Month')['patient_code'].count().reset_index()
+
+    months_order = ['January', 'February', 'March', 'April', 'May', 'June', 
+                    'July', 'August', 'September', 'October', 'November', 'December']
+    
+    ordered_months = [f'{month} {year}' for year in sorted(monthly_counts['Month'].str.split(' ').str[1].unique()) 
+                      for month in months_order if f'{month} {year}' in monthly_counts['Month'].unique()]
+    
+    monthly_counts['Month'] = pd.Categorical(monthly_counts['Month'], categories=ordered_months, ordered=True)
+    monthly_counts = monthly_counts.sort_values(by='Month')
+
+    plt.figure(figsize=(12, 10))
+    
+    viridis = cm.get_cmap('viridis', len(monthly_counts))
+    colors = viridis(np.arange(len(monthly_counts)))
+    
+    bars = plt.barh(monthly_counts['Month'], monthly_counts['patient_code'], color=colors)
+
+    for bar in bars:
+        width = bar.get_width()
+        label_x_pos = width + 0.5
+        label_y_pos = bar.get_y() + bar.get_height() / 2
+        plt.text(label_x_pos, label_y_pos, f'{int(width)}', 
+                 va='center', ha='left', fontsize=12, fontweight='bold', color='black')
+
+    plt.title(plot_title, fontsize=14, fontweight='bold')
+    plt.xlabel('Number of Cases', fontsize=14, fontweight='bold')
+    plt.ylabel('Month', fontsize=14, fontweight='bold')
+
+    # Mettre les labels des ticks en gras
+    plt.xticks(fontsize=12, fontweight='bold')
+    plt.yticks(fontsize=12, fontweight='bold')
+
+    plt.grid(False)
+    plt.tight_layout()
+    plt.show()
+```
+
+```{python, echo=FALSE}
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+def plot_beneficiaries_by_categorie(df, lo_department, set_title, set_xlabel, set_ylabel):
+    # Configuration générale adaptée pour Quarto
+    sns.set(rc={'figure.figsize': (15, 10)})
+    sns.set_style("whitegrid")
+    sns.set_context("notebook", font_scale=1.5)
+
+    # Agréger et trier les données
+    sorted_data = df.groupby(lo_department).size().sort_values(ascending=False)
+    sorted_df = sorted_data.reset_index(name='count')
+
+    #Total des patients actifs
+    total_active_patients = sorted_df['count'].sum()
+
+    # Palette viridis adaptée pour web
+    n_colors = len(sorted_df)
+    palette = sns.color_palette("viridis", n_colors=n_colors)
+
+    # Tracé du graphique
+    ax = sns.barplot(
+        y=lo_department,
+        x='count',
+        data=sorted_df,
+        palette=palette
+    )
+
+    # Titre et labels
+    ax.set_title(f"{set_title}\nTotal bénéficiaires : {total_active_patients}", fontsize=24, weight='bold')
+    ax.set_xlabel(set_xlabel, fontsize=22)
+    ax.set_ylabel(set_ylabel, fontsize=22)
+    #Retrait de la grille
+    ax.grid(False)
+
+    # Ajout des valeurs sur les barres
+    for container in ax.containers:
+        ax.bar_label(container, padding=5, fontsize=26, weight="bold", color='black')
+
+    # Nettoyage des bordures
+    sns.despine()
+
+    # Ajustement
+    plt.tight_layout()
+    plt.show()
+```
+
+```{python, echo=FALSE}
+#| label: date_bounds_functions
+# Import required datetime modules
+from datetime import date, timedelta
+
+def previous_week_bounds(ref: date):
+    """Retourne (lundi, dimanche) de la semaine précédente."""
+    current_monday = ref - timedelta(days=ref.weekday())
+    prev_monday = current_monday - timedelta(days=7)
+    prev_sunday = prev_monday + timedelta(days=6)
+    return prev_monday, prev_sunday
+
+
+def previous_month_bounds(ref: date):
+    """Retourne (premier_jour, dernier_jour) du mois précédent."""
+    first_this_month = date(ref.year, ref.month, 1)
+    last_prev = first_this_month - timedelta(days=1)
+    first_prev = date(last_prev.year, last_prev.month, 1)
+    return first_prev, last_prev
+
+
+def last_three_months_bounds(ref: date):
+    """
+    Retourne (premier_jour, dernier_jour) des 3 derniers mois
+    COMPLETS avant le mois courant.
+    Exemple : ref = 2025-11-26 → 2025-08-01 au 2025-10-31
+    """
+    # 1er jour du mois courant
+    first_this_month = date(ref.year, ref.month, 1)
+    # Dernier jour du mois précédent
+    end = first_this_month - timedelta(days=1)
+
+    # Helper pour soustraire n mois
+    def subtract_months(y, m, n):
+        total = y * 12 + (m - 1) - n
+        ny = total // 12
+        nm = total % 12 + 1
+        return ny, nm
+
+    # 3 mois avant le mois courant
+    y3, m3 = subtract_months(ref.year, ref.month, 3)
+    start = date(y3, m3, 1)
+
+    return start, end
+
+
+def get_bounds_dashboard(ref: date = date.today()) -> pd.DataFrame:
+    """
+    Construit un DataFrame pandas prêt pour un dashboard, 
+    avec les bornes :
+      - semaine précédente
+      - mois précédent
+      - 3 derniers mois (complets)
+    """
+    w1, w2 = previous_week_bounds(ref)
+    m1, m2 = previous_month_bounds(ref)
+    q1, q2 = last_three_months_bounds(ref)
+
+    data = [
+        {"period": "previous_week",   "bound": "start", "date": w1},
+        {"period": "previous_week",   "bound": "end",   "date": w2},
+        {"period": "previous_month",  "bound": "start", "date": m1},
+        {"period": "previous_month",  "bound": "end",   "date": m2},
+        {"period": "last_3_months",   "bound": "start", "date": q1},
+        {"period": "last_3_months",   "bound": "end",   "date": q2},
+    ]
+
+    df = pd.DataFrame(data)
+    df["date"] = pd.to_datetime(df["date"])
+    df["date_str"] = df["date"].dt.strftime("%Y-%m-%d")
+    return df
+
+```
+
+```{python, echo=FALSE}
+from datetime import date, timedelta
+import pandas as pd
+
+def current_week_bounds(ref: date):
+    """Retourne (lundi, dimanche) de la semaine courante."""
+    monday = ref - timedelta(days=ref.weekday())
+    sunday = monday + timedelta(days=6)
+    return monday, sunday
+
+def current_month_bounds(ref: date):
+    """Retourne (premier jour, dernier jour) du mois courant."""
+    first = date(ref.year, ref.month, 1)
+
+    # premier jour du mois suivant
+    if ref.month == 12:
+        first_next = date(ref.year+1, 1, 1)
+    else:
+        first_next = date(ref.year, ref.month+1, 1)
+    
+    last = first_next - timedelta(days=1)
+    return first, last
+
+
+def get_current_bounds(ref: date = date.today()) -> pd.DataFrame:
+    """
+    Renvoie un datamart prêt pour un dashboard pandas/quarto,
+    contenant SEULEMENT :
+        - les bornes de la semaine courante
+        - les bornes du mois courant
+    """
+
+    # bornes semaine & mois courant
+    w1, w2 = current_week_bounds(ref)
+    m1, m2 = current_month_bounds(ref)
+
+    data = [
+        {"period": "current_week",  "bound": "start", "date": w1},
+        {"period": "current_week",  "bound": "end",   "date": w2},
+
+        {"period": "current_month", "bound": "start", "date": m1},
+        {"period": "current_month", "bound": "end",   "date": m2},
+    ]
+
+    df = pd.DataFrame(data)
+    df["date"] = pd.to_datetime(df["date"])               # usable for filtering
+    df["date_str"] = df["date"].dt.strftime("%Y-%m-%d")   # clean display
+
+    return df
+```
+
+
+```{r, echo=FALSE}
+library(lubridate)
+
+mois <- month(Sys.Date())
+annee <- year(Sys.Date())
+
+if (mois >= 10 && mois <= 12) {
+  trimestre <- "Octobre - Décembre"
+  fy <- annee
+} else if (mois >= 1 && mois <= 3) {
+  trimestre <- "Janvier - Mars"
+  fy <- annee
+} else if (mois >= 4 && mois <= 6) {
+  trimestre <- "Avril - Juin"
+  fy <- annee
+} else {
+  trimestre <- "Juillet - Septembre"
+  fy <- annee
+}
+
+fy_suffix <- substr(fy, 3, 4)
+
+#knitr::asis_output(paste0("# TRACKING DES FEMMES ENCEINTES : ", trimestre, " FY", fy_suffix," {.unnumbered}"))
+```
+
+
+
+```{r utils_reporting, include=FALSE}
+library(lubridate)
+
+# ----------------------------------------------------------------------
+# Fonction utilitaire : génère la syntaxe Markdown selon le niveau
+# ----------------------------------------------------------------------
+# ----------------------------------------------------------------------
+# Fonctions utilitaires pour les titres
+# ----------------------------------------------------------------------
+# Noms des mois en français
+mois_francais <- c("janvier", "février", "mars", "avril", "mai", "juin",
+                   "juillet", "août", "septembre", "octobre", "novembre", "décembre")
+
+md_title <- function(txt, level = 1, numbered = FALSE) {
+  prefix <- paste(rep("#", level), collapse = "")
+  suffix <- if (numbered) "" else " {-}"
+  paste0(prefix, " ", txt, suffix)
+}
+
+# ----------------------------------------------------------------------
+# Titre mensuel dynamique
+# ----------------------------------------------------------------------
+tracking_title_month <- function(date = Sys.Date(),
+                                 titre = "TRACKING DES FEMMES ENCEINTES",
+                                 level = 1,
+                                 numbered = FALSE) {
+
+  # Obtenir le numéro du mois et l'année
+  numero_mois <- as.numeric(format(date, "%m"))
+  mois_lib <- mois_francais[numero_mois]
+  annee <- year(date)
+
+  md_title(paste0(titre, " ", mois_lib, " ", annee), level, numbered)
+}
+
+# ----------------------------------------------------------------------
+# Titre hebdomadaire dynamique
+# SEMAINE PRÉCÉDENTE (lundi → dimanche)
+# ----------------------------------------------------------------------
+tracking_title_week <- function(date = Sys.Date(),
+                                titre = "TRACKING DES FEMMES ENCEINTES",
+                                level = 1,
+                                numbered = FALSE) {
+
+  ref <- date - 7
+
+  debut_sem <- floor_date(ref, unit = "week", week_start = 1)
+  fin_sem   <- debut_sem + days(6)
+
+  # Utiliser les mois français
+  mois_deb_num  <- as.numeric(format(debut_sem, "%m"))
+  mois_fin_num  <- as.numeric(format(fin_sem, "%m"))
+  mois_deb  <- mois_francais[mois_deb_num]
+  mois_fin  <- mois_francais[mois_fin_num]
+  
+  an_deb    <- year(debut_sem)
+  an_fin    <- year(fin_sem)
+
+  if (month(debut_sem) == month(fin_sem) && an_deb == an_fin) {
+    periode <- paste0(day(debut_sem), " au ", day(fin_sem), " ", mois_fin, " ", an_fin)
+  } else {
+    periode <- paste0(
+      day(debut_sem), " ", mois_deb, " ", an_deb,
+      " au ",
+      day(fin_sem), " ", mois_fin, " ", an_fin
+    )
+  }
+
+  md_title(paste0(titre, " Semaine du ", periode), level, numbered)
+}
+
+# ----------------------------------------------------------------------
+# Titre trimestriel calendrier
+# ----------------------------------------------------------------------
+tracking_title_trimestre <- function(date = Sys.Date(),
+                                       titre = "TRACKING DES FEMMES ENCEINTES",
+                                       level = 1,
+                                       numbered = FALSE) {
+
+  mois <- month(date)
+  annee <- year(date)
+
+  if (mois >= 10 && mois <= 12) {
+    trimestre <- "Octobre - Décembre"
+    fy <- annee
+  } else if (mois >= 1 && mois <= 3) {
+    trimestre <- "Janvier - Mars"
+    fy <- annee
+  } else if (mois >= 4 && mois <= 6) {
+    trimestre <- "Avril - Juin"
+    fy <- annee
+  } else {
+    trimestre <- "Juillet - Septembre"
+    fy <- annee
+  }
+
+  fy_suffix <- substr(fy, 3, 4)
+
+  md_title(paste0(titre, " : ", trimestre, " FY", fy_suffix), level, numbered)
+}
+
+# ----------------------------------------------------------------------
+# Titre trimestriel PEPFAR FY
+# ----------------------------------------------------------------------
+tracking_title_fiscal <- function(date = Sys.Date(),
+                                      titre = "TRACKING DES FEMMES ENCEINTES",
+                                      level = 1,
+                                      numbered = FALSE) {
+
+  mois <- month(date)
+  annee <- year(date)
+
+  if (mois >= 10) {
+    fy <- annee + 1
+  } else {
+    fy <- annee
+  }
+
+  if (mois %in% 10:12) {
+    trimestre <- "Octobre - Décembre"
+  } else if (mois %in% 1:3) {
+    trimestre <- "Janvier - Mars"
+  } else if (mois %in% 4:6) {
+    trimestre <- "Avril - Juin"
+  } else {
+    trimestre <- "Juillet - Septembre"
+  }
+
+  fy_suffix <- substr(fy, 3, 4)
+
+  md_title(paste0(titre, " ", trimestre, " FY", fy_suffix), level, numbered)
+}
+
+```
+
+```{r, echo=FALSE}
+#knitr::asis_output(paste0("# SUIVI DES ACCOUCHEMENTS <br>", trimestre, " FY", fy_suffix," {.unnumbered}"))
+```
+
+
+```{python, echo=FALSE}
+# database femmes enceintes
+ptme_enceinte = pd.read_excel('outputs/PTME/pregnancy_tracking.xlsx')
+# ptme_enceinte=ptme-enceinte ou office != PDP
+ptme_enceinte = ptme_enceinte[ptme_enceinte['office'] != 'PDP']
+```
+
+
+
+```{r, echo=FALSE}
+knitr::asis_output(tracking_title_week(titre = "Cohorte de la ", level = 1, numbered = TRUE))
+```
+
+```{python, echo=FALSE}
+# DATA WRANGLING
+# use combine_first to combine added_by and updated_by columns
+ptme_enceinte['source'] = ptme_enceinte['added_by'].combine_first(ptme_enceinte['updated_by'])
+# convert all date column to datetime
+date_columns = ['dob', 'ddr', 'dpa_calculated', 'dpa', 'ptme_enrollment_date', 'pregnancy_date_added', 'pregnancy_date_updated', 'first_session_date_in_13_month','last_session_date', 'viral_load_date', 'arv_start_date']
+for col in date_columns:
+    if col in ptme_enceinte.columns:
+        ptme_enceinte[col] = pd.to_datetime(ptme_enceinte[col], errors='coerce')
+# replace '0' in telephone2 by fillna
+ptme_enceinte['telephone2'] = ptme_enceinte['telephone2'].replace('0', np.nan)
+ptme_enceinte['telephone'] = ptme_enceinte['telephone1'].combine_first(ptme_enceinte['telephone2'])
+#==============================================================================================================================
+# convert telephone in telephone haitian forma
+def format_haitian_phone(phone):
+    if pd.isna(phone):
+        return phone
+    phone_str = str(phone)
+    phone_str = re.sub(r'\D', '', phone_str)  # Remove non-digit characters
+    if len(phone_str) == 8:
+        return f'+509 {phone_str[:4]} {phone_str[4:]}'
+    elif len(phone_str) == 11 and phone_str.startswith('509'):
+        return f'+{phone_str[:3]} {phone_str[3:7]} {phone_str[7:]}'
+    # si le numéro est compris entre 9 et 10 chiffres et commence par 2,3,4,5 on supprime les derniers chiffres pour avoir '509'+len(phone_str) == 8
+    elif len(phone_str) in [9, 10] and phone_str[0] in ['2', '3', '4', '5']:
+        phone_str = phone_str[:8]
+        return f'+509 {phone_str[:4]} {phone_str[4:]}'
+
+    else:
+        return phone  # Return original if it doesn't match expected formats
+
+# apply the function to telephone column
+ptme_enceinte['telephone'] = ptme_enceinte['telephone'].apply(format_haitian_phone)
+# create age column
+ptme_enceinte['age'] = ((pd.Timestamp.now() - ptme_enceinte['dob']).dt.days / 365.25).fillna(0).astype(int)
+# create pregnancy_duration_weeks column
+ptme_enceinte['pregnancy_duration_weeks'] = ((pd.Timestamp.now() - ptme_enceinte['ddr']).dt.days / 7).fillna(0).astype(int)
+# create pregnancy_duration_months column
+ptme_enceinte['pregnancy_duration_months'] = ((pd.Timestamp.now() - ptme_enceinte['ddr']).dt.days / 30).fillna(0).astype(int)
+
+# Fonction pour nettoyer les noms d'utilisateur
+def clean_username_column(df, username_col='username', output_col=None):
+    """Nettoie le nom d'utilisateur: supprime @carisfoundationintl.org et remplace . par _"""
+    if output_col is None:
+        output_col = username_col
+    
+    if username_col in df.columns:
+        # Supprimer @carisfoundationintl.org et remplacer . par vide
+        df.loc[:, output_col] = (df[username_col]
+                                 .str.replace('@carisfoundationintl.org', '', regex=False)
+                                 .str.replace('.', ' ', regex=False)
+                                 .str.title())
+    else:
+        print(f'Warning: {username_col} column not found')
+    return df
+
+# Appliquer le nettoyage et sauvegarder
+ptme_enceinte = clean_username_column(ptme_enceinte, 'source', 'coordonnatrice')
+
+# a partir de la colonne dpa_calculated repartir en trimestre de grossesse
+def pregnancy_trimester(dpa_calculated):
+    if pd.isna(dpa_calculated):
+        return 'Inconnu'
+    weeks_until_dpa = (dpa_calculated - pd.Timestamp.now()).days / 7
+    if weeks_until_dpa > 26:
+        return 'trimestre_1er'
+    elif 13 < weeks_until_dpa <= 26:
+        return 'trimestre_2e'
+    elif weeks_until_dpa <= 13:
+        return 'trimestre_3e'
+    else:
+        return 'Inconnu'
+ptme_enceinte['pregnancy_trimester'] = ptme_enceinte['dpa_calculated'].apply(pregnancy_trimester)
+ptme_enceinte.to_excel('outputs/PTME/pregnant_women_cleaned.xlsx', index=False)
+```
+
+::: {.panel-tabset}
+
+## Par Bureau
+
+:::card
+```{python, echo=FALSE}
+# plot le dataframe ptme_enceinte par office et par coordonnatrice : 2 graphiques en colonne
+plot_beneficiaries_by_categorie(ptme_enceinte, 'office', 'Femmes enceintes par Bureau', 'Nombre de bénéficiaires', 'Bureaux')
+```
+:::
+
+## Par Coordonnatrice
+
+:::card
+```{python, echo=FALSE}
+plot_beneficiaries_by_categorie(ptme_enceinte, 'coordonnatrice', 'Femmes enceintes par Coordonnatrice', 'Nombre de bénéficiaires', 'Coordonnatrices')
+```
+:::
+:::
+## Liste des Femmes Enceintes
+
+
+```{r, echo=FALSE}
+rptme_enceinte =py$ptme_enceinte
+DT::datatable(
+  rptme_enceinte,
+  extensions = 'Buttons',
+  filter = 'bottom',
+  options = list(
+    dom = 'Bfrtip',
+    columnDefs = list(list(className = 'dt-center', targets = "_all")),
+    initComplete = JS(
+      "function(settings, json) {",
+      "$(this.api().table().header()).css({'background-color': '#800000', 'color': '#fff'});",
+      "}"),
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),
+    pageLength = 3
+  ),
+  callback = JS("
+    table.rows().every(function(rowIdx, tableLoop, rowLoop) {
+      $(this.node()).css({'font-size': '16px', 'height': '20px'});
+    });
+  ")
+)
+```
+
+
+```{r, echo=FALSE}
+knitr::asis_output(tracking_title_week(titre = "Résumé des Services en PTME <br> ", level = 1, numbered = TRUE))
+```
+
+```{python, echo=FALSE}
+# database appels
+appel_visit = pd.read_excel('outputs/SERVICES/data_cleaned.xlsx')
+appel_visit = appel_visit[appel_visit['Trouvé'] == 'Oui']
+# Convertir les dates
+appel_visit['date'] = pd.to_datetime(appel_visit['date'])
+# choisir les valeurs unqiues de  patient_code en gardant la ou date  est plus recente
+appel_visit = appel_visit.sort_values(by='date', ascending=False).drop_duplicates(subset=['patient_code'], keep='first')
+ptme_servis = creer_colonne_match_conditional(
+    df1=ptme_enceinte,
+    df2=appel_visit[[
+        'date', 'Trouvé', 'Type', 
+        'mois', 'username', 'patient_code']],
+    on="patient_code",
+    nouvelle_colonne="service_type",
+    mapping={'both': 'yes', 'left_only': 'no', 'right_only': 'no'}
+)
+# creer une ne variable service_after_pregnancy qui verifie si la date d'appel est superieur a la date de ddr. si oui c'yes no sinon
+ptme_servis['service_during_pregnancy'] = np.where(
+    (ptme_servis['service_type'] == 'yes') & 
+    (ptme_servis['date'] >= ptme_servis['ddr']),
+    'yes', 'no'
+)
+
+# database club session
+club_attendance = pd.read_excel('outputs/PTME/club_sessions_detailed.xlsx')
+# filter only club mere
+club_attendance = club_attendance[club_attendance['club_type'] == 'Club Mere']
+# fill n/A in raison_absence by 11-autre
+club_attendance['raison_absence'] = club_attendance['raison_absence'].fillna('11-autre')
+# remplace le vide par 11-autre
+club_attendance['raison_absence'] = club_attendance['raison_absence'].replace('', '11-autre')
+# remplace les valeur 1 par Present et 0 par absent
+club_attendance['raison_absence'] = club_attendance['raison_absence'].replace('0', '11-autre')
+# replace 1
+club_attendance['session_date_presence'] = pd.to_datetime(club_attendance['session_date_presence'])
+
+club_presence = club_attendance[club_attendance['raison_absence'] == '1- Present']
+# Convertir les dates
+
+# choisir les valeurs unqiues de  patient_code en gardant la ou date  est plus recente
+club_presence = club_presence.sort_values(by='session_date_presence', ascending=False).drop_duplicates(subset=['patient_code'], keep='first')
+club_presence.to_excel('outputs/PTME/pregnant_club_attendance.xlsx', index=False)
+ptme_in_club = creer_colonne_match_conditional(
+    df1=ptme_servis,
+    df2=club_presence[[
+        'last_attendance_date', 'first_attendance_date', 'club_name', 'club_type', 'session_date_presence', 'present', 'raison_absence', 'patient_code']],
+    on="patient_code",
+    nouvelle_colonne="mother_in_club",
+    mapping={'both': 'yes', 'left_only': 'no', 'right_only': 'no'}
+)
+
+# creer une ne variable service_after_pregnancy qui verifie si la date d'appel est superieur a la date de ddr. si oui c'yes no sinon
+ptme_in_club['club_during_pregnancy'] = np.where(
+    (ptme_in_club['mother_in_club'] == 'yes') & 
+    (ptme_in_club['session_date_presence'] >= ptme_in_club['ddr']),
+    'yes', 'no'
+)
+
+# remplir raison_absence N/A par not_in_club
+ptme_in_club['raison_absence'] = ptme_in_club['raison_absence'].fillna('not_in_club')
+ptme_in_club['Trouvé'] = ptme_in_club['Trouvé'].fillna('not_found')
+ptme_in_club['Type'] = ptme_in_club['Type'].fillna('no_service')
+# filtrer les femmes qui ont eu un service apres la grossesse
+ptme_in_club.to_excel('outputs/PTME/pregnant_served.xlsx', index=False)
+```
+
+```{python, echo=FALSE}
+# Lecture des household ptme
+ptme_code = pd.read_excel(os.path.join("data", f"PTME WITH PATIENT CODE {today_str}.xlsx"), parse_dates=True)
+ptme_household_data = pd.read_excel(os.path.join("data", f"household mother {today_str}.xlsx"), parse_dates=True)
+```
+
+```{python, echo=FALSE}
+# Traitement des fichiers household ptme
+# renommer les colonnes
+ptme_code = ptme_code.rename(columns={
+    'health_id': 'ptme_code'})
+
+# choisir les colonnes pertinentes
+ptme_household_data = ptme_household_data[[
+    'indices.pregnancy', 'caseid', 'opened_by_username', 
+    'age_in_year', 'dob', 'gender', 'full_code_patient_menage', 
+    'hiv_test', 'hiv_test_date', 
+    'hiv_test_result', 'patient_code','opened_date',
+    'ptme_relationship', 'Full_code_patient_menage1', 'health_id',
+    'closed_date', 'caseid',
+    'name', 'last_modified_date', 'case_link'
+]]
+# renommer les colonnes
+ptme_household_data = ptme_household_data.rename(columns={
+    'caseid': 'household_caseid',
+    'name': 'household_name',
+    'opened_date': 'collection_date',
+    'patient_code': 'st_code_patient',
+    'indices.pregnancy':'caseid',
+    'health_id':'health_code'})
+# remplace les"---" dans certainnes colonnes par NaN
+cols_to_clean = ['full_code_patient_menage', 'Full_code_patient_menage1', 'health_code','st_code_patient']
+for col in cols_to_clean:
+    ptme_household_data[col] = ptme_household_data[col].replace('---', np.nan)
+    ptme_household_data[col] = ptme_household_data[col].replace('//', np.nan)
+# utiliser combine_first pour creer une colonne nommée patient_code pour combiner tous les cols dans cols_to_clean
+ptme_household_data['code_patient'] = ptme_household_data['st_code_patient'].combine_first(
+    ptme_household_data['full_code_patient_menage']).combine_first(
+    ptme_household_data['Full_code_patient_menage1']).combine_first(
+    ptme_household_data['health_code'])
+# identifier et supprimer les colonnes dupliquées
+ptme_household_data = ptme_household_data.loc[:,~ptme_household_data.columns.duplicated()]
+# convertir les cols date en datetime
+date_cols = ['dob', 'hiv_test_date', 'opened_date', 'closed_date', 'last_modified_date', 'collection_date']
+for col in date_cols:
+    if col in ptme_household_data.columns:
+        ptme_household_data[col] = pd.to_datetime(ptme_household_data[col], errors='coerce')
+# convertir les cols numeriques en numeriques
+# groupper par caseid dans le ptme_household_data
+ptme_household_grouped = ptme_household_data.sort_values(by='last_modified_date', ascending=False).drop_duplicates(subset=['caseid'], keep='first')
+# merger les deux dataframes ptme_code et ptme_household_grouped sur la colonne caseid
+ptme_household_merged = pd.merge(ptme_household_grouped, ptme_code, on='caseid', how='left')
+ptme_household_merged.to_excel('outputs/PTME/ptme_household_merged.xlsx', index=False)
+ptme_household_grouped.to_excel('outputs/PTME/ptme_household_grouped.xlsx', index=False)
+ptme_household_merged['patient_code'] = ptme_household_merged['ptme_code'].combine_first(ptme_household_merged['code_patient'])
+ptme_final = creer_colonne_match_conditional(
+    df1=ptme_in_club,
+    df2=ptme_household_merged[[
+        'caseid', 'collection_date', 'closed_date', 'hiv_test',
+        'opened_by_username', 'hiv_test_date', 'patient_code','case_link']],
+    on="patient_code",
+    nouvelle_colonne="has_household",
+    mapping={'both': 'yes', 'left_only': 'no', 'right_only': 'no'}
+)
+# creer une ne variable service_after_pregnancy qui verifie si la date d'appel est superieur a la date de ddr. si oui c'yes no sinon
+ptme_final['household_during_pregnancy'] = np.where(
+    (ptme_final['has_household'] == 'yes') & 
+    (ptme_final['collection_date'] >= ptme_final['ddr']),
+    'yes', 'no'
+)
+
+ptme_final.to_excel('outputs/PTME/cohorte_ptme_final.xlsx', index=False)
+```
+
+```{python, echo=FALSE}
+# creation du dataframe club_ptme ou mother_in_club=yes
+club_ptme = ptme_final[ptme_final['mother_in_club'] == 'yes']
+# creation du dataframe service_ptme ou service_type=yes
+service_ptme = ptme_final[ptme_final['service_type'] == 'yes']
+# creation du dataframe has_household ou has_household=yes
+household_ptme = ptme_final[ptme_final['has_household'] == 'yes']
+```
+
+
+```{r dpa_summary_from_python, echo=FALSE, message=FALSE, warning=FALSE}
+# ------------------------------------------------------------------------------
+# 0. Import des objets Python avec reticulate
+# ------------------------------------------------------------------------------
+library(reticulate)
+library(dplyr)
+library(ggplot2)
+
+# Option : conversion auto des objets Python en objets R
+options(reticulate.convert = TRUE)
+
+# On récupère les données depuis Python :
+# convertir les dataframes python en r
+rptme_final = py$ptme_final
+rclub_ptme = py$club_ptme
+rservice_ptme = py$service_ptme
+rhousehold_ptme = py$household_ptme 
+
+# (Optionnel : s'assurer que ce sont bien des data.frame R)
+rptme_final <- as.data.frame(rptme_final)
+rclub_ptme <- as.data.frame(rclub_ptme)
+rservice_ptme <- as.data.frame(rservice_ptme)
+rhousehold_ptme <- as.data.frame(rhousehold_ptme)
+
+# ------------------------------------------------------------------------------
+# 1. Fonction de visualisation adaptée aux données PTME
+# ------------------------------------------------------------------------------
+
+plot_ptme_summary <- function(ptme_df,
+                              club_df,
+                              service_df,
+                              household_df,
+                              data_source = "Caris Foundation") {
+  
+  # Calculer les statistiques
+  total_femmes <- nrow(ptme_df)
+  club_count <- nrow(club_df)
+  service_count <- nrow(service_df)
+  household_count <- nrow(household_df)
+  
+  df_ptme_summary <- data.frame(
+    variable = c(
+      paste0("Femmes\nenceintes\n", trimestre, " FY", fy_suffix),
+      "Femmes\nen club",
+      "Femmes\nen club",
+      "Femmes\navec service\n(appels/visites)",
+      "Femmes\navec service\n(appels/visites)",
+      "Femmes\navec données\ncomptage de ménage",
+      "Femmes\navec données\ncomptage de ménage"
+    ),
+    freq = c(
+      total_femmes,
+      club_count,
+      total_femmes - club_count,
+      service_count,
+      total_femmes - service_count,
+      household_count,
+      total_femmes - household_count
+    ),
+    indicateur = c(
+      "Total",
+      "Avec service", "Sans service",
+      "Avec service", "Sans service", 
+      "Avec service", "Sans service"
+    ),
+    stringsAsFactors = FALSE
+  )
+  
+  if (nrow(df_ptme_summary) == 0) {
+    message("Il n'y a pas d'activité")
+    return(invisible(NULL))
+  }
+  
+  p <- df_ptme_summary %>%
+    dplyr::group_by(variable) %>%
+    dplyr::mutate(proc = ifelse(sum(freq) > 0, freq / sum(freq) * 100, 0)) %>%
+    ggplot(aes(fill = indicateur,
+               x    = reorder(variable, -freq),
+               y    = freq)) +
+    geom_bar(stat = "identity",
+             color = "black",
+             show.legend = TRUE) +
+    scale_fill_manual(values = c("Total" = "#1f77b4", "Avec service" = "#2ca02c", "Sans service" = "#d62728")) +
+    geom_label(
+      aes(label = ifelse(freq > 0, 
+                        paste(format(freq, big.mark = ","),
+                              paste0("(", round(proc, 0), "%)"),
+                              sep = " "),
+                        "0")),
+      hjust       = 0.5,
+      vjust       = 0.5,
+      size        = 3.3,
+      color       = "white",
+      show.legend = FALSE,
+      position    = position_stack(vjust = 0.5)
+    ) +
+    ggtitle(paste("Résumé des Services PTME -", trimestre, "FY", fy_suffix)) +
+    labs(
+      caption = paste("Source:", data_source, "/", Sys.Date())
+    ) +
+    theme_bw() +
+    theme(
+      plot.caption = element_text(face = "italic"),
+      axis.title.x = element_blank(),
+      axis.title.y = element_blank(),
+      plot.title = element_text(hjust = 0.5, size = 14, face = "bold")
+    )
+  
+  print(p)
+  invisible(p)
+}
+
+# ------------------------------------------------------------------------------
+# 2. Appel de la fonction avec les dataframes importés depuis Python
+# ------------------------------------------------------------------------------
+
+plot_ptme_summary(
+  ptme_df      = rptme_final,
+  club_df      = rclub_ptme,
+  service_df   = rservice_ptme,
+  household_df = rhousehold_ptme,
+  data_source = "Caris Foundation"
+)
+```
+
+## Femmes en Club par Bureau
+
+:::card
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Graphique en barres horizontales des femmes en club par bureau
+library(ggplot2)
+library(dplyr)
+
+# Compter les femmes en club par bureau
+club_by_office <- rclub_ptme %>%
+  count(office, name = "count") %>%
+  arrange(desc(count))
+
+# Créer le graphique en barres horizontales
+ggplot(club_by_office, aes(x = reorder(office, count), y = count)) +
+  geom_col(fill = "#2ca02c", color = "black", alpha = 0.8) +
+  geom_text(aes(label = count), hjust = -0.1, size = 4, fontweight = "bold") +
+  coord_flip() +
+  labs(
+    title = paste("Femmes Enceintes en Club par Bureau"),
+    subtitle = paste("Total:", sum(club_by_office$count), "femmes en club"),
+    x = "Bureau",
+    y = "Nombre de femmes",
+    caption = paste("Source: Caris Foundation /", Sys.Date())
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5, size = 12),
+    plot.caption = element_text(face = "italic"),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+```
+:::
+
+## Liste des Femmes Enceintes non en Club
+
+```{r, echo=FALSE}
+# Table des femmes qui ne sont PAS en club
+women_not_in_club_table <- rptme_final %>%
+  filter(mother_in_club == "no") %>%
+  select(
+    "Code Patient" = patient_code,
+    "Bureau" = office,
+    "Âge" = age,
+    "Téléphone" = telephone,
+    "Coordonnatrice" = coordonnatrice,
+    "Service" = service_type,
+    "Type Service" = Type,
+    "DPA" = dpa_calculated
+  ) %>%
+  arrange(`Bureau`, `Code Patient`)
+```
+
+
+```{r, echo=FALSE}  
+DT::datatable(
+  women_not_in_club_table,
+  extensions = 'Buttons',
+  filter = 'bottom',
+  options = list(
+    dom = 'Bfrtip',
+    columnDefs = list(list(className = 'dt-center', targets = "_all")),
+    initComplete = JS(
+      "function(settings, json) {",
+      "$(this.api().table().header()).css({'background-color': '#2ca02c', 'color': '#fff'});",
+      "}"),
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),
+    pageLength = 10,
+    scrollX = TRUE
+  ),
+  callback = JS("
+    table.rows().every(function(rowIdx, tableLoop, rowLoop) {
+      $(this.node()).css({'font-size': '14px'});
+    });
+  ")
+)
+```
+
+## Femmes avec Services (Appels/Visites) par Bureau
+
+:::card
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Graphique en barres horizontales des femmes avec services par bureau
+library(ggplot2)
+library(dplyr)
+
+# Compter les femmes avec services par bureau
+service_by_office <- rservice_ptme %>%
+  count(office, name = "count") %>%
+  arrange(desc(count))
+
+# Créer le graphique en barres horizontales
+ggplot(service_by_office, aes(x = reorder(office, count), y = count)) +
+  geom_col(fill = "#ff7f0e", color = "black", alpha = 0.8) +
+  geom_text(aes(label = count), hjust = -0.1, size = 4, fontweight = "bold") +
+  coord_flip() +
+  labs(
+    title = paste("Femmes Enceintes avec Services par Bureau"),
+    subtitle = paste("Total:", sum(service_by_office$count), "femmes avec services"),
+    x = "Bureau",
+    y = "Nombre de femmes",
+    caption = paste("Source: Caris Foundation /", Sys.Date())
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5, size = 12),
+    plot.caption = element_text(face = "italic"),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+```
+:::
+
+## Liste des Femmes qui n'ont PAS de Services
+
+```{r, echo=FALSE}
+# Table des femmes qui n'ont PAS de services (appels/visites)
+women_no_service_table <- rptme_final %>%
+  filter(service_type == "no") %>%
+  select(
+    "Code Patient" = patient_code,
+    "Bureau" = office,
+    "Âge" = age,
+    "Téléphone" = telephone,
+    "Coordonnatrice" = coordonnatrice,
+    "En Club" = mother_in_club,
+    "Données Ménage" = has_household,
+    "DPA" = dpa_calculated
+  ) %>%
+  arrange(`Bureau`, `Code Patient`)
+```
+
+
+```{r, echo=FALSE}  
+DT::datatable(
+  women_no_service_table,
+  extensions = 'Buttons',
+  filter = 'bottom',
+  options = list(
+    dom = 'Bfrtip',
+    columnDefs = list(list(className = 'dt-center', targets = "_all")),
+    initComplete = JS(
+      "function(settings, json) {",
+      "$(this.api().table().header()).css({'background-color': '#ff7f0e', 'color': '#fff'});",
+      "}"),
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),
+    pageLength = 10,
+    scrollX = TRUE
+  ),
+  callback = JS("
+    table.rows().every(function(rowIdx, tableLoop, rowLoop) {
+      $(this.node()).css({'font-size': '14px'});
+    });
+  ")
+)
+```
+
+## Femmes avec Comptage de Ménage par Bureau
+
+:::card
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Graphique en barres horizontales des femmes avec données de ménage par bureau
+library(ggplot2)
+library(dplyr)
+
+# Compter les femmes avec données de ménage par bureau
+household_by_office <- rhousehold_ptme %>%
+  count(office, name = "count") %>%
+  arrange(desc(count))
+
+# Créer le graphique en barres horizontales
+ggplot(household_by_office, aes(x = reorder(office, count), y = count)) +
+  geom_col(fill = "#9467bd", color = "black", alpha = 0.8) +
+  geom_text(aes(label = count), hjust = -0.1, size = 4, fontweight = "bold") +
+  coord_flip() +
+  labs(
+    title = paste("Femmes Enceintes avec Données de Ménage par Bureau"),
+    subtitle = paste("Total:", sum(household_by_office$count), "femmes avec données de ménage"),
+    x = "Bureau",
+    y = "Nombre de femmes",
+    caption = paste("Source: Caris Foundation /", Sys.Date())
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5, size = 12),
+    plot.caption = element_text(face = "italic"),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+```
+:::
+
+## Liste des Femmes sans Comptage de Ménage
+```{r, echo=FALSE}
+# Table des femmes qui n'ont PAS de données de ménage
+women_no_household_table <- rptme_final %>%
+  filter(has_household == "no") %>%
+  select(
+    "Code Patient" = patient_code,
+    "Bureau" = office,
+    "Âge" = age,
+    "Téléphone" = telephone,
+    "Coordonnatrice" = coordonnatrice,
+    "En Club" = mother_in_club,
+    "Services" = service_type,
+    "DPA" = dpa_calculated
+  ) %>%
+  arrange(`Bureau`, `Code Patient`)
+```
+
+```{r, echo=FALSE}  
+DT::datatable(
+  women_no_household_table,
+  extensions = 'Buttons',
+  filter = 'bottom',
+  options = list(
+    dom = 'Bfrtip',
+    columnDefs = list(list(className = 'dt-center', targets = "_all")),
+    initComplete = JS(
+      "function(settings, json) {",
+      "$(this.api().table().header()).css({'background-color': '#9467bd', 'color': '#fff'});",
+      "}"),
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),
+    pageLength = 10,
+    scrollX = TRUE
+  ),
+  callback = JS("
+    table.rows().every(function(rowIdx, tableLoop, rowLoop) {
+      $(this.node()).css({'font-size': '14px'});
+    });
+  ")
+)
+```
+
+## Femmes au 3ème Trimestre par Bureau
+
+:::card
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+# Graphique en barres horizontales des femmes au 3ème trimestre par bureau
+library(ggplot2)
+library(dplyr)
+
+# Filtrer et compter les femmes au 3ème trimestre qui ne sont pas sur ARV par bureau
+third_trimester_by_office <- rptme_final %>%
+  filter(pregnancy_trimester == "trimestre_3e" & (is.na(on_arv) | on_arv == "Non")) %>%
+  count(office, name = "count") %>%
+  arrange(desc(count))
+
+# Créer le graphique en barres horizontales
+ggplot(third_trimester_by_office, aes(x = reorder(office, count), y = count)) +
+  geom_col(fill = "#d62728", color = "black", alpha = 0.8) +
+  geom_text(aes(label = count), hjust = -0.1, size = 4, fontweight = "bold") +
+  coord_flip() +
+  labs(
+    title = paste("Femmes Enceintes au 3ème Trimestre (sans ARV) par Bureau"),
+    subtitle = paste("Total:", sum(third_trimester_by_office$count), "femmes devant accoucher bientôt et non sur ARV"),
+    x = "Bureau",
+    y = "Nombre de femmes",
+    caption = paste("Source: Caris Foundation /", Sys.Date())
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+    plot.subtitle = element_text(hjust = 0.5, size = 12),
+    plot.caption = element_text(face = "italic"),
+    panel.grid.major.y = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+```
+:::
+
+## Liste des Femmes au 3ème Trimestre de grossesse sans ARV
+
+```{r, echo=FALSE}
+# Table des femmes au 3ème trimestre qui ne sont pas sur ARV avec tous leurs services
+third_trimester_table <- rptme_final %>%
+  filter(pregnancy_trimester == "trimestre_3e" & (is.na(on_arv) | on_arv == "Non")) %>%
+  select(
+    "Code Patient" = patient_code,
+    "Bureau" = office,
+    "Âge" = age,
+    "Téléphone" = telephone,
+    "Coordonnatrice" = coordonnatrice,
+    "En Club" = mother_in_club,
+    "Services" = service_type,
+    "Données Ménage" = has_household,
+    "DPA" = dpa_calculated,
+    "Durée Grossesse (semaines)" = pregnancy_duration_weeks
+  ) %>%
+  arrange(`DPA`, `Bureau`)
+```
+
+```{r, echo=FALSE}  
+DT::datatable(
+  third_trimester_table,
+  extensions = 'Buttons',
+  filter = 'bottom',
+  options = list(
+    dom = 'Bfrtip',
+    columnDefs = list(list(className = 'dt-center', targets = "_all")),
+    initComplete = JS(
+      "function(settings, json) {",
+      "$(this.api().table().header()).css({'background-color': '#d62728', 'color': '#fff'});",
+      "}"),
+    buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),
+    pageLength = 10,
+    scrollX = TRUE
+  ),
+  callback = JS("
+    table.rows().every(function(rowIdx, tableLoop, rowLoop) {
+      $(this.node()).css({'font-size': '14px'});
+    });
+  ")
+)
+```
+
+```{python, echo=FALSE}
+#| label: dummy_data1
+bounds = get_bounds_dashboard(date.today())
+# Semaine précédente
+week_start = bounds.query("period == 'previous_week' and bound == 'start'")["date"].iloc[0]
+week_end   = bounds.query("period == 'previous_week' and bound == 'end'")["date"].iloc[0]
+
+# Mois précédent
+month_start = bounds.query("period == 'previous_month' and bound == 'start'")["date"].iloc[0]
+month_end   = bounds.query("period == 'previous_month' and bound == 'end'")["date"].iloc[0]
+
+# 3 derniers mois complets
+q_start = bounds.query("period == 'last_3_months' and bound == 'start'")["date"].iloc[0]
+q_end   = bounds.query("period == 'last_3_months' and bound == 'end'")["date"].iloc[0]
+
+```
+
+```{python, echo=FALSE}
+#| label: dummy_data2
+current_bounds = get_current_bounds(date.today())
+
+# Semaine précédente
+current_week_start = current_bounds.query("period == 'current_week' and bound == 'start'")["date"].iloc[0]
+current_week_end   = current_bounds.query("period == 'current_week' and bound == 'end'")["date"].iloc[0]
+
+# df_week  = df[(df.date >= week_start) & (df.date <= week_end)]
+
+# Mois précédent
+current_month_start = current_bounds.query("period == 'current_month' and bound == 'start'")["date"].iloc[0]
+current_month_end   = current_bounds.query("period == 'current_month' and bound == 'end'")["date"].iloc[0]
+
+```
+
+```{python, echo=FALSE}
+# Filtrer les données pour la semaine courante en utilisant les bornes définies
+# Filtrer club_attendance pour la semaine courante (excluant les présentes)
+club_attendance_week = club_attendance[(club_attendance['session_date_presence'] >= week_start) & 
+                                       (club_attendance['session_date_presence'] <= week_end)]
+club_attendance_week = club_attendance_week.sort_values(by='session_date_presence', ascending=False).drop_duplicates(subset=['patient_code'], keep='first')
+# creation d'une colonne applee presence ou presence = present si raison_absence == '1- Present' sinon absent
+club_attendance_week['presence'] = np.where(club_attendance_week['raison_absence'] == '1- Present', 'present', 'absent')
+
+# Filtrer les absents en club pour la semaine
+club_absence_week = club_attendance_week[club_attendance_week['presence'] == 'absent']
+
+
+# Filtrer appel_visit pour la semaine courante  
+appel_visit_week = appel_visit[(appel_visit['date'] >= week_start) & 
+                               (appel_visit['date'] <= week_end)]
+appel_visit_week = appel_visit_week.sort_values(by='date', ascending=False).drop_duplicates(subset=['patient_code'], keep='first')
+
+# Filtrer ptme_household_grouped pour la semaine courante
+ptme_household_week = ptme_household_grouped[(ptme_household_grouped['collection_date'] >= week_start) & 
+                                            (ptme_household_grouped['collection_date'] <= week_end)]
+```
+
+```{r, echo=FALSE}
+knitr::asis_output(tracking_title_week(titre = "ACTIVITÉS DE LA  <br>", level = 1, numbered = TRUE))
+```
+
+### Sessions de Club de la Semaine
+
+:::card
+```{python, echo=FALSE}
+# Graphique des sessions de club par bureau pour la semaine
+if len(club_attendance_week) > 0:
+    plot_beneficiaries_by_categorie(club_attendance_week, 'presence', 
+                                   f'Sessions de Club - Semaine du {week_start.strftime("%d/%m")} au {week_end.strftime("%d/%m/%Y")}', 
+                                   'Nombre de participantes', 'Bureaux')
+else:
+    print("Aucune session de club cette semaine")
+```
+:::
+
+### Raisons d'absences en Club de la Semaine
+:::card
+```{python, echo=FALSE}
+# Nettoyer les modalités de raison_absence
+if len(club_absence_week) > 0:
+    # Nettoyer la colonne raison_absence
+    club_absence_week_clean = club_absence_week.copy()
+    club_absence_week_clean['raison_absence_clean'] = (
+        club_absence_week_clean['raison_absence']
+        .astype(str)
+        .str.replace(r'^\d+[-\s]*', '', regex=True)  # Supprimer chiffres et tirets au début
+        .str.replace(r'[^\w\s]', ' ', regex=True)    # Remplacer caractères spéciaux par espaces
+        .str.replace(r'\s+', ' ', regex=True)        # Remplacer espaces multiples par un seul
+        .str.strip()                                 # Supprimer espaces début/fin
+        .str.title()                                 # Format titre
+    )
+    
+    # Graphique des absences par raison nettoyée
+    plot_beneficiaries_by_categorie(club_absence_week_clean, 'raison_absence_clean', 
+                                   f'Raisons d\'Absences Club - Semaine du {week_start.strftime("%d/%m")} au {week_end.strftime("%d/%m/%Y")}', 
+                                   'Nombre d\'Absences', 'Raisons d\'Absence')
+else:
+    print("Aucune absence en club cette semaine")
+```
+:::
+
+### Appels et Visites de la Semaine
+
+:::card
+```{python, echo=FALSE}
+# Graphique des appels/visites par bureau pour la semaine
+if len(appel_visit_week) > 0:
+    plot_beneficiaries_by_categorie(appel_visit_week, 'username', 
+                                   f'Appels/Visites - Semaine du {week_start.strftime("%d/%m")} au {week_end.strftime("%d/%m/%Y")}', 
+                                   'Nombre de bénéficiaires contactés', 'Bureaux')
+else:
+    print("Aucun appel/visite cette semaine")
+```
+:::
+
+### Comptages de Ménage de la Semaine
+
+:::card
+```{python, echo=FALSE}
+# Graphique des comptages de ménage par bureau pour la semaine
+if len(ptme_household_week) > 0:
+    plot_beneficiaries_by_categorie(ptme_household_week, 'opened_by_username', 
+                                   f'Comptages de Ménage - Semaine du {week_start.strftime("%d/%m")} au {week_end.strftime("%d/%m/%Y")}', 
+                                   'Nombre de collectes', 'Agents')
+else:
+    print("Aucun comptage de ménage cette semaine")
+```
+:::
+
+### Résumé Hebdomadaire par Type d'Activité
+
+:::card
+```{python, echo=FALSE}
+# Graphique de résumé des activités de la semaine
+"""import matplotlib.pyplot as plt
+import numpy as np
+
+# Filtrer les présents pour les sessions de club
+club_present_week = club_attendance_week[club_attendance_week['presence'] == 'present'] if len(club_attendance_week) > 0 else 0
+
+# Données pour le graphique de résumé
+activities = ['Sessions Club (Présents)', 'Appels/Visites', 'Comptages Ménage']
+counts = [len(club_present_week), len(appel_visit_week), len(ptme_household_week)]
+
+# Créer un DataFrame pour trier par ordre décroissant
+import pandas as pd
+data = pd.DataFrame({'activities': activities, 'counts': counts})
+data_sorted = data.sort_values('counts', ascending=True)  # ascending=True pour barh (plus grand en haut)
+
+# Créer le graphique en barres horizontales
+plt.figure(figsize=(12, 8))
+colors = ['#2ca02c', '#ff7f0e', '#9467bd']
+# Réorganiser les couleurs selon l'ordre trié
+color_map = dict(zip(activities, colors))
+sorted_colors = [color_map[act] for act in data_sorted['activities']]
+
+bars = plt.barh(data_sorted['activities'], data_sorted['counts'], 
+               color=sorted_colors, alpha=0.8, edgecolor='black')
+
+# Ajouter les valeurs sur les barres
+for bar, count in zip(bars, data_sorted['counts']):
+    width = bar.get_width()
+    plt.text(width + 0.5, bar.get_y() + bar.get_height()/2.,
+             f'{int(count)}', ha='left', va='center', fontsize=14, fontweight='bold')
+
+plt.title(f'Résumé des Activités PTME\nSemaine du {week_start.strftime("%d/%m/%Y")} au {week_end.strftime("%d/%m/%Y")}', 
+          fontsize=16, fontweight='bold', pad=20)
+plt.xlabel('Nombre d\'Activités', fontsize=12, fontweight='bold')
+plt.ylabel('Type d\'Activité', fontsize=12, fontweight='bold')
+plt.grid(axis='x', alpha=0.3)
+plt.tight_layout()
+plt.show()"""
+```
+:::
+

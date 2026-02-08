@@ -1,0 +1,2523 @@
+---
+title: "PROGRAMME NUTRITION"
+subtitle: "Caris Foundation | Tracking des bénéficiaires"
+author: "M&E Department"
+date: today
+format:
+  html:
+    theme: flatly
+    toc: true
+    toc-location: left
+    toc-depth: 4
+    number-sections: true
+    self-contained: true
+    toc-title: "Table des matières"
+    smooth-scroll: true
+    css: styles.css
+    include-in-header:
+      - text: |
+          <style>
+            /* Design de la TOC pour les sous-sections H4 */
+            .toc-h4-list {
+                list-style: none;
+                border-left: 2px solid #dee2e6;
+                margin-left: 1.5rem !important;
+                padding-left: 1rem;
+                margin-bottom: 0.5rem;
+            }
+            .toc-h4-link {
+                color: #6c757d !important;
+                font-size: 0.85em !important;
+                text-decoration: none;
+                display: block;
+                padding: 2px 0;
+            }
+            .toc-h4-link:hover {
+                color: #18bc9c !important; /* Couleur Flatly */
+                padding-left: 5px;
+                transition: all 0.2s;
+            }
+            /* Évite que le titre soit caché par un éventuel header fixe */
+            h4 { scroll-margin-top: 100px; }
+          </style>
+          <script>
+          document.addEventListener('DOMContentLoaded', function() {
+              // 1. Fonction de navigation intelligente
+              function navigateToSection(targetId) {
+                  const targetElement = document.getElementById(targetId);
+                  if (!targetElement) return;
+
+                  const parentTab = targetElement.closest('.tab-pane');
+                  if (parentTab) {
+                      const tabId = parentTab.id;
+                      const tabButton = document.querySelector(`[data-bs-target="#${tabId}"], [aria-controls="${tabId}"]`);
+                      
+                      if (tabButton && !tabButton.classList.contains('active')) {
+                          const tabInstance = new bootstrap.Tab(tabButton);
+                          tabInstance.show();
+                          
+                          // Attendre la fin de l'animation Bootstrap (300ms)
+                          setTimeout(() => {
+                              targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          }, 350);
+                          return;
+                      }
+                  }
+                  targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }
+
+              // 2. Génération de la TOC dynamique pour les graphiques (H4)
+              function buildDynamicToc() {
+                  const mainToc = document.querySelector('#TOC');
+                  if (!mainToc) return;
+
+                  const tabPanes = document.querySelectorAll('.tab-pane');
+                  
+                  tabPanes.forEach(pane => {
+                      const h4s = pane.querySelectorAll('h4');
+                      if (h4s.length === 0) return;
+
+                      const ul = document.createElement('ul');
+                      ul.className = 'toc-h4-list';
+                      ul.id = 'toc-list-' + pane.id;
+                      ul.style.display = 'none'; // Caché par défaut
+
+                      h4s.forEach(h4 => {
+                          const li = document.createElement('li');
+                          const a = document.createElement('a');
+                          // On récupère l'ID généré par Quarto ou on en crée un
+                          const id = h4.id || h4.textContent.toLowerCase().replace(/\s+/g, '-');
+                          h4.id = id; 
+                          
+                          a.href = '#' + id;
+                          a.className = 'toc-h4-link';
+                          a.textContent = h4.textContent.replace(/^\d+\.[\d\.]*\s*/, '');
+                          
+                          a.addEventListener('click', function(e) {
+                              e.preventDefault();
+                              navigateToSection(id);
+                          });
+
+                          li.appendChild(a);
+                          ul.appendChild(li);
+                      });
+
+                      mainToc.appendChild(ul);
+                  });
+              }
+
+              // 3. Mise à jour de la visibilité selon l'onglet
+              function updateTocVisibility() {
+                  document.querySelectorAll('.toc-h4-list').forEach(l => l.style.display = 'none');
+                  const activePane = document.querySelector('.tab-pane.active');
+                  if (activePane) {
+                      const activeList = document.getElementById('toc-list-' + activePane.id);
+                      if (activeList) activeList.style.display = 'block';
+                  }
+              }
+
+              // Initialisation
+              setTimeout(() => {
+                  buildDynamicToc();
+                  updateTocVisibility();
+                  
+                  // Écouteur sur les changements d'onglets Bootstrap
+                  document.querySelectorAll('button[data-bs-toggle="tab"]').forEach(tabEl => {
+                      tabEl.addEventListener('shown.bs.tab', updateTocVisibility);
+                  });
+              }, 500);
+          });
+          </script>
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+```
+
+
+```{r libraries, echo=FALSE,warning = FALSE, message = FALSE}
+Sys.setenv(TZ='GMT')
+suppressPackageStartupMessages(library(DT))
+suppressPackageStartupMessages(library(readxl))
+suppressPackageStartupMessages(library(writexl))
+suppressPackageStartupMessages(library(viridis))
+suppressPackageStartupMessages(library(tidyr))
+suppressPackageStartupMessages(library(dplyr))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(lubridate))
+suppressPackageStartupMessages(library(data.table))
+suppressPackageStartupMessages(library(reticulate))
+```
+
+```{r, echo=FALSE}
+# Configure reticulate to use the .venv virtual environment
+reticulate::use_virtualenv("C:/Users/moise/Downloads/caris-meal-app/.venv", required = TRUE)
+```
+
+```{python, echo=FALSE, results='hide', warning=FALSE, message=FALSE}
+#Import relevant libraries
+import os
+import re
+import time
+import warnings
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+from dateutil.parser import parse
+
+# Third-party imports
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import plotly.express as px
+import plotly.graph_objects as go
+from itables import show, init_notebook_mode, options
+from IPython.display import HTML
+import openpyxl
+import xlsxwriter
+import pymysql
+from sqlalchemy import create_engine
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
+from dotenv import load_dotenv
+from IPython.core.interactiveshell import InteractiveShell
+# Load environment variables from .env file
+load_dotenv('dot.env')
+pd.set_option('display.float_format', '{:.2f}'.format)  # Set float format
+
+# Suppress warnings
+warnings.filterwarnings('ignore')
+```
+
+```{python, echo=FALSE}
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+import matplotlib.cm as cm
+import pandas as pd
+import numpy as np
+
+def plot_monthly_data(df, date_column, plot_title):
+    """
+    Génère un histogramme horizontal mensuel avec palette viridis et valeurs visibles.
+    """
+    df[date_column] = pd.to_datetime(df[date_column], errors='coerce')
+    df['Month'] = df[date_column].dt.strftime('%B %Y')
+
+    # Comptage mensuel
+    monthly_counts = df.groupby('Month')['caseid'].count().reset_index(name='count')
+
+    # Trier les mois
+    months_order = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+                    'August', 'September', 'October', 'November', 'December']
+    years = sorted(monthly_counts['Month'].str.split().str[1].unique())
+    ordered_months = [f"{m} {y}" for y in years for m in months_order if f"{m} {y}" in monthly_counts['Month'].values]
+
+    monthly_counts['Month'] = pd.Categorical(monthly_counts['Month'], categories=ordered_months, ordered=True)
+    monthly_counts = monthly_counts.sort_values('Month')
+
+    # Couleurs Viridis
+    norm = plt.Normalize(monthly_counts['count'].min(), monthly_counts['count'].max())
+    viridis = cm.get_cmap('viridis')
+    colors = viridis(norm(monthly_counts['count'].values))
+
+    # Création du graphique
+    plt.figure(figsize=(14, 10))
+    bars = plt.barh(monthly_counts['Month'], monthly_counts['count'], color=colors)
+
+    for bar in bars:
+        width = bar.get_width()
+        label_x_pos = width + max(monthly_counts['count'].max() * 0.01, 0.5)  # espacement dynamique
+        label_y_pos = bar.get_y() + bar.get_height() / 2
+        plt.text(label_x_pos, label_y_pos, f'{int(width)}', va='center', ha='left',
+                 fontsize=14, weight='bold', color='black')
+
+    plt.title(plot_title, fontsize=16, weight='bold')
+    plt.xlabel('Nombre de cas', fontsize=13)
+    plt.ylabel('Mois', fontsize=13)
+    plt.grid(False)
+    plt.tight_layout()
+    plt.show()
+```
+
+```{python, echo=FALSE}
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+def plot_beneficiaries_by_categorie(df, lo_department, set_title, set_xlabel, set_ylabel):
+    # Configuration générale adaptée pour Quarto
+    sns.set(rc={'figure.figsize': (15, 10)})
+    sns.set_style("whitegrid")
+    sns.set_context("notebook", font_scale=1.5)
+
+    # Agréger et trier les données
+    sorted_data = df.groupby(lo_department).size().sort_values(ascending=False)
+    sorted_df = sorted_data.reset_index(name='count')
+
+    #Total des patients actifs
+    total_active_patients = sorted_df['count'].sum()
+
+    # Palette viridis adaptée pour web
+    n_colors = len(sorted_df)
+    palette = sns.color_palette("viridis", n_colors=n_colors)
+
+    # Tracé du graphique
+    ax = sns.barplot(
+        y=lo_department,
+        x='count',
+        data=sorted_df,
+        palette=palette
+    )
+
+    # Titre et labels
+    ax.set_title(f"{set_title}\nTotal : {total_active_patients}", fontsize=24, weight='bold')
+    ax.set_xlabel(set_xlabel, fontsize=22)
+    ax.set_ylabel(set_ylabel, fontsize=22)
+    #Retrait de la grille
+    ax.grid(False)
+
+    # Ajout des valeurs sur les barres
+    for container in ax.containers:
+        ax.bar_label(container, padding=5, fontsize=26, weight="bold", color='black')
+
+    # Nettoyage des bordures
+    sns.despine()
+
+    # Ajustement
+    plt.tight_layout()
+    plt.show()
+```
+
+```{python, echo=FALSE}
+#| label: date_bounds_functions
+# Import required datetime modules
+from datetime import date, timedelta
+
+def previous_week_bounds(ref: date):
+    """Retourne (lundi, dimanche) de la semaine précédente."""
+    current_monday = ref - timedelta(days=ref.weekday())
+    prev_monday = current_monday - timedelta(days=7)
+    prev_sunday = prev_monday + timedelta(days=6)
+    return prev_monday, prev_sunday
+
+
+def previous_month_bounds(ref: date):
+    """Retourne (premier_jour, dernier_jour) du mois précédent."""
+    first_this_month = date(ref.year, ref.month, 1)
+    last_prev = first_this_month - timedelta(days=1)
+    first_prev = date(last_prev.year, last_prev.month, 1)
+    return first_prev, last_prev
+
+
+def last_three_months_bounds(ref: date):
+    """
+    Retourne (premier_jour, dernier_jour) des 3 derniers mois
+    COMPLETS avant le mois courant.
+    Exemple : ref = 2025-11-26 → 2025-08-01 au 2025-10-31
+    """
+    # 1er jour du mois courant
+    first_this_month = date(ref.year, ref.month, 1)
+    # Dernier jour du mois précédent
+    end = first_this_month - timedelta(days=1)
+
+    # Helper pour soustraire n mois
+    def subtract_months(y, m, n):
+        total = y * 12 + (m - 1) - n
+        ny = total // 12
+        nm = total % 12 + 1
+        return ny, nm
+
+    # 3 mois avant le mois courant
+    y3, m3 = subtract_months(ref.year, ref.month, 3)
+    start = date(y3, m3, 1)
+
+    return start, end
+
+
+def get_bounds_dashboard(ref: date = date.today()) -> pd.DataFrame:
+    """
+    Construit un DataFrame pandas prêt pour un dashboard, 
+    avec les bornes :
+      - semaine précédente
+      - mois précédent
+      - 3 derniers mois (complets)
+    """
+    w1, w2 = previous_week_bounds(ref)
+    m1, m2 = previous_month_bounds(ref)
+    q1, q2 = last_three_months_bounds(ref)
+
+    data = [
+        {"period": "previous_week",   "bound": "start", "date": w1},
+        {"period": "previous_week",   "bound": "end",   "date": w2},
+        {"period": "previous_month",  "bound": "start", "date": m1},
+        {"period": "previous_month",  "bound": "end",   "date": m2},
+        {"period": "last_3_months",   "bound": "start", "date": q1},
+        {"period": "last_3_months",   "bound": "end",   "date": q2},
+    ]
+
+    df = pd.DataFrame(data)
+    df["date"] = pd.to_datetime(df["date"])
+    df["date_str"] = df["date"].dt.strftime("%Y-%m-%d")
+    return df
+
+```
+
+```{python, echo=FALSE}
+from datetime import date, timedelta
+import pandas as pd
+
+def current_week_bounds(ref: date):
+    """Retourne (lundi, dimanche) de la semaine courante."""
+    monday = ref - timedelta(days=ref.weekday())
+    sunday = monday + timedelta(days=6)
+    return monday, sunday
+
+def current_month_bounds(ref: date):
+    """Retourne (premier jour, dernier jour) du mois courant."""
+    first = date(ref.year, ref.month, 1)
+
+    # premier jour du mois suivant
+    if ref.month == 12:
+        first_next = date(ref.year+1, 1, 1)
+    else:
+        first_next = date(ref.year, ref.month+1, 1)
+    
+    last = first_next - timedelta(days=1)
+    return first, last
+
+
+def get_current_bounds(ref: date = date.today()) -> pd.DataFrame:
+    """
+    Renvoie un datamart prêt pour un dashboard pandas/quarto,
+    contenant SEULEMENT :
+        - les bornes de la semaine courante
+        - les bornes du mois courant
+    """
+
+    # bornes semaine & mois courant
+    w1, w2 = current_week_bounds(ref)
+    m1, m2 = current_month_bounds(ref)
+
+    data = [
+        {"period": "current_week",  "bound": "start", "date": w1},
+        {"period": "current_week",  "bound": "end",   "date": w2},
+
+        {"period": "current_month", "bound": "start", "date": m1},
+        {"period": "current_month", "bound": "end",   "date": m2},
+    ]
+
+    df = pd.DataFrame(data)
+    df["date"] = pd.to_datetime(df["date"])               # usable for filtering
+    df["date_str"] = df["date"].dt.strftime("%Y-%m-%d")   # clean display
+
+    return df
+```
+```{python, echo=FALSE}
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+import matplotlib.cm as cm
+import pandas as pd
+import numpy as np
+
+# NOTE IMPORTANTE : Pour que les jours s'affichent en français (Lundi, Mardi, etc.),
+# vous devez vous assurer que la locale française est configurée dans votre environnement.
+# Exemple pour Linux/macOS:
+# import locale
+# locale.setlocale(locale.LC_TIME, 'fr_FR.UTF-8') 
+# Le code fonctionnera sans cela, mais les noms seront en anglais (Monday, Tuesday...).
+
+def plot_daily_data_weekly_ordered(df, date_column, plot_title):
+    """
+    Génère un histogramme horizontal des cas par jour pour une seule semaine.
+    Affiche SEULEMENT le nom du jour sur l'axe Y et respecte l'ordre chronologique.
+
+    :param df: DataFrame contenant les données (max 7 jours).
+    :param date_column: Nom de la colonne contenant les dates.
+    :param plot_title: Titre du graphique.
+    """
+    
+    # 1. Préparation des données (Conversion et Ordre Chronologique)
+    df[date_column] = pd.to_datetime(df[date_column], errors='coerce')
+    
+    # Étiquette de l'axe Y : Nom du jour seul (ex: Lundi)
+    df['Day_Label'] = df[date_column].dt.strftime('%A')
+    
+    # Ordre de tri : 0=Lundi, 6=Dimanche
+    df['Day_Order'] = df[date_column].dt.dayofweek 
+
+    # 2. Comptage quotidien et tri
+    # Groupement par l'ordre (pour le tri) et l'étiquette (pour l'affichage)
+    daily_counts = df.groupby(['Day_Order', 'Day_Label'])['caseid'].count().reset_index(name='count')
+    
+    # Tri FINAL par l'ordre du jour de la semaine (ASCENDING = Lundi au Dimanche)
+    daily_counts_ordered = daily_counts.sort_values('Day_Order', ascending=True)
+
+    # 3. Couleurs Viridis
+    norm = plt.Normalize(daily_counts_ordered['count'].min(), daily_counts_ordered['count'].max())
+    viridis = cm.get_cmap('viridis')
+    colors = viridis(norm(daily_counts_ordered['count'].values))
+
+    # 4. Création du graphique
+    fig_height = max(6, daily_counts_ordered.shape[0] * 0.5) # Ajustement de la hauteur
+    plt.figure(figsize=(12, fig_height)) 
+    
+    # Affichage des barres dans l'ordre chronologique
+    bars = plt.barh(daily_counts_ordered['Day_Label'], daily_counts_ordered['count'], color=colors)
+
+    # 5. Ajout des annotations (valeurs numériques)
+    for bar in bars:
+        width = bar.get_width()
+        label_x_pos = width + max(daily_counts_ordered['count'].max() * 0.01, 0.5)
+        label_y_pos = bar.get_y() + bar.get_height() / 2
+        plt.text(label_x_pos, label_y_pos, f'{int(width)}', va='center', ha='left',
+                 fontsize=14, weight='bold', color='black')
+
+    # 6. Mise en forme et affichage
+    plt.title(f"{plot_title}", fontsize=16, weight='bold')
+    plt.xlabel('Nombre de cas', fontsize=13)
+    plt.ylabel('Jour de la semaine', fontsize=13)
+    plt.grid(False)
+    plt.yticks(fontsize=12)
+    plt.tight_layout()
+    plt.show()
+```
+
+
+```{python, echo=FALSE}
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+def plot_percentage_enhanced(df, category_col, value_col, target_col, color_no=None, color_yes=None):
+    """
+    Crée un graphique à barres empilées de fréquences/comptes.
+    Affiche la somme brute, le pourcentage, le nom du secteur dans chaque section,
+    et le total de chaque catégorie au-dessus des barres.
+    Supprime les gridlines et utilise des couleurs personnalisées ou par défaut.
+
+    Args:
+        df (pd.DataFrame): Le DataFrame à utiliser (ex: tips).
+        category_col (str): La colonne contenant les catégories à tracer (ex: 'day').
+        value_col (str): La colonne contenant les valeurs à compter (ex: 'total_bill').
+        target_col (str): La colonne binaire pour la proportion (ex: 'smoker').
+        color_no (str, optional): Couleur pour la catégorie 'No' (secteur du haut).
+                                          Par défaut, utilise une couleur foncée.
+        color_yes (str, optional): Couleur pour la catégorie 'Yes' (secteur du bas).
+                                          Par défaut, utilise une couleur claire.
+    """
+    
+    unique_targets = df[target_col].unique()
+    if len(unique_targets) != 2:
+        print(f"Erreur : La colonne cible '{target_col}' doit avoir exactement deux valeurs uniques.")
+        return
+
+    # --- Préparation des données ---
+    target_value_yes = unique_targets[1] 
+    target_value_no = unique_targets[0]
+    
+    total_count_by_category = df.groupby(category_col)[value_col].count().reset_index().rename(columns={value_col: 'Total'})
+    smoker_count_by_category = df.groupby([category_col, target_col])[value_col].count().reset_index()
+    
+    merged_df = pd.merge(smoker_count_by_category, total_count_by_category, on=category_col)
+    merged_df['Percentage'] = (merged_df[value_col] / merged_df['Total']) * 100
+    
+    category_order = df[category_col].unique()
+    
+    df_yes_data = merged_df[merged_df[target_col] == target_value_yes].set_index(category_col).reindex(category_order).reset_index()
+    df_no_data = merged_df[merged_df[target_col] == target_value_no].set_index(category_col).reindex(category_order).reset_index()
+    
+    df_totals = total_count_by_category.set_index(category_col).reindex(category_order).reset_index()
+
+
+    # --- Définition des couleurs ---
+    # Couleurs par défaut basées sur les couleurs de votre graphique de référence
+    default_color_no = '#65e42bff'  # Un vert sombre similaire
+    default_color_yes = '#6200ffff' # Un jaune or similaire
+
+    color_no = color_no if color_no is not None else default_color_no
+    color_yes = color_yes if color_yes is not None else default_color_yes
+
+    # --- Création du Graphique ---
+    plt.figure(figsize=(12, 8))
+    ax = plt.gca() # Obtenir l'axe actuel
+    
+    # 1. Barre de fond (Target 'No', couleur foncée)
+    sns.barplot(
+        x=category_col, y='Percentage', data=df_no_data.assign(Percentage=100), 
+        color=color_no, order=category_order, ax=ax
+    )
+    
+    # 2. Barre du dessus (Target 'Yes', couleur claire)
+    sns.barplot(
+        x=category_col, y='Percentage', data=df_yes_data, 
+        color=color_yes, order=category_order, ax=ax
+    )
+    
+    # --- Ajout des Étiquettes de Données ---
+    
+    LABEL_FONT_SIZE = 12 
+    
+    # Annotations pour la section 'Smoker = Yes' (barre du dessous)
+    for index, row in df_yes_data.iterrows():
+        raw_sum = row[value_col]
+        percentage_value = row['Percentage']
+        y_text_pos = percentage_value / 2
+        
+        label_text = f"{target_value_yes}\n{raw_sum:.0f} ({percentage_value:.0f}%)"
+        
+        if percentage_value < 5: 
+            y_text_pos = percentage_value + 2 
+            
+        ax.text(
+            x=index, y=y_text_pos, s=label_text, 
+            ha='center', va='center', fontsize=LABEL_FONT_SIZE, color='black', fontweight='bold' # Texte en noir pour le jaune
+        )
+
+    # Annotations pour la section 'Smoker = No' (barre du dessus)
+    for index, row in df_no_data.iterrows():
+        raw_sum = row[value_col]
+        percentage_value_yes = df_yes_data['Percentage'].iloc[index]
+        percentage_value_no = 100 - percentage_value_yes
+        y_text_pos = percentage_value_yes + (percentage_value_no / 2)
+        
+        label_text = f"{target_value_no}\n{raw_sum:.0f} ({percentage_value_no:.0f}%)"
+        
+        if percentage_value_no < 5: 
+             y_text_pos = percentage_value_yes - 2
+             
+        ax.text(
+            x=index, y=y_text_pos, s=label_text,
+            ha='center', va='center', fontsize=LABEL_FONT_SIZE, color='white', fontweight='bold' # Texte en blanc pour le vert sombre
+        )
+
+    # --- AFFICHAGE DE LA VALEUR TOTALE AU DESSUS DES BARRES ---
+    for index, total_row in df_totals.iterrows():
+        total_value = total_row['Total']
+        
+        ax.text(
+            x=index, 
+            y=100.5, 
+            s=f'{total_value:.0f}',
+            ha='center', 
+            va='bottom', 
+            fontsize=12, 
+            color='black', 
+            fontweight='bold'
+        )
+
+    # --- Personnalisation finale ---
+    ax.set_title(f'Répartition des Comptes par {category_col.replace("_", " ").title()} et {target_col.title()}', fontsize=14)
+    ax.set_xlabel(category_col.replace('_', ' ').title(), fontsize=12)
+    ax.set_ylabel('Pourcentage du Total des Comptes (%)', fontsize=12)
+    
+    # --- SUPPRESSION DES GRIDLINES ---
+    ax.grid(False) # Supprime les gridlines principales
+    ax.tick_params(axis='y', length=0) # Supprime les tirets de l'axe y
+    ax.tick_params(axis='x', length=0) # Supprime les tirets de l'axe x (si besoin)
+
+    # Supprimer les bordures du cadre
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_visible(False) # Souvent souhaité pour les bar charts
+    ax.spines['bottom'].set_visible(False) # Souvent souhaité pour les bar charts
+    
+    plt.show()
+
+```
+
+```{python, echo=FALSE}
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+from IPython.display import display as ipython_display, HTML # Assurez-vous d'importer HTML si non fait ailleurs
+
+def plot_beneficiaries_stacked_matplotlib1(
+        df: pd.DataFrame,
+        group_col: str = "username",
+        eligible_col: str = "eligible",
+        set_title: str = "Répartition bénéficiaires (eligible / non eligible)",
+        set_xlabel: str = "Nombre de bénéficiaires",
+        set_ylabel: str = "Catégorie",
+        horizontal: bool = True,
+        table: str = "no",           # "yes" => retourne seulement tableau
+        percent: bool = False,       # True → tableau et graph en %
+        display: str = "plot"        # "plot" | "table" | "both"
+    ):
+    """
+    Crée un graphique à barres empilées Matplotlib et une table stylisée Pandas.
+    La logique d'affichage est corrigée pour éviter l'espace blanc indésirable.
+    """
+
+    # ========= CROSS TABLE =========
+    cross = pd.crosstab(df[group_col], df[eligible_col])
+
+    if percent:
+        cross_pct = cross.div(cross.sum(axis=1), axis=0) * 100
+        cross_display = cross_pct.copy()
+        formatter = "{:.1f}%".format
+    else:
+        cross_display = cross.copy()
+        formatter = "{:.0f}".format
+
+    # -------- STYLE DU TABLEAU --------
+    styled_table = (
+        cross_display.style
+        .background_gradient(cmap="viridis")
+        .format(formatter)
+        .set_properties(**{"font-size": "15px"})
+        .set_table_styles([{
+            "selector": "th",
+            "props": "background-color:#222;color:white;font-weight:bold;font-size:16px"
+        }])
+    )
+
+    # Si l'utilisateur demande UNIQUEMENT le tableau
+    if table == "yes" or display == "table":
+        return styled_table
+
+    # ========= PLOT STACKED BAR =========
+    pivot = cross_pct if percent else cross
+    pivot["Total"] = pivot.sum(axis=1)
+    pivot = pivot.sort_values("Total", ascending=False).drop(columns="Total")
+
+    sns.set(rc={'figure.figsize': (15, 10)})
+    sns.set_style("whitegrid")
+    sns.set_context("notebook", font_scale=1.5)
+
+    palette = sns.color_palette("viridis", n_colors=pivot.shape[1])
+    fmt = (lambda v: f"{v:.1f}%") if percent else (lambda v: f"{int(v)}")
+
+    plt.figure(figsize=(15, 10))
+
+    if horizontal:
+        ax = pivot.plot(kind="barh", stacked=True, color=palette, edgecolor="black", ax=plt.gca())
+        ax.set_xlabel(set_xlabel, fontsize=22)
+        ax.set_ylabel(set_ylabel, fontsize=22)
+    else:
+        ax = pivot.plot(kind="bar", stacked=True, color=palette, edgecolor="black", ax=plt.gca())
+        ax.set_ylabel(set_xlabel, fontsize=22)
+        ax.set_xlabel(set_ylabel, fontsize=22)
+
+    ax.set_title(
+        set_title + (" (en %)" if percent else ""),
+        fontsize=24, weight="bold"
+    )
+    ax.grid(False)
+    sns.despine()
+
+    for cont in ax.containers:
+        ax.bar_label(cont, labels=[fmt(v) for v in cont.datavalues],
+                     padding=5, fontsize=23, weight="bold", color="black")
+
+    plt.tight_layout()
+    
+    # --- SECTION CORRIGÉE POUR L'AFFICHAGE MULTIPLE ---
+    if display == "both":
+        # 1. Affiche le graphique (via plt.show())
+        plt.show()
+        # 2. Retourne le tableau stylisé. Quarto/knitr affiche ceci comme une sortie séparée
+        #    juste après le graphique, sans l'espace blanc généré par ipython_display()
+        return styled_table
+    
+    else: # display == "plot"
+        plt.show()
+        return None
+```
+
+```{python, echo=FALSE}
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+from IPython.display import display as ipython_display, HTML
+
+def plot_beneficiaries_stacked_eligible_matplotlib(
+        df: pd.DataFrame,
+        group_col: str = "username",
+        eligible_col: str = "eligible",
+        plot_col: str = None,        # La colonne à sommer ou compter
+        sum_logic: int = 0,          # 1 = Somme numérique, 0 = Comptage (Fréquence)
+        set_title: str = "Répartition bénéficiaires",
+        set_xlabel: str = "Valeur",
+        set_ylabel: str = "Catégorie",
+        horizontal: bool = True,
+        table: str = "no",
+        percent: bool = False,
+        display: str = "plot"
+    ):
+    """
+    Génère un graphique et un tableau. 
+    Gère soit la somme d'une colonne numérique, soit le comptage d'occurrences.
+    """
+
+    # ========= CONSTRUCTION DE LA TABLE DE DONNÉES =========
+    if sum_logic == 1:
+        # Somme des valeurs de plot_col
+        if plot_col is None:
+            raise ValueError("plot_col doit être spécifié si sum_logic=1")
+        
+        cross = df.pivot_table(
+            index=group_col, 
+            columns=eligible_col, 
+            values=plot_col, 
+            aggfunc='sum', 
+            fill_value=0,
+            margins=True, 
+            margins_name="Total"
+        )
+    else:
+        # Comptage simple (équivalent à crosstab)
+        cross = pd.crosstab(df[group_col], df[eligible_col], margins=True, margins_name="Total")
+
+    # ========= CALCUL DES POURCENTAGES ET AFFICHAGE =========
+    if percent:
+        # On évite la division par zéro si une ligne est vide
+        cross_pct = cross.div(cross["Total"], axis=0).fillna(0) * 100
+        cross_display = cross_pct.copy()
+        formatter = "{:.1f}%".format
+    else:
+        cross_display = cross.copy()
+        formatter = "{:.0f}".format
+
+    # -------- STYLE DU TABLEAU --------
+    styled_table = (
+        cross_display.style
+        .background_gradient(cmap="viridis")
+        .format(formatter)
+        .set_properties(**{"font-size": "15px"})
+        .set_table_styles([{
+            "selector": "th",
+            "props": "background-color:#222;color:white;font-weight:bold;font-size:16px"
+        }])
+    )
+
+    if table == "yes" or display == "table":
+        return styled_table
+
+    # ========= PLOT STACKED BAR =========
+    # On retire les marges pour le graphique
+    pivot = (cross_pct if percent else cross).drop(index="Total", columns="Total", errors='ignore')
+    
+    # Tri par volume total
+    pivot["_sort_total"] = pivot.sum(axis=1)
+    pivot = pivot.sort_values("_sort_total", ascending=False).drop(columns="_sort_total")
+
+    # Configuration visuelle
+    sns.set(rc={'figure.figsize': (15, 10)})
+    sns.set_style("whitegrid")
+    sns.set_context("notebook", font_scale=1.5)
+    palette = sns.color_palette("viridis", n_colors=pivot.shape[1])
+    fmt = (lambda v: f"{v:.1f}%") if percent else (lambda v: f"{v:,.0f}")
+
+    plt.figure(figsize=(15, 10))
+
+    if horizontal:
+        ax = pivot.plot(kind="barh", stacked=True, color=palette, edgecolor="black", ax=plt.gca())
+        ax.set_xlabel(set_xlabel, fontsize=22)
+        ax.set_ylabel(set_ylabel, fontsize=22)
+    else:
+        ax = pivot.plot(kind="bar", stacked=True, color=palette, edgecolor="black", ax=plt.gca())
+        ax.set_ylabel(set_xlabel, fontsize=22)
+        ax.set_xlabel(set_ylabel, fontsize=22)
+
+    ax.set_title(set_title + (" (en %)" if percent else ""), fontsize=24, weight="bold")
+    ax.grid(False)
+    sns.despine()
+
+    # Étiquettes sur les barres
+    for cont in ax.containers:
+        ax.bar_label(cont, labels=[fmt(v) if v > 0 else "" for v in cont.datavalues],
+                     padding=5, fontsize=20, weight="bold", color="black")
+
+    plt.tight_layout()
+    
+    if display == "both":
+        plt.show()
+        return styled_table
+    else:
+        plt.show()
+        return None
+```
+
+```{python, echo=FALSE}
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+import matplotlib.cm as cm
+import pandas as pd
+import numpy as np
+
+def plot_time_data(df, date_column, plot_title, period='M'):
+    """
+    Génère un histogramme horizontal basé sur la période spécifiée
+    (Semaine, Mois ou Trimestre) avec palette viridis et valeurs visibles.
+
+    Args:
+        df (pd.DataFrame): Le DataFrame d'entrée.
+        date_column (str): Le nom de la colonne de date.
+        plot_title (str): Le titre du graphique.
+        period (str): La période de regroupement ('S' pour Semaine, 'M' pour Mois, 'T' pour Trimestre).
+    """
+    
+    # --- 1. Préparation des Données et Regroupement ---
+    df = df.copy() # Travail sur une copie
+    df[date_column] = pd.to_datetime(df[date_column], errors='coerce')
+    
+    # --- 2. Logique spéciale pour les semaines ---
+    if period == 'S':
+        # Pour éviter les problèmes avec les semaines partielles dans un mois filtré,
+        # on groupe par semaine ISO (numéro de semaine dans l'année)
+        df['year'] = df[date_column].dt.year
+        df['week'] = df[date_column].dt.isocalendar().week
+        df['week_start'] = df[date_column] - pd.to_timedelta(df[date_column].dt.dayofweek, unit='d')
+        
+        # Grouper par début de semaine
+        time_counts = df.groupby(['year', 'week', 'week_start'])['caseid'].count().reset_index(name='count')
+        time_counts = time_counts.sort_values('week_start')
+        
+        # Formatage des dates en français
+        def format_week_simple(row):
+            start = row['week_start']
+            end = start + pd.Timedelta(days=6)
+            
+            # Noms des mois français abrégés
+            month_names_fr = {
+                1: 'jan', 2: 'fév', 3: 'mar', 4: 'avr',
+                5: 'mai', 6: 'jun', 7: 'jul', 8: 'aoû',
+                9: 'sep', 10: 'oct', 11: 'nov', 12: 'déc'
+            }
+            
+            # Affichage simplifié : seulement les dates (suppression du numéro de semaine)
+            start_day = start.day
+            start_month = month_names_fr[start.month]
+            end_day = end.day
+            end_month = month_names_fr[end.month]
+            
+            if start.month == end.month:
+                return f"{start_day}-{end_day} {end_month}"
+            else:
+                return f"{start_day} {start_month} - {end_day} {end_month}"
+        
+        time_counts['Time_Period_Str'] = time_counts.apply(format_week_simple, axis=1)
+        y_axis_label = 'Semaine'
+        
+    else:
+        # Logique originale pour mois et trimestres
+        freq_map = {
+            'M': 'M',      # Mensuel
+            'T': 'Q',      # Trimestriel
+        }
+        
+        if period not in freq_map:
+            raise ValueError("L'argument 'period' doit être 'S' (Semaine), 'M' (Mois) ou 'T' (Trimestre).")
+
+        freq = freq_map[period]
+        
+        # Crée l'objet Period
+        df['Time_Period'] = df[date_column].dt.to_period(freq=freq)
+        
+        # Comptage par période
+        time_counts = df.groupby('Time_Period')['caseid'].count().reset_index(name='count')
+        time_counts = time_counts.sort_values('Time_Period')
+
+        # Formatage de l'axe Y
+        if period == 'T':
+            # Format Trimestre + Année (ex: 2024Q1)
+            time_counts['Time_Period_Str'] = time_counts['Time_Period'].astype(str)
+            y_axis_label = 'Trimestre'
+        else: # M (Mois)
+            # Format standard Mois Année
+            time_counts['Time_Period_Str'] = time_counts['Time_Period'].dt.strftime('%B %Y')
+            y_axis_label = 'Mois'
+
+    # --- 3. Création du graphique ---
+    
+    # Couleurs Viridis normalisées
+    norm = plt.Normalize(time_counts['count'].min(), time_counts['count'].max())
+    viridis = cm.get_cmap('viridis') 
+    colors = viridis(norm(time_counts['count'].values))
+
+    # Ajustement dynamique de la taille pour les graphiques longs
+    plt.figure(figsize=(14, max(10, time_counts.shape[0] * 0.5))) 
+    bars = plt.barh(time_counts['Time_Period_Str'], time_counts['count'], color=colors)
+
+    # Ajout des valeurs numériques sur les barres (taille augmentée)
+    for bar in bars:
+        width = bar.get_width()
+        label_x_pos = width + max(time_counts['count'].max() * 0.01, 0.5) 
+        label_y_pos = bar.get_y() + bar.get_height() / 2
+        plt.text(label_x_pos, label_y_pos, f'{int(width)}', va='center', ha='left',
+                 fontsize=14, weight='bold', color='black')
+
+    # Mise en forme finale (sans gridlines)
+    plt.title(plot_title, fontsize=16, weight='bold')
+    plt.xlabel('Nombre de cas', fontsize=13)
+    plt.ylabel(y_axis_label, fontsize=13)
+    # Suppression des gridlines
+    plt.grid(False)
+    plt.tight_layout()
+    plt.show()
+```
+
+```{r, echo=FALSE}
+display_table <- function(df, 
+                               table_title = "Répartition des Enfants par Club", 
+                               header_color = "#800000") {
+  
+  # 1. Vérification : le dataframe existe-t-il et contient-il des données ?
+  if (!is.null(df) && nrow(df) > 0) {
+    
+    # Préparation du titre avec la date du jour
+    full_export_title <- paste(table_title, "-", format(Sys.Date(), "%d/%m/%Y"))
+    
+    # 2. Génération de la table DT
+    DT::datatable(
+      df,
+      extensions = 'Buttons',
+      filter = 'bottom',
+      options = list(
+        dom = 'Bfrtip',
+        columnDefs = list(list(className = 'dt-center', targets = "_all")),
+        initComplete = JS(
+          paste0("function(settings, json) {",
+                 "$(this.api().table().header()).css({'background-color': '", header_color, "', 'color': '#fff'});",
+                 "}")
+        ),
+        buttons = list(
+          list(extend = 'copy',  title = full_export_title),
+          list(extend = 'csv',   title = full_export_title),
+          list(extend = 'excel', title = full_export_title),
+          list(extend = 'pdf',   title = full_export_title, orientation = 'landscape'),
+          list(extend = 'print', title = full_export_title)
+        ),
+        pageLength = 3
+      ),
+      callback = JS("
+        table.rows().every(function(rowIdx, tableLoop, rowLoop) {
+            $(this.node()).css({'font-size': '16px', 'height': '20px'});
+        });
+      ")
+    )
+    
+  } else {
+    # 3. Message si vide (utilise aussi la couleur choisie pour la bordure et le texte)
+    htmltools::HTML(paste0("<div style='color: ", header_color, "; font-weight: bold; font-size: 18px; 
+                                 padding: 20px; border: 2px solid ", header_color, "; 
+                                 border-radius: 8px; text-align: center;'>
+                        Pas de données disponibles
+                     </div>"))
+  }
+}
+```
+
+```{python, echo=FALSE}
+depistage = pd.read_excel("outputs/NUTRITION/depistage_filtered.xlsx",sheet_name=0)
+enroled = pd.read_excel("outputs/NUTRITION/enroled_final.xlsx",sheet_name=0)
+enroled = enroled[enroled['nut_code']!='NUT-8D3-D8CC']
+attente = pd.read_excel("outputs/NUTRITION/en_attente.xlsx",sheet_name=0)
+club_nutrition = pd.read_excel("outputs/NUTRITION/club_nutrition.xlsx",sheet_name=0)
+club_create = pd.read_excel('outputs/NUTRITION/club_creation.xlsx', sheet_name=0)
+```
+```{python, echo=FALSE}
+#| label: dummy_data1
+bounds = get_bounds_dashboard(date.today())
+
+# Semaine précédente
+week_start = bounds.query("period == 'previous_week' and bound == 'start'")["date"].iloc[0]
+week_end   = bounds.query("period == 'previous_week' and bound == 'end'")["date"].iloc[0]
+
+# df_week  = df[(df.date >= week_start) & (df.date <= week_end)]
+
+# Mois précédent
+month_start = bounds.query("period == 'previous_month' and bound == 'start'")["date"].iloc[0]
+month_end   = bounds.query("period == 'previous_month' and bound == 'end'")["date"].iloc[0]
+
+#df_month = df[(df.date >= month_start) & (df.date <= month_end)]
+
+# 3 derniers mois complets
+q_start = bounds.query("period == 'last_3_months' and bound == 'start'")["date"].iloc[0]
+q_end   = bounds.query("period == 'last_3_months' and bound == 'end'")["date"].iloc[0]
+
+#df_last3 = df[(df.date >= q_start) & (df.date <= q_end)]
+
+```
+
+```{python, echo=FALSE}
+#| label: dummy_data2
+current_bounds = get_current_bounds(date.today())
+
+# Semaine précédente
+current_week_start = current_bounds.query("period == 'current_week' and bound == 'start'")["date"].iloc[0]
+current_week_end   = current_bounds.query("period == 'current_week' and bound == 'end'")["date"].iloc[0]
+
+# df_week  = df[(df.date >= week_start) & (df.date <= week_end)]
+
+# Mois précédent
+current_month_start = current_bounds.query("period == 'current_month' and bound == 'start'")["date"].iloc[0]
+current_month_end   = current_bounds.query("period == 'current_month' and bound == 'end'")["date"].iloc[0]
+
+```
+
+```{python, echo=FALSE}
+#epistage=base_nutrition.copy()
+#date_enrollement
+depistage['date_de_depistage'] = pd.to_datetime(depistage['date_de_depistage'], errors='coerce')
+depistage['manutrition_type'] = depistage['manutrition_type'].fillna("Normal")
+enroled['date_enrollement'] = pd.to_datetime(enroled['date_enrollement'], errors='coerce')
+enroled['household_collection_date'] = pd.to_datetime(enroled['household_collection_date'], errors='coerce')
+enroled['household_number'] = pd.to_numeric(enroled['household_number'], errors='coerce')
+clubs_a_exclure = ['Club Test', 'TEST ATELIER CARIS', 'Test Cap']
+#club_nutrition = club_nutrition[~club_nutrition['club_name'].isin(clubs_a_exclure)]
+```
+
+# Tableau de bord nutrition
+## Suivi des Indicateurs Clés
+
+::: {.panel-tabset}
+
+### Semaine écoulée
+
+#### Nombre de dépistage par jour pour la semaine écoulée {#depistage-semaine}
+```{python, echo=FALSE}
+df_week  = depistage[(depistage.date_de_depistage >= week_start) & (depistage.date_de_depistage <= week_end)]
+if not df_week.empty :
+    plot_daily_data_weekly_ordered(
+        df=df_week,
+        date_column='date_de_depistage',
+        plot_title=f'Nombre de dépistage pour la semaine\n Total : {df_week.shape[0]}'
+    )
+else :
+    print("Pas de données disponibles")
+```
+
+#### Liste des dépistages pour la semaine {#liste-depistage-semaine}
+```{r, echo=FALSE}
+display_table(py$df_week, "Dépistages_semaine", "#000080")
+```
+
+#### Nombre de dépistages pour la semaine par bureau {#depistage-semaine-agent}
+```{python, echo=FALSE}
+if not df_week.empty :
+    plot_beneficiaries_by_categorie(
+        df=df_week,
+        lo_department='username',
+        set_title='Nombre de dépistages en nutrition par bureau',
+        set_xlabel='Dépistages',
+        set_ylabel='bureau'
+    )
+else :
+    print("Pas de données disponibles")
+```
+
+#### Nombre d'éligible pour la semaine par agent {#eligible-semaine-agent}
+```{python, echo=FALSE}
+df_week_eligible = depistage[(depistage.date_de_depistage >= week_start) & (depistage.date_de_depistage <= week_end) & (depistage['eligible']=='yes')]
+
+if not df_week_eligible.empty:
+    plot_beneficiaries_by_categorie(
+        df=df_week_eligible,
+        lo_department='username',
+        set_title='Nombre de beneficiaires éligibles en nutrition par agent',
+        set_xlabel='Beneficiaires',
+        set_ylabel='agent'
+    )
+else:
+    print("Pas de données disponibles")
+```
+
+#### Nombre d'éligible pour la semaine par agent {#eligible-semaine-type}
+```{python, echo=FALSE}
+if not df_week_eligible.empty:
+    plot_beneficiaries_stacked_eligible_matplotlib(
+            df=df_week_eligible,
+            group_col = "username",
+            eligible_col = "manutrition_type",
+            set_title = "Répartition des éligibles par type de malnutrition",
+            set_xlabel = "Nombre d'éligibles",
+            set_ylabel = "Type de malnutrition",
+            horizontal = True,
+            table = "no",           # "no" => permet d'afficher le graphique
+            percent = False,       # True → tableau et graph en %
+            display = "both"        # "plot" | "table" | "both"
+        )
+else:
+    print("Pas de données disponibles")
+```
+
+
+#### Nombre d'enrolés pour la semaine par agent
+```{python, echo=FALSE}
+enroled_week  = enroled[(enroled.date_enrollement >= week_start) & (enroled.date_enrollement <= week_end)]
+if not df_week.empty :
+    plot_beneficiaries_by_categorie(
+        df=enroled_week,
+        lo_department='username',
+        set_title='Nombre de beneficiaires en nutrition par agent',
+        set_xlabel='Beneficiaires',
+        set_ylabel='agent'
+    )
+else :
+    print("Pas de données disponibles")
+```
+
+#### liste des enfants enrolés pour la semaine {#liste-enroled-semaine}
+```{r, echo=FALSE}
+display_table(py$enroled_week, "Enfants_enrolés", "#000080")
+```
+
+
+#### Nombre d'enfants à exeater par agent {#child-to-exit-semaine}
+```{python, echo=FALSE}
+child_to_exit = enroled.loc[enroled['child_to_be_exited']=='yes']
+child_to_exit_week = child_to_exit[(child_to_exit.last_visit_date >= week_start) & (child_to_exit.last_visit_date <= week_end)]
+if not child_to_exit_week.empty and 'username' in child_to_exit_week.columns:
+    plot_beneficiaries_by_categorie(
+        df=child_to_exit_week,
+        lo_department='username',
+        set_title='Nombre d\'enfants à exeater par agent',
+        set_xlabel='Nombre d\'enfants',
+        set_ylabel='Agent'
+    )
+else:
+    print("Pas de données disponibles")
+```
+
+#### Liste des enfants à exeater pour la semaine {#liste-child-to-exit-semaine}
+```{r, echo=FALSE}
+display_table(py$child_to_exit_week, "Enfants_a_exeater", "#000080")
+```
+
+#### Nombre d'enfants exéatés pour la semaine par agent {#exeat-semaine-agent}
+```{python, echo=FALSE}
+exeat_week = enroled_week.loc[enroled_week['sortie']=='yes']
+#exeat_week = exeat[(exeat.last_visit_date >= week_start) & (exeat.last_visit_date <= week_end)]
+if not exeat_week.empty and 'username' in exeat_week.columns:
+    plot_beneficiaries_by_categorie(
+        df=exeat_week,
+        lo_department='username',
+        set_title='Nombre d\'enfants exéatés par agent',
+        set_xlabel='Enfants exéatés',
+        set_ylabel='Agent'
+    )
+else:
+    print("Pas de données disponibles")
+```
+
+#### Liste des enfants exéatés pour la semaine {#liste-exeat-semaine}
+```{r, echo=FALSE}
+display_table(py$exeat_week, "Enfants_exeatés", "#000080")
+```
+
+#### Nombre d'enfants en club Nutrition pour la semaine par agent {#club-nutrition-semaine-agent}
+
+:::{.card}
+:::{.card-header}
+📊 **Clubs de Nutrition - Analyse Hebdomadaire**
+:::
+
+:::{.card-body}
+```{python, echo=FALSE}
+club_week = club_nutrition[(club_nutrition.last_session_date >= week_start) & (club_nutrition.last_session_date <= week_end)]
+
+nombre_clubs_uniques = club_week['club_id'].nunique()
+nombre_children_en_club = club_week['caseid'].nunique()
+#nombre_children_en_club_week = club_week['caseid'].nunique()
+
+# Calcul du nombre d'enfants uniques par club (caseid) en gardant les colonnes demandées
+if not club_week.empty:
+    children_uniques_par_club = club_week.groupby(['club_id', 'member_type', 'first_session_date', 'last_session_date', 'data_clerk']).agg(nombre_enfants_uniques=('caseid', 'nunique'))
+else :
+    print("Pas de données disponibles")
+
+# Charger le fichier club_creation.xlsx comme club_create
+#club_create = pd.read_excel('outputs/NUTRITION/club_creation.xlsx')
+# Renommer la colonne 'caseid' en 'club_id' dans club_create
+if 'caseid' in club_create.columns:
+    club_create = club_create.rename(columns={'caseid': 'club_id', 'departement': 'departement_club', 'commune': 'commune_club', 'office': 'office_club', 'name': 'name_club'})
+# Fusionner avec le DataFrame children_uniques_par_club
+# Retirer les clubs de test
+clubs_a_exclure = ['Club Test', 'TEST ATELIER CARIS', 'Test Cap']
+children_by_club = children_uniques_par_club.reset_index().merge(club_create[['club_id','name_club','office_club','creation_date','departement_club','commune_club']], on='club_id', how='left')
+children_by_club = children_by_club[~children_by_club['name_club'].isin(clubs_a_exclure)]
+#children_by_club.to_excel('outputs/NUTRITION/children_by_club.xlsx', index=False)
+#children_by_club = children_by_club.rename(columns={'caseid': 'number_of_children'})
+#print("Nombre d'enfants uniques par club (caseid) :")
+#print(children_uniques_par_club)
+nombre_children_en_club_week = children_by_club['nombre_enfants_uniques'].sum()
+if not children_by_club.empty:
+    plot_beneficiaries_stacked_eligible_matplotlib(
+        df=children_by_club,
+        plot_col = "nombre_enfants_uniques",
+        sum_logic = 1,
+        group_col = "office_club" if "office_club" in children_by_club.columns else "data_clerk",
+        eligible_col = "member_type",
+        set_title = "Répartition des enfants en club par malnutris vs voisins",
+        set_xlabel = "Nombre d'enfants en club",
+        set_ylabel = "Type de membre",
+        horizontal = True,
+        table = "no",           # "no" => permet d'afficher le graphique
+        percent = False,       # True → tableau et graph en %
+        display = "both"        # "plot" | "table" | "both"
+    )
+else:
+    print("Pas de données disponibles")
+```
+:::
+
+:::{.card-footer .text-muted}
+*Données pour la période : semaine précédente*
+:::
+
+:::{.card}
+:::{.card-header}
+📝 **Note sur le nombre d'enfants en club**
+:::
+:::{.card-body}
+Le nombre d'enfants en club correspond au nombre d'enfants uniques inscrits dans chaque club pour la période analysée. Ce calcul exclut les clubs de test et regroupe les enfants par club, type de membre, date de première et dernière session, et agent responsable. Cela permet d'obtenir une vision précise de la fréquentation réelle des clubs actifs.
+
+```{python, echo=FALSE}
+if 'nombre_children_en_club_week' in globals() and nombre_children_en_club_week > 0:
+    print(f"{nombre_children_en_club_week} enfants ont participé aux clubs de nutrition cette semaine écoulée\nEt {nombre_clubs_uniques} clubs étaient actifs.")
+```
+:::
+:::
+:::
+
+#### Liste des enfants inscrits en club pour la semaine {#liste-children-by-club-semaine}
+```{r, echo=FALSE}
+display_table(py$children_by_club, "Enfants_en_club_semaine", "#000080")
+```
+
+#### Nombre d'enfants en attente pour la semaine par agent {#attente-semaine-agent}
+```{python, echo=FALSE}
+attente_week = attente[(attente.date_de_depistage >= week_start) & (attente.date_de_depistage <= week_end)]
+if not attente_week.empty:
+    plot_beneficiaries_stacked_eligible_matplotlib(
+        df=attente_week,
+        group_col = "office" if "office" in attente_week.columns else "departement",
+        eligible_col = "manutrition_type",
+        set_title = "Répartition des enfants en en attente par type de malnutrition",
+        set_xlabel = "Nombre d'enfants en attente",
+        set_ylabel = "Type de malnutrition",
+        horizontal = True,
+        table = "no",           # "no" => permet d'afficher le graphique
+        percent = False,       # True → tableau et graph en %
+        display = "both"        # "plot" | "table" | "both"
+    )
+else:
+    print("Pas de données disponibles")
+```
+
+#### Liste des enfants en attente pour la semaine {#liste-attente-semaine-ecoulee}
+```{r, echo=FALSE}
+display_table(py$attente_week, "Enfants_en_attente_semaine", "#000080")
+```
+
+#### Récapitulatif de la semaine écoulée {#recapitulatif-semaine-ecoulee}
+
+:::{.card}
+:::{.card-header}
+📈 **Tableau de bord - Semaine Écoulée**
+:::
+
+:::{.card-body}
+```{python, echo=FALSE}
+# Préparation des métriques clés pour un affichage moderne
+import pandas as pd
+from IPython.display import HTML, display
+
+# === CALCUL DES MÉTRIQUES CLÉS ===
+metrics = {
+    'depistages': df_week.shape[0] if not df_week.empty else 0,
+    'eligibles': df_week_eligible.shape[0] if not df_week_eligible.empty else 0,
+    'enrolled': enroled_week.shape[0] if not enroled_week.empty else 0,
+    'exeat': exeat_week.shape[0] if 'exeat_week' in globals() and not exeat_week.empty else 0,
+    'attente': attente_week.shape[0] if not attente_week.empty else 0,
+    'clubs': nombre_children_en_club_week if 'nombre_children_en_club_week' in globals() and nombre_children_en_club_week > 0 else 0
+}
+
+# Création du DataFrame récapitulatif simple
+summary_data = []
+
+if metrics['depistages'] > 0:
+    summary_data.append({
+        'Indicateur': 'Dépistages réalisés',
+        'Nombre': metrics['depistages'],
+        'Période': 'Semaine précédente'
+    })
+
+if metrics['eligibles'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants éligibles',
+        'Nombre': metrics['eligibles'],
+        'Période': 'Semaine précédente'
+    })
+
+if metrics['enrolled'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants enrôlés',
+        'Nombre': metrics['enrolled'],
+        'Période': 'Semaine précédente'
+    })
+
+if metrics['exeat'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants sortis (exeat)',
+        'Nombre': metrics['exeat'],
+        'Période': 'Semaine précédente'
+    })
+
+if metrics['attente'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants en attente',
+        'Nombre': metrics['attente'],
+        'Période': 'Semaine précédente'
+    })
+
+if metrics['clubs'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants en club',
+        'Nombre': metrics['clubs'],
+        'Période': 'Semaine précédente'
+    })
+
+# Affichage simple du DataFrame
+if summary_data:
+    summary_df = pd.DataFrame(summary_data)
+    # Méthodes d'affichage du DataFrame :
+    
+    # Option 1 : Affichage simple avec print (texte brut)
+    print("=== Récapitulatif de la semaine ===")
+    #print(summary_df.to_string(index=False))
+    
+    # Option 2 : Affichage formaté en HTML (plus joli)
+    from IPython.display import display
+    summary_df.style.background_gradient()
+    
+    # Option 3 : Retourner le DataFrame pour affichage automatique
+    #summary_df
+else:
+    print("Aucune donnée disponible")
+```
+:::
+:::
+
+### Semaine courante
+
+#### Nombre de dépistage par jour pour la semaine courante {#depistage-semaine-courante}
+```{python, echo=FALSE}
+df_current_week  = depistage[(depistage.date_de_depistage >= current_week_start) & (depistage.date_de_depistage <= current_week_end)]
+if not df_current_week.empty :
+    plot_daily_data_weekly_ordered(
+        df=df_current_week,
+        date_column='date_de_depistage',
+        plot_title=f'Nombre de dépistage pour la semaine courante\n Total : {df_current_week.shape[0]}'
+    )
+else :
+    print("Pas de données disponibles")
+```
+
+#### Liste des dépistages pour la semaine courante {#liste-depistage-semaine-courante}
+```{r, echo=FALSE}
+display_table(py$df_current_week, "Dépistages_semaine", "#000080")
+```
+
+#### Nombre de dépistages pour la semaine courante par  {#depistage-semaine-courante-agent}
+```{python, echo=FALSE}
+if not df_current_week.empty :
+    plot_beneficiaries_by_categorie(
+        df=df_current_week,
+        lo_department='username',
+        set_title='Nombre de dépistages en nutrition par agent',
+        set_xlabel='Beneficiaires',
+        set_ylabel='agent'
+    )
+else :
+    print("Pas de données disponibles")
+```
+
+#### Nombre d'éligible pour la semaine courante par agent {#eligible-semaine-courante-agent}
+```{python, echo=FALSE}
+df_current_week_eligible = depistage[(depistage.date_de_depistage >= current_week_start) & (depistage.date_de_depistage <= current_week_end) & (depistage['eligible']=='yes')]
+
+if not df_current_week_eligible.empty:
+    plot_beneficiaries_by_categorie(
+        df=df_current_week_eligible,
+        lo_department='username',
+        set_title='Nombre de beneficiaires éligibles en nutrition par agent',
+        set_xlabel='Beneficiaires',
+        set_ylabel='agent'
+    )
+else:
+    print("Pas de données disponibles")
+```
+
+#### Nombre d'éligible pour la semaine courante par agent {#eligible-semaine-courante-type}
+```{python, echo=FALSE}
+if not df_current_week_eligible.empty:
+    plot_beneficiaries_stacked_eligible_matplotlib(
+            df=df_current_week_eligible,
+            group_col = "username",
+            eligible_col = "manutrition_type",
+            set_title = "Répartition des éligibles par type de malnutrition",
+            set_xlabel = "Nombre d'éligibles",
+            set_ylabel = "Type de malnutrition",
+            horizontal = True,
+            table = "no",           # "no" => permet d'afficher le graphique
+            percent = False,       # True → tableau et graph en %
+            display = "both"        # "plot" | "table" | "both"
+        )
+else:
+    print("Pas de données disponibles")
+```
+
+
+#### Nombre d'enrolés pour la semaine courante par agent {#enroled-semaine-courante-agent}
+```{python, echo=FALSE}
+enroled_current_week  = enroled[(enroled.date_enrollement >= current_week_start) & (enroled.date_enrollement <= current_week_end)]
+if not enroled_current_week.empty :
+    plot_beneficiaries_by_categorie(
+        df=enroled_current_week,
+        lo_department='username',
+        set_title='Nombre d\'enrolés en nutrition par agent',
+        set_xlabel='Beneficiaires',
+        set_ylabel='agent'
+    )
+else :
+    print("Pas de données disponibles")
+```
+
+#### liste des enfants enrolés pour la semaine courante {#liste-enroled-semaine-courante}
+```{r, echo=FALSE}
+display_table(py$enroled_current_week, "Enfants_enrolés", "#000080")
+```
+
+
+#### Nombre d'enfants à exeater par agent {#child-to-exit-semaine-courante}
+```{python, echo=FALSE}
+child_to_exit_current_week = child_to_exit[(child_to_exit.last_visit_date >= current_week_start) & (child_to_exit.last_visit_date <= current_week_end)]
+if not child_to_exit_current_week.empty and 'username' in child_to_exit_current_week.columns:
+    plot_beneficiaries_by_categorie(
+        df=child_to_exit_current_week,
+        lo_department='username',
+        set_title='Nombre d\'enfants à exeater par agent',
+        set_xlabel='Nombre d\'enfants',
+        set_ylabel='Agent'
+    )
+else:
+    print("Pas de données de sortie par agent")
+```
+
+#### Liste des enfants à exeater pour la semaine courante {#liste-child-to-exit-semaine-courante}
+```{r, echo=FALSE}
+display_table(py$child_to_exit_current_week, "Enfants_a_exeater", "#000080")
+```
+
+#### Nombre d'enfants exéatés pour la semaine courante par agent {#exeat-semaine-courante-agent}
+```{python, echo=FALSE}
+exeat_current_week = enroled_current_week.loc[enroled_current_week['sortie']=='yes']
+#exeat_current_week = exeat[(exeat.last_visit_date >= current_week_start) & (exeat.last_visit_date <= current_week_end)]
+if not exeat_current_week.empty and 'username' in exeat_current_week.columns:
+    plot_beneficiaries_by_categorie(
+        df=exeat_current_week,
+        lo_department='username',
+        set_title='Nombre d\'enfants exéatés par agent',
+        set_xlabel='Enfants exéatés',
+        set_ylabel='Agent'
+    )
+else:
+    print("Pas de données disponibles")
+```
+
+#### Liste des enfants exéatés pour la semaine courante {#liste-exeat-semaine-courante}
+```{r, echo=FALSE}
+display_table(py$exeat_current_week, "Enfants_exeatés", "#000080")
+```
+
+#### Nombre d'enfants en club Nutrition pour la semaine courante par agent {#club-nutrition-semaine-courante}
+
+:::{.card}
+:::{.card-header}
+📊 **Clubs de Nutrition - Analyse Hebdomadaire**
+:::
+
+:::{.card-body}
+```{python, echo=FALSE}
+# 1. Filtrage initial
+club_current_week = club_nutrition[(club_nutrition.last_session_date >= current_week_start) & 
+                                   (club_nutrition.last_session_date <= current_week_end)]
+
+# 2. Vérification si les données filtrées existent
+if not club_current_week.empty:
+    # Agrégation
+    children_club_current = club_current_week.groupby(
+        ['club_id', 'member_type', 'first_session_date', 'last_session_date', 'data_clerk']
+    ).agg(nombre_enfants_uniques=('caseid', 'nunique')).reset_index()
+    
+    # Préparation de club_create (Renommage si nécessaire)
+    if 'caseid' in club_create.columns:
+        club_create = club_create.rename(columns={
+            'caseid': 'club_id', 
+            'departement': 'departement_club', 
+            'commune': 'commune_club', 
+            'office': 'office_club', 
+            'name': 'name_club'
+        })
+
+    # Fusion et exclusion des clubs de test
+    clubs_a_exclure = ['Club Test', 'TEST ATELIER CARIS', 'Test Cap']
+    children_by_current_club = children_club_current.merge(
+        club_create[['club_id','name_club','office_club','creation_date','departement_club','commune_club']], 
+        on='club_id', 
+        how='left'
+    )
+    children_by_current_club = children_by_current_club[~children_by_current_club['name_club'].isin(clubs_a_exclure)]
+
+    # --- LE POINT DE CONTRÔLE CRITIQUE ---
+    # On ne lance le plot que si le dataframe final après fusion et exclusion n'est pas vide
+    nombre_children_en_club_current = children_by_current_club['nombre_enfants_uniques'].sum()
+    if not children_by_current_club.empty:
+        plot_beneficiaries_stacked_eligible_matplotlib(
+            df=children_by_current_club,
+            plot_col = "nombre_enfants_uniques",
+            sum_logic = 1,
+            group_col = "office_club" if "office_club" in children_by_current_club.columns else "data_clerk",
+            eligible_col = "member_type",
+            set_title = "Répartition des enfants en club par malnutris vs voisins (Semaine Courante)",
+            set_xlabel = "Nombre d'enfants en club",
+            set_ylabel = "Type de membre",
+            horizontal = True,
+            table = "no",
+            percent = False,
+            display = "both"
+        )
+    else:
+        print("Pas de données disponibles après filtrage des clubs.")
+        children_by_current_club = pd.DataFrame() # Évite les erreurs dans les blocs suivants
+else:
+    print("Aucune session enregistrée pour la semaine courante.")
+    children_by_current_club = pd.DataFrame()
+```
+:::
+
+:::{.card-footer .text-muted}
+*Données pour la période : semaine précédente*
+:::
+
+:::{.card}
+:::{.card-header}
+📝 **Note sur le nombre d'enfants en club**
+:::
+:::{.card-body}
+Le nombre d'enfants en club correspond au nombre d'enfants uniques inscrits dans chaque club pour la période analysée. Ce calcul exclut les clubs de test et regroupe les enfants par club, type de membre, date de première et dernière session, et agent responsable. Cela permet d'obtenir une vision précise de la fréquentation réelle des clubs actifs.
+
+```{python, echo=FALSE}
+if 'nombre_children_en_club_current' in globals() and nombre_children_en_club_current > 0:
+    print(f"{nombre_children_en_club_current} ont participé aux clubs de nutrition la semaine courante\nEt {nombre_clubs_current} clubs étaient actifs.")
+```
+:::
+:::
+:::
+
+#### Liste des enfants inscrits en club pour la semaine courante {#liste-children-by-club-semaine-courante}
+```{r, echo=FALSE}
+display_table(py$children_by_current_club, "Enfants_en_club_semaine_courante", "#000080")
+```
+
+#### Nombre d'enfants en attente pour la semaine écoulée par agent {#attente-semaine-courante}
+```{python, echo=FALSE}
+attente_current_week = attente[(attente.date_de_depistage >= current_week_start) & (attente.date_de_depistage <= current_week_end)]
+if not attente_current_week.empty:
+    plot_beneficiaries_stacked_eligible_matplotlib(
+        df=attente_current_week,
+        group_col = "office" if "office" in attente_current_week.columns else "departement",
+        eligible_col = "manutrition_type",
+        set_title = "Répartition des enfants en en attente par type de malnutrition",
+        set_xlabel = "Nombre d'enfants en attente",
+        set_ylabel = "Type de malnutrition",
+        horizontal = True,
+        table = "no",           # "no" => permet d'afficher le graphique
+        percent = False,       # True → tableau et graph en %
+        display = "both"        # "plot" | "table" | "both"
+    )
+else:
+    print("Pas de données disponibles")
+```
+
+#### Liste des enfants en attente pour la semaine écoulée {#liste-attente-semaine-courante}
+```{r, echo=FALSE}
+display_table(py$attente_current_week, "Enfants_en_attente", "#000080")
+```
+
+#### Récapitulatif de la semaine écoulée {#recapitulatif-courante}
+
+:::{.card}
+:::{.card-header}
+📈 **Tableau de bord - Semaine Écoulée**
+:::
+
+:::{.card-body}
+```{python, echo=FALSE}
+# Préparation des métriques clés pour un affichage moderne
+import pandas as pd
+from IPython.display import HTML, display
+
+# === CALCUL DES MÉTRIQUES CLÉS ===
+metrics = {
+    'depistages': df_current_week.shape[0] if not df_current_week.empty else 0,
+    'eligibles': df_current_week_eligible.shape[0] if not df_current_week_eligible.empty else 0,
+    'enrolled': enroled_current_week.shape[0] if not enroled_current_week.empty else 0,
+    'exeat': exeat_current_week.shape[0] if 'exeat_current_week' in globals() and not exeat_current_week.empty else 0,
+    'attente': attente_current_week.shape[0] if not attente_current_week.empty else 0,
+    'clubs': nombre_children_en_club_current if 'nombre_children_en_club_current' in globals() and nombre_children_en_club_current > 0 else 0
+}
+
+# Création du DataFrame récapitulatif simple
+summary_data = []
+
+if metrics['depistages'] > 0:
+    summary_data.append({
+        'Indicateur': 'Dépistages réalisés',
+        'Nombre': metrics['depistages'],
+        'Période': 'Semaine écoulée'
+    })
+
+if metrics['eligibles'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants éligibles',
+        'Nombre': metrics['eligibles'],
+        'Période': 'Semaine écoulée'
+    })
+
+if metrics['enrolled'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants enrôlés',
+        'Nombre': metrics['enrolled'],
+        'Période': 'Semaine écoulée'
+    })
+
+if metrics['exeat'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants sortis (exeat)',
+        'Nombre': metrics['exeat'],
+        'Période': 'Semaine écoulée'
+    })
+
+if metrics['attente'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants en attente',
+        'Nombre': metrics['attente'],
+        'Période': 'Semaine écoulée'
+    })
+
+if metrics['clubs'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants en club',
+        'Nombre': metrics['clubs'],
+        'Période': 'Semaine écoulée'
+    })
+
+# Affichage simple du DataFrame
+if summary_data:
+    summary_df = pd.DataFrame(summary_data)
+    # Méthodes d'affichage du DataFrame :
+    
+    # Option 1 : Affichage simple avec print (texte brut)
+    print("=== Récapitulatif de la semaine écoulée ===")
+    #print(summary_df.to_string(index=False))
+    
+    # Option 2 : Affichage formaté en HTML (plus joli)
+    from IPython.display import display
+    summary_df.style.background_gradient()
+    
+    # Option 3 : Retourner le DataFrame pour affichage automatique
+    #summary_df
+else:
+    print("Aucune donnée disponible")
+```
+:::
+:::
+
+### Mois précédent
+
+#### Nombre de dépistages par jour pour le mois précédent {#depistage-mois}
+```{python, echo=FALSE}
+df_month = depistage[(depistage.date_de_depistage >= month_start) & (depistage.date_de_depistage <= month_end)]
+if not df_month.empty:
+    plot_time_data(
+        df=df_month,
+        date_column='date_de_depistage',
+        plot_title=f'Nombre de dépistages pour le mois précédent\n Total : {df_month.shape[0]}',
+        period='S'
+    )
+else:
+    print("Pas de données disponibles")
+```
+
+#### Nombre de dépistage par jour pour le mois précédent {#depistage-daily-month}
+```{python, echo=FALSE}
+if not df_month.empty:
+    plot_daily_data_weekly_ordered(
+        df=df_month,
+        date_column='date_de_depistage',
+        plot_title=f'Nombre de dépistage pour le mois\n Total : {df_month.shape[0]}'
+    )
+else :
+    print("Pas de données disponibles")
+```
+
+#### Liste des dépistages pour le mois précédent {#liste-depistage-mois}
+```{r, echo=FALSE}
+display_table(py$df_month, "Dépistages_mois", "#800000")
+```
+
+#### Nombre de dépistages par bureau pour le mois précédent  {#depistage-mois-agent}
+```{python, echo=FALSE}
+if not df_month.empty :
+    plot_beneficiaries_by_categorie(
+        df=df_month,
+        lo_department='office' if 'office' in df_month.columns else 'username',
+        set_title='Nombre de dépistages en nutrition par bureau',
+        set_xlabel='Dépistages',
+        set_ylabel='bureau'
+    )
+else :
+    print("Pas de données disponibles")
+```
+
+#### Nombre d'éligible pour la semaine par agent {#eligible-month-office}
+```{python, echo=FALSE}
+df_month_eligible = depistage[(depistage.date_de_depistage >= month_start) & (depistage.date_de_depistage <= month_end) & (depistage['eligible']=='yes')]
+
+if not df_month_eligible.empty:
+    plot_beneficiaries_by_categorie(
+        df=df_month_eligible,
+        lo_department='office' if 'office' in df_month_eligible.columns else 'username',
+        set_title='Nombre de beneficiaires éligibles en nutrition par office',
+        set_xlabel='Beneficiaires',
+        set_ylabel='office'
+    )
+else:
+    print("Pas de données disponibles")
+```
+
+#### Nombre d'éligible pour le mois précédent par agent {#eligib-month-type}
+```{python, echo=FALSE}
+if not df_month_eligible.empty:
+    plot_beneficiaries_stacked_eligible_matplotlib(
+            df=df_month_eligible,
+            group_col = "office" if "office" in df_month_eligible.columns else "username",
+            eligible_col = "manutrition_type",
+            set_title = "Répartition des éligibles par type de malnutrition",
+            set_xlabel = "Nombre d'éligibles",
+            set_ylabel = "Type de malnutrition",
+            horizontal = True,
+            table = "no",           # "no" => permet d'afficher le graphique
+            percent = False,       # True → tableau et graph en %
+            display = "both"        # "plot" | "table" | "both"
+        )
+else:
+    print("Pas de données disponibles")
+```
+
+
+#### Nombre d'enrolés pour le mois précédent par agent {#enroled-mois-agent}
+```{python, echo=FALSE}
+enroled_month  = enroled[(enroled.date_enrollement >= month_start) & (enroled.date_enrollement <= month_end)]
+if not enroled_month.empty :
+    plot_beneficiaries_by_categorie(
+        df=enroled_month,
+        lo_department='office' if 'office' in enroled_month.columns else 'username',
+        set_title='Nombre d\'enrolés en nutrition par agent',
+        set_xlabel='Enrolés',
+        set_ylabel='agent'
+    )
+else :
+    print("Pas de données disponibles")
+```
+
+#### liste des enfants enrolés pour le mois précédent {#liste-enroled-month}
+```{r, echo=FALSE}
+display_table(py$enroled_month, "Enfants_enrolés_mois", "#000080")
+```
+
+
+#### Nombre d'enfants à exeater par bureau {#child-to-exit-month}
+```{python, echo=FALSE}
+child_to_exit_month = child_to_exit[(child_to_exit.last_visit_date >= month_start) & (child_to_exit.last_visit_date <= month_end)]
+if not child_to_exit_month.empty and 'username' in child_to_exit_month.columns:
+    plot_beneficiaries_by_categorie(
+        df=child_to_exit_month,
+        lo_department='office' if 'office' in child_to_exit_month.columns else 'username',
+        set_title='Nombre d\'enfants à exeater par bureau',
+        set_xlabel='Nombre d\'enfants',
+        set_ylabel='Bureau'
+    )
+else:
+    print("Pas de données disponibles")
+```
+
+#### Liste des enfants à exeater pour le mois précédent {#liste-child-to-exit-month}
+```{r, echo=FALSE}
+display_table(py$child_to_exit_month, "Enfants_à_exeater_mois", "#800000")
+```
+
+#### Nombre d'enfants exéatés pour le mois précédent par agent {#exeat-month-agent}
+```{python, echo=FALSE}
+exeat_month = enroled_month.loc[enroled_month['sortie']=='yes']
+#exeat_month = exeat[(exeat.last_visit_date >= month_start) & (exeat.last_visit_date <= month_end)]
+if not exeat_month.empty and 'office' in exeat_month.columns:
+    plot_beneficiaries_by_categorie(
+        df=exeat_month,
+        lo_department='office' if 'office' in exeat_month.columns else 'username',
+        set_title='Nombre d\'enfants exéatés par office',
+        set_xlabel='Enfants exéatés',
+        set_ylabel='Office'
+    )
+else:
+    print("Pas de données de sortie par office")
+```
+
+#### Liste des enfants exéatés pour le mois précédent {#liste-exeat-mois}
+```{r, echo=FALSE}
+display_table(py$exeat_month, "Enfants_exéatés_mois", "#000080")
+```
+
+#### Nombre d'enfants en club Nutrition pour le mois précédent par agent {#club-nutrition-mois-agent}
+
+:::{.card}
+:::{.card-header}
+📊 **Clubs de Nutrition - Analyse Mensuelle**
+:::
+
+:::{.card-body}
+```{python, echo=FALSE}
+club_month = club_nutrition[(club_nutrition.last_session_date >= month_start) & (club_nutrition.last_session_date <= month_end)]
+
+nombre_clubs_month = club_month['club_id'].nunique()
+nombre_children_en_club = club_month['caseid'].nunique()
+nombre_children_en_club_month = club_month['caseid'].nunique()
+# Calcul du nombre d'enfants uniques par club (caseid) en gardant les colonnes demandées
+if not club_month.empty:
+    children_uniques_par_club = club_month.groupby(['club_id', 'member_type', 'first_session_date', 'last_session_date', 'data_clerk']).agg(nombre_enfants_uniques=('caseid', 'nunique'))
+else :
+    print("Pas de données disponibles")
+
+# Charger le fichier club_creation.xlsx comme club_create
+#club_create = pd.read_excel('outputs/NUTRITION/club_creation.xlsx')
+# Renommer la colonne 'caseid' en 'club_id' dans club_create
+if 'caseid' in club_create.columns:
+    club_create = club_create.rename(columns={'caseid': 'club_id', 'departement': 'departement_club', 'commune': 'commune_club', 'office': 'office_club', 'name': 'name_club'})
+# Fusionner avec le DataFrame children_uniques_par_club
+# Retirer les clubs de test
+clubs_a_exclure = ['Club Test', 'TEST ATELIER CARIS', 'Test Cap']
+children_by_month_club = children_uniques_par_club.reset_index().merge(club_create[['club_id','name_club','office_club','creation_date','departement_club','commune_club']], on='club_id', how='left')
+children_by_month_club = children_by_month_club[~children_by_month_club['name_club'].isin(clubs_a_exclure)]
+#children_by_month_club.to_excel('outputs/NUTRITION/children_by_club.xlsx', index=False)
+#children_by_club = children_by_club.rename(columns={'caseid': 'number_of_children'})
+#print("Nombre d'enfants uniques par club (caseid) :")
+#print(children_uniques_par_club)
+nombre_children_en_club_month = children_by_month_club['nombre_enfants_uniques'].sum()
+if not children_by_month_club.empty:
+    plot_beneficiaries_stacked_eligible_matplotlib(
+        df=children_by_month_club,
+        plot_col = "nombre_enfants_uniques",
+        sum_logic = 1,
+        group_col = "office_club" if "office_club" in children_by_month_club.columns else "data_clerk",
+        eligible_col = "member_type",
+        set_title = "Répartition des enfants en club par malnutris vs voisins",
+        set_xlabel = "Nombre d'enfants en club",
+        set_ylabel = "Type de membre",
+        horizontal = True,
+        table = "no",           # "no" => permet d'afficher le graphique
+        percent = False,       # True → tableau et graph en %
+        display = "both"        # "plot" | "table" | "both"
+    )
+else:
+    print("Pas de données disponibles")
+```
+:::
+
+:::{.card-footer .text-muted}
+*Données pour la période : mois précédent*
+:::
+
+:::{.card}
+:::{.card-header}
+📝 **Note sur le nombre d'enfants en club**
+:::
+:::{.card-body}
+Le nombre d'enfants en club correspond au nombre d'enfants uniques inscrits dans chaque club pour la période analysée. Ce calcul exclut les clubs de test et regroupe les enfants par club, type de membre, date de première et dernière session, et agent responsable. Cela permet d'obtenir une vision précise de la fréquentation réelle des clubs actifs.
+
+```{python, echo=FALSE}
+if 'nombre_children_en_club_month' in globals() and nombre_children_en_club_month > 0:
+    print(f"{nombre_children_en_club_month} enfants ont participé aux clubs de nutrition le mois précédent.\nEt {nombre_clubs_month} clubs étaient actifs.")
+```
+:::
+:::
+:::
+
+#### Liste des enfants inscrits en club pour le mois précédent {#liste-children-by-club-mois}
+```{r, echo=FALSE}
+display_table(py$children_by_month_club, "Enfants_en_club_mois", "#800000")
+```
+
+#### Nombre d'enfants en attente pour le mois par agent {#attente-month-agent}
+```{python, echo=FALSE}
+attente_month = attente[(attente.date_de_depistage >= month_start) & (attente.date_de_depistage <= month_end)]
+if not attente_month.empty:
+    plot_beneficiaries_stacked_eligible_matplotlib(
+        df=attente_month,
+        group_col = "office" if "office" in attente_month.columns else "departement",
+        eligible_col = "manutrition_type",
+        set_title = "Répartition des enfants en en attente par type de malnutrition",
+        set_xlabel = "Nombre d'enfants en attente",
+        set_ylabel = "Type de malnutrition",
+        horizontal = True,
+        table = "no",           # "no" => permet d'afficher le graphique
+        percent = False,       # True → tableau et graph en %
+        display = "both"        # "plot" | "table" | "both"
+    )
+else:
+    print("Pas de données disponibles")
+```
+
+#### Liste des enfants en attente pour le mois précédent {#liste-attente-mois}
+```{r, echo=FALSE}
+display_table(py$attente_month, "Enfants_en_attente_mois", "#000080")
+```
+
+#### Récapitulatif du mois précédent {#recapitulatif-month}
+
+:::{.card}
+:::{.card-header}
+📈 **Tableau de bord - Mois Précédent**
+:::
+
+:::{.card-body}
+```{python, echo=FALSE}
+# Préparation des métriques clés pour un affichage moderne
+import pandas as pd
+from IPython.display import HTML, display
+
+# === CALCUL DES MÉTRIQUES CLÉS ===
+metrics = {
+    'depistages': df_month.shape[0] if not df_month.empty else 0,
+    'eligibles': df_month_eligible.shape[0] if not df_month_eligible.empty else 0,
+    'enrolled': enroled_month.shape[0] if not enroled_month.empty else 0,
+    'exeat': exeat_month.shape[0] if 'exeat_month' in globals() and not exeat_month.empty else 0,
+    'attente': attente_month.shape[0] if not attente_month.empty else 0,
+    'clubs': nombre_children_en_club_month if 'nombre_children_en_club_month' in globals() and nombre_children_en_club_month > 0 else 0
+}
+
+# Création du DataFrame récapitulatif simple
+summary_data = []
+
+if metrics['depistages'] > 0:
+    summary_data.append({
+        'Indicateur': 'Dépistages réalisés',
+        'Nombre': metrics['depistages'],
+        'Période': 'Mois précédent'
+    })
+
+if metrics['eligibles'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants éligibles',
+        'Nombre': metrics['eligibles'],
+        'Période': 'Mois précédent'
+    })
+
+if metrics['enrolled'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants enrôlés',
+        'Nombre': metrics['enrolled'],
+        'Période': 'Mois précédent'
+    })
+
+if metrics['exeat'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants sortis (exeat)',
+        'Nombre': metrics['exeat'],
+        'Période': 'Mois précédent'
+    })
+
+if metrics['attente'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants en attente',
+        'Nombre': metrics['attente'],
+        'Période': 'Mois précédent'
+    })
+
+if metrics['clubs'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants en club',
+        'Nombre': metrics['clubs'],
+        'Période': 'Mois précédent'
+    })
+
+# Affichage simple du DataFrame
+if summary_data:
+    summary_df = pd.DataFrame(summary_data)
+    # Méthodes d'affichage du DataFrame :
+    
+    # Option 1 : Affichage simple avec print (texte brut)
+    print("=== Récapitulatif du mois précédent ===")
+    #print(summary_df.to_string(index=False))
+    
+    # Option 2 : Affichage formaté en HTML (plus joli)
+    from IPython.display import display
+    summary_df.style.background_gradient()
+    
+    # Option 3 : Retourner le DataFrame pour affichage automatique
+    #summary_df
+else:
+    print("Pas de données disponibles")
+```
+:::
+:::
+
+### Statistiques Globales
+
+#### Nombre de dépistages {#depistage-global-jours}
+
+```{python, echo=FALSE}
+# calculez de depistage de 1 mai a aujourd'hui
+from datetime import datetime
+from IPython.display import Markdown, display
+
+start_date = datetime(2025, 5, 1)
+end_date = datetime.now()
+#end_date = datetime(2025, 12, 31)
+
+# Afficher la note avec les dates dynamiques
+
+depistage_filtered = depistage[(depistage['date_de_depistage'] >= start_date) & (depistage['date_de_depistage'] <= end_date)]
+
+if not depistage_filtered.empty:
+    plot_time_data(
+        df=depistage_filtered,
+        date_column='date_de_depistage',
+        plot_title=f'Nombre de dépistages\n Total : {depistage_filtered.shape[0]}',
+        period='M'
+    )
+else:
+    print("Pas de données disponibles")
+```
+
+#### Nombre de dépistage par jour pour la periode {#depistage-daily-global}
+```{python, echo=FALSE}
+if not depistage_filtered.empty:
+    plot_daily_data_weekly_ordered(
+        df=depistage_filtered,
+        date_column='date_de_depistage',
+        plot_title=f'Nombre de dépistage pour le mois\n Total : {depistage_filtered.shape[0]}'
+    )
+else :
+    print("Pas de données disponibles")
+```
+
+#### Liste des dépistages pour la période sélectionnée {#liste-depistage-periode}
+```{r, echo=FALSE}
+display_table(py$depistage_filtered, "Dépistages_periode", "#800000")
+```
+
+#### Nombre de dépistages par bureau pour la periode {#depistage-periode-agent}
+```{python, echo=FALSE}
+if not depistage_filtered.empty:
+    plot_beneficiaries_by_categorie(
+        df=depistage_filtered,
+        lo_department='office' if 'office' in depistage_filtered.columns else 'username',
+        set_title='Nombre de dépistages en nutrition par bureau',
+        set_xlabel='Dépistages',
+        set_ylabel='bureau'
+    )
+else:
+    print("Pas de données disponibles")
+```
+
+#### Nombre d'éligible pour la periode par agent {#eligible-global-office}
+```{python, echo=FALSE}
+df_global_eligible = depistage_filtered[depistage_filtered['eligible']=='yes']
+
+if not df_global_eligible.empty:
+    plot_beneficiaries_by_categorie(
+        df=df_global_eligible,
+        lo_department='office' if 'office' in df_global_eligible.columns else 'username',
+        set_title='Nombre de beneficiaires éligibles en nutrition par office',
+        set_xlabel='Beneficiaires',
+        set_ylabel='office'
+    )
+else:
+    print("Pas de données disponibles")
+```
+
+#### Nombre d'éligible pour la periode par agent {#eligib-global-type}
+```{python, echo=FALSE}
+if not df_global_eligible.empty:
+    plot_beneficiaries_stacked_eligible_matplotlib(
+            df=df_global_eligible,
+            group_col = "office" if "office" in df_global_eligible.columns else "username",
+            eligible_col = "manutrition_type",
+            set_title = "Répartition des éligibles par type de malnutrition",
+            set_xlabel = "Nombre d'éligibles",
+            set_ylabel = "Type de malnutrition",
+            horizontal = True,
+            table = "no",           # "no" => permet d'afficher le graphique
+            percent = False,       # True → tableau et graph en %
+            display = "both"        # "plot" | "table" | "both"
+        )
+else:
+    print("Pas de données disponibles")
+```
+
+#### Nombre d'enrolés pour la periode par bureau {#enroled-global-office}
+```{python, echo=FALSE}
+enroled_global  = enroled[(enroled.date_enrollement >= start_date) & (enroled.date_enrollement <= end_date)]
+if not enroled_global.empty :
+    plot_beneficiaries_by_categorie(
+        df=enroled_global,
+        lo_department='office' if 'office' in enroled_global.columns else 'username',
+        set_title='Nombre d\'enrolés en nutrition par agent',
+        set_xlabel='Enrolés',
+        set_ylabel='office'
+    )
+else :
+    print("Pas de données disponibles")
+```
+
+#### liste des enfants enrolés pour la periode {#liste-enroled-global}
+```{r, echo=FALSE}
+display_table(py$enroled_global, "Enfants_enrolés_global", "#000080")
+```
+
+
+#### Nombre d'enfants à exeater par bureau {#child-to-exit-global}
+```{python, echo=FALSE}
+child_to_exit_global = child_to_exit[(child_to_exit.last_visit_date >= start_date) & (child_to_exit.last_visit_date <= end_date)]
+if not child_to_exit_global.empty and 'username' in child_to_exit_global.columns:
+    plot_beneficiaries_by_categorie(
+        df=child_to_exit_global,
+        lo_department='office' if 'office' in child_to_exit_global.columns else 'username',
+        set_title='Nombre d\'enfants à exeater par bureau',
+        set_xlabel='Nombre d\'enfants',
+        set_ylabel='Bureau'
+    )
+else:
+    print("Pas de données disponibles")
+```
+
+#### Liste des enfants à exeater pour la période sélectionnée {#liste-child-to-exit-global}
+```{r, echo=FALSE}
+display_table(py$child_to_exit_global, "Enfants_à_exeater_global", "#800000")
+```
+
+#### Nombre d'enfants exéatés pour la période sélectionnée par bureau {#exeat-global-office}
+```{python, echo=FALSE}
+exeat_global = enroled_global.loc[enroled_global['sortie']=='yes']
+if not exeat_global.empty and 'office' in exeat_global.columns:
+    plot_beneficiaries_by_categorie(
+        df=exeat_global,
+        lo_department='office' if 'office' in exeat_global.columns else 'username',
+        set_title='Nombre d\'enfants exéatés par office',
+        set_xlabel='Enfants exéatés',
+        set_ylabel='Office'
+    )
+else:
+    print("Pas de données de sortie par office")
+```
+
+#### Liste des enfants exéatés pour la période sélectionnée {#liste-exeat-global}
+```{r, echo=FALSE}
+display_table(py$exeat_global, "Enfants_exéatés_global", "#000080")
+```
+#### Nombre d'enfants actifs pour la période sélectionnée  {#actif-global-agent}
+```{python, echo=FALSE}
+actif_global = enroled_global.loc[enroled_global['actif']=='yes']
+#exeat_current_week = exeat[(exeat.last_visit_date >= current_week_start) & (exeat.last_visit_date <= current_week_end)]
+if not actif_global.empty:
+    plot_beneficiaries_stacked_eligible_matplotlib(
+        df=actif_global,
+        group_col = "office" if "office" in actif_global.columns else "commune",
+        eligible_col = "manutrition_type",
+        set_title = "Répartition des actifs dans le programme par type de malnutrition",
+        set_xlabel = "Nombre d'enfants actifs",
+        set_ylabel = "Type de malnutrition",
+        horizontal = True,
+        table = "no",
+        percent = False,
+        display = "both"
+    )
+else:
+    print("Pas de données disponibles.")
+```
+
+#### Nombre d'enfants allaités pour la période sélectionnée  {#breasfeeding-global-agent}
+```{python, echo=FALSE}
+breasfeeding = enroled_global.loc[enroled_global['breastfeeding_received']=='oui']
+#exeat_current_week = exeat[(exeat.last_visit_date >= current_week_start) & (exeat.last_visit_date <= current_week_end)]
+if not breasfeeding.empty:
+    plot_beneficiaries_stacked_eligible_matplotlib(
+        df=breasfeeding,
+        group_col = "office" if "office" in breasfeeding.columns else "commune",
+        eligible_col = "manutrition_type",
+        set_title = "Répartition des enfants allaités dans le programme par type de malnutrition",
+        set_xlabel = "Nombre d'enfants allaités",
+        set_ylabel = "Type de malnutrition",
+        horizontal = True,
+        table = "no",
+        percent = False,
+        display = "both"
+    )
+else:
+    print("Pas de données disponibles.")
+```
+
+
+#### Nombre d'enfants avec comptage de menage pour la période sélectionnée  {#comptage-global-agent}
+```{python, echo=FALSE}
+household = enroled_global.loc[enroled_global['has_household']=='yes']
+no_household = enroled_global.loc[enroled_global['has_household']=='no']
+#exeat_current_week = exeat[(exeat.last_visit_date >= current_week_start) & (exeat.last_visit_date <= current_week_end)]
+if not household.empty:
+    plot_beneficiaries_stacked_eligible_matplotlib(
+        df=household,
+        group_col = "office" if "office" in household.columns else "commune",
+        eligible_col = "manutrition_type",
+        set_title = "Répartition des enfants avec comptage de menage dans le programme par type de malnutrition",
+        set_xlabel = "Nombre d'enfants avec comptage de menage",
+        set_ylabel = "Type de malnutrition",
+        horizontal = True,
+        table = "no",
+        percent = False,
+        display = "both"
+    )
+else:
+    print("Pas de données disponibles.")
+```
+
+#### Nombre d'enfants avec comptage de menage pour la période sélectionnée  {#liste-comptage-global-agent}
+```{r, echo=FALSE}
+display_table(py$no_household, "Enfants_sans_comptage_de_menage", "#800000")
+```
+
+#### Nombre d'enfants en club Nutrition pour la période sélectionnée par bureau {#club-nutrition-global-office}
+:::{.card}
+:::{.card-header}
+📊 **Clubs de Nutrition - Analyse pour la période sélectionnée**
+:::
+
+:::{.card-body}
+```{python, echo=FALSE}
+club_global = club_nutrition[(club_nutrition.last_session_date >= start_date) & (club_nutrition.last_session_date <= end_date)]
+
+nombre_clubs_global = club_global['club_id'].nunique()
+
+if not club_global.empty:
+    # Calcul du nombre d'enfants uniques par club
+    children_uniques_global = club_global.groupby(['club_id', 'member_type', 'first_session_date', 'last_session_date', 'data_clerk']).agg(nombre_enfants_uniques=('caseid', 'nunique'))
+    
+    # Renommer la colonne 'caseid' en 'club_id' dans club_create si nécessaire
+    if 'caseid' in club_create.columns:
+        club_create = club_create.rename(columns={'caseid': 'club_id', 'departement': 'departement_club', 'commune': 'commune_club', 'office': 'office_club', 'name': 'name_club'})
+    
+    # Fusionner avec le DataFrame children_uniques_global et retirer les clubs de test
+    clubs_a_exclure = ['Club Test', 'TEST ATELIER CARIS', 'Test Cap']
+    children_by_global_club = children_uniques_global.reset_index().merge(club_create[['club_id','name_club','office_club','creation_date','departement_club','commune_club']], on='club_id', how='left')
+    children_by_global_club = children_by_global_club[~children_by_global_club['name_club'].isin(clubs_a_exclure)]
+    children_by_global_club.to_excel('outputs/NUTRITION/children_by_club.xlsx', index=False)
+    
+    nombre_children_en_club_global = children_by_global_club['nombre_enfants_uniques'].sum()
+    
+    if not children_by_global_club.empty:
+        plot_beneficiaries_stacked_eligible_matplotlib(
+            df=children_by_global_club,
+            plot_col="nombre_enfants_uniques",
+            sum_logic=1,
+            group_col = "office_club" if "office_club" in children_by_global_club.columns else "data_clerk",
+            eligible_col = "member_type",
+            set_title = "Répartition des enfants en club par malnutris vs voisins",
+            set_xlabel = "Nombre d'enfants en club",
+            set_ylabel = "Type de membre",
+            horizontal = True,
+            table = "no",
+            percent = False,
+            display = "both"
+        )
+    else:
+        print("Pas de données disponibles après filtrage des clubs de test")
+else:
+    print("Pas de données disponibles pour la période sélectionnée")
+    children_by_global_club = pd.DataFrame()
+    nombre_children_en_club_global = 0
+```
+:::
+
+:::{.card-footer .text-muted}
+*Données pour la période : mois précédent*
+:::
+
+:::{.card}
+:::{.card-header}
+📝 **Note sur le nombre d'enfants en club**
+:::
+:::{.card-body}
+Le nombre d'enfants en club correspond au nombre d'enfants uniques inscrits dans chaque club pour la période analysée. Ce calcul exclut les clubs de test et regroupe les enfants par club, type de membre, date de première et dernière session, et agent responsable. Cela permet d'obtenir une vision précise de la fréquentation réelle des clubs actifs.
+
+```{python, echo=FALSE}
+if 'nombre_children_en_club_global' in globals() and nombre_children_en_club_global > 0:
+    print(f"{nombre_children_en_club_global} enfants ont participé aux clubs de nutrition durant la période.\nEt {nombre_clubs_global} clubs étaient actifs.")
+```
+:::
+:::
+:::
+
+#### Liste des enfants inscrits en club pour la période sélectionnée {#liste-children-by-club-global}
+```{r, echo=FALSE}
+display_table(py$children_by_global_club, "Enfants_en_club_global", "#800000")
+```
+
+#### Nombre d'enfants en attente pour la période par agent {#attente-global-agent}
+```{python, echo=FALSE}
+attente_global = attente[(attente.date_de_depistage >= start_date) & (attente.date_de_depistage <= end_date)]
+if not attente_global.empty:
+    plot_beneficiaries_stacked_eligible_matplotlib(
+        df=attente_global,
+        group_col = "office" if "office" in attente_global.columns else "departement",
+        eligible_col = "manutrition_type",
+        set_title = "Répartition des enfants en en attente par type de malnutrition",
+        set_xlabel = "Nombre d'enfants en attente",
+        set_ylabel = "Type de malnutrition",
+        horizontal = True,
+        table = "no",           # "no" => permet d'afficher le graphique
+        percent = False,       # True → tableau et graph en %
+        display = "both"        # "plot" | "table" | "both"
+    )
+else:
+    print("Pas de données disponibles")
+```
+
+#### Liste des enfants en attente pour la période sélectionnée {#liste-attente-global}
+```{r, echo=FALSE}
+display_table(py$attente_global, "Enfants_en_attente_global", "#000080")
+```
+
+#### Récapitulatif de la période sélectionnée {#recapitulatif-global}
+
+:::{.card}
+:::{.card-header}
+📈 **Tableau de bord - période sélectionnée**
+:::
+
+:::{.card-body}
+```{python, echo=FALSE}
+# Préparation des métriques clés pour un affichage moderne
+import pandas as pd
+from IPython.display import HTML, display
+
+# === CALCUL DES MÉTRIQUES CLÉS ===
+metrics = {
+    'depistages': depistage_filtered.shape[0] if not depistage_filtered.empty else 0,
+    'eligibles': df_global_eligible.shape[0] if not df_global_eligible.empty else 0,
+    'enrolled': enroled_global.shape[0] if not enroled_global.empty else 0,
+    'exeat': exeat_global.shape[0] if 'exeat_global' in globals() and not exeat_global.empty else 0,
+    'actifs': actif_global.shape[0] if not actif_global.empty else 0,
+    'attente': attente_global.shape[0] if not attente_global.empty else 0,
+    'allaites': breasfeeding.shape[0] if not breasfeeding.empty else 0,
+    'menage': household.shape[0] if not household.empty else 0,
+    'clubs': nombre_children_en_club_global if 'nombre_children_en_club_global' in globals() and nombre_children_en_club_global > 0 else 0,
+    'numbre_clubs': nombre_clubs_global if 'nombre_clubs_global' in globals() and nombre_clubs_global > 0 else 0
+}
+
+# Création du DataFrame récapitulatif simple
+summary_data = []
+
+if metrics['depistages'] > 0:
+    summary_data.append({
+        'Indicateur': 'Dépistages réalisés',
+        'Nombre': metrics['depistages'],
+        'Période': 'Période sélectionnée'
+    })
+
+if metrics['eligibles'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants éligibles',
+        'Nombre': metrics['eligibles'],
+        'Période': 'Période sélectionnée'
+    })
+
+if metrics['enrolled'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants enrôlés',
+        'Nombre': metrics['enrolled'],
+        'Période': 'Période sélectionnée'
+    })
+
+if metrics['exeat'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants sortis (exeat)',
+        'Nombre': metrics['exeat'],
+        'Période': 'Période sélectionnée'
+    })
+if metrics['actifs'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants actifs',
+        'Nombre': metrics['actifs'],
+        'Période': 'Période sélectionnée'
+    })
+
+if metrics['attente'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants en attente',
+        'Nombre': metrics['attente'],
+        'Période': 'Période sélectionnée'
+    })
+
+if metrics['menage'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants avec comptage de menage',
+        'Nombre': metrics['menage'],
+        'Période': 'Période sélectionnée'
+    })
+
+if metrics['allaites'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants allaités',
+        'Nombre': metrics['allaites'],
+        'Période': 'Période sélectionnée'
+    })
+
+if metrics['clubs'] > 0:
+    summary_data.append({
+        'Indicateur': 'Enfants en club',
+        'Nombre': metrics['clubs'],
+        'Période': 'Période sélectionnée'
+    })
+
+if metrics['numbre_clubs'] > 0:
+    summary_data.append({
+        'Indicateur': 'Nombre de clubs actifs',
+        'Nombre': metrics['numbre_clubs'],
+        'Période': 'Période sélectionnée'
+    })
+# Affichage simple du DataFrame
+if summary_data:
+    summary_df = pd.DataFrame(summary_data)
+    # Méthodes d'affichage du DataFrame :
+    
+    # Option 1 : Affichage simple avec print (texte brut)
+    print("=== Récapitulatif de la période sélectionnée ===")
+    #print(summary_df.to_string(index=False))
+    
+    # Option 2 : Affichage formaté en HTML (plus joli)
+    from IPython.display import display
+    summary_df.style.background_gradient()
+    
+    # Option 3 : Retourner le DataFrame pour affichage automatique
+    #summary_df
+else:
+    print("Pas de données disponibles")
+```
+:::
+:::
+:::

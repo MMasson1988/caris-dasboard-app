@@ -1,0 +1,69 @@
+# ============================================================================
+# REQUIREMENTS.TXT GÉNÉRÉ AUTOMATIQUEMENT - CARIS-MEAL-APP
+# ============================================================================
+# Packages Python identifiés dans le projet
+
+# === TRAITEMENT DE DONNÉES ===
+pandas>=2.0.0
+numpy>=1.24.0
+openpyxl>=3.1.0              # Pour lire/écrire Excel
+xlsxwriter>=3.1.0            # Pour écrire Excel avec formatting
+
+# === BASE DE DONNÉES ===
+sqlalchemy>=2.0.0
+pymysql>=1.1.0
+psycopg2-binary>=2.9.0       # PostgreSQL
+
+# === API ET REQUÊTES WEB ===
+requests>=2.31.0
+urllib3>=2.0.0
+httpx>=0.24.0
+
+# === INTERFACE UTILISATEUR ===
+streamlit>=1.28.0
+# tkinter fait partie de la bibliothèque standard Python
+customtkinter>=5.2.0
+
+# === TRAITEMENT TEXTE ET FUZZY MATCHING ===
+fuzzywuzzy>=0.18.0
+python-levenshtein>=0.21.0   # Accélère fuzzywuzzy
+thefuzz>=0.19.0              # Version moderne de fuzzywuzzy
+
+# === VISUALISATION ===
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.15.0
+
+# === UTILITAIRES SYSTÈME ===
+python-dotenv>=1.0.0         # Variables d'environnement
+# pathlib, os, sys, glob font partie de la bibliothèque standard Python
+
+# === SELENIUM ET AUTOMATION ===
+selenium>=4.15.0
+webdriver-manager>=4.0.0
+beautifulsoup4>=4.12.0
+
+# === DATES ET TEMPS ===
+# datetime fait partie de la bibliothèque standard Python
+python-dateutil>=2.8.2      # Extensions pour datetime (pour relativedelta)
+pytz>=2023.3
+
+# === MATH ET STATISTIQUES ===
+scipy>=1.11.0
+scikit-learn>=1.3.0
+
+# === JUPYTER ET QUARTO ===
+jupyter>=1.0.0
+ipykernel>=6.25.0
+nbformat>=5.9.0
+
+# === DÉVELOPPEMENT ===
+pytest>=7.4.0
+black>=23.7.0
+flake8>=6.1.0
+
+# === PACKAGES SPÉCIFIQUES DÉTECTÉS ===
+# commcare-export>=2.0.0    # Décommenter si utilisé pour CommCare
+python-docx>=0.8.1
+polars>=0.17.0
+fastexcel>=0.1.0             # Traitement documents Word
