@@ -1,0 +1,20 @@
+{
+  "per_file": {
+    "Nutrition": {
+      "status": "downloaded",
+      "size_mb": 4.473316192626953,
+      "seconds": 176.7,
+      "mbps": 0.025
+    }
+  },
+  "run_summary": {
+    "expected": 1,
+    "present_today": 1,
+    "failed_count": 0,
+    "failed_list": [],
+    "total_mb": 4.47,
+    "total_time_sec": 176.7,
+    "avg_mbps": 0.025,
+    "run_date": "2026-02-04T15:15:54"
+  }
+}
