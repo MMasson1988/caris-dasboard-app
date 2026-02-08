@@ -1,0 +1,416 @@
+/* ============================================
+   STYLES PERSONNALISÉS - CARIS MEAL DASHBOARD
+   Application Streamlit Nutrition
+   ============================================ */
+
+/* Variables CSS */
+:root {
+    --caris-primary: #2E8B57;
+    --caris-secondary: #3CB371;
+    --caris-accent: #00CED1;
+    --caris-danger: #DC3545;
+    --caris-warning: #FFC107;
+    --caris-success: #28A745;
+    --caris-info: #17A2B8;
+    --caris-light: #F8F9FA;
+    --caris-dark: #343A40;
+    --shadow-light: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.15);
+    --border-radius: 12px;
+}
+
+/* ============================================
+   KPI CARDS
+   ============================================ */
+
+.kpi-card {
+    background: linear-gradient(135deg, #ffffff, #f8f9fa);
+    border: 1px solid #e9ecef;
+    border-radius: var(--border-radius);
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow-light);
+    transition: all 0.3s ease;
+    margin-bottom: 15px;
+}
+
+.kpi-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--caris-primary);
+}
+
+.kpi-icon {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.kpi-value {
+    font-size: 2.5em;
+    font-weight: 700;
+    color: var(--caris-dark);
+    line-height: 1.2;
+}
+
+.kpi-label {
+    font-size: 0.9em;
+    color: #6c757d;
+    margin-top: 5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* KPI Card Variants */
+.kpi-card.kpi-success {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    border-color: var(--caris-success);
+}
+
+.kpi-card.kpi-success .kpi-value {
+    color: var(--caris-success);
+}
+
+.kpi-card.kpi-warning {
+    background: linear-gradient(135deg, #fff8e1, #ffecb3);
+    border-color: var(--caris-warning);
+}
+
+.kpi-card.kpi-warning .kpi-value {
+    color: #f57c00;
+}
+
+.kpi-card.kpi-danger {
+    background: linear-gradient(135deg, #ffebee, #ffcdd2);
+    border-color: var(--caris-danger);
+}
+
+.kpi-card.kpi-danger .kpi-value {
+    color: var(--caris-danger);
+}
+
+/* ============================================
+   SIDEBAR STYLING
+   ============================================ */
+
+[data-testid="stSidebar"] {
+    background: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+[data-testid="stSidebar"] [data-testid="stMarkdownContainer"] h2 {
+    color: var(--caris-primary);
+}
+
+/* Navigation buttons */
+[data-testid="stSidebar"] button {
+    background-color: white !important;
+    border: 2px solid var(--caris-primary) !important;
+    color: var(--caris-primary) !important;
+    border-radius: 8px !important;
+    transition: all 0.3s ease !important;
+    font-weight: 500 !important;
+}
+
+[data-testid="stSidebar"] button:hover {
+    background-color: var(--caris-primary) !important;
+    color: white !important;
+}
+
+/* ============================================
+   MAIN CONTENT AREA
+   ============================================ */
+
+.main .block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* Headers */
+h1 {
+    color: var(--caris-primary);
+    font-weight: 700;
+    border-bottom: 3px solid var(--caris-secondary);
+    padding-bottom: 10px;
+}
+
+h2, h3 {
+    color: var(--caris-dark);
+}
+
+/* ============================================
+   TAB STYLING
+   ============================================ */
+
+[data-testid="stTabs"] [data-baseweb="tab-list"] {
+    gap: 10px;
+}
+
+[data-testid="stTabs"] [data-baseweb="tab"] {
+    background-color: white;
+    border-radius: 8px 8px 0 0;
+    border: 1px solid #dee2e6;
+    border-bottom: none;
+    padding: 10px 20px;
+    font-weight: 500;
+}
+
+[data-testid="stTabs"] [data-baseweb="tab"][aria-selected="true"] {
+    background-color: var(--caris-primary);
+    color: white;
+    border-color: var(--caris-primary);
+}
+
+/* ============================================
+   ALERTS & NOTIFICATIONS
+   ============================================ */
+
+[data-testid="stAlert"] {
+    border-radius: var(--border-radius);
+    border-width: 0 0 0 4px;
+}
+
+.stSuccess {
+    background-color: #e8f5e9;
+    border-left-color: var(--caris-success);
+}
+
+.stWarning {
+    background-color: #fff8e1;
+    border-left-color: var(--caris-warning);
+}
+
+.stError {
+    background-color: #ffebee;
+    border-left-color: var(--caris-danger);
+}
+
+.stInfo {
+    background-color: #e3f2fd;
+    border-left-color: var(--caris-info);
+}
+
+/* ============================================
+   BUTTONS
+   ============================================ */
+
+.stButton > button {
+    border-radius: 8px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.stButton > button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+/* Primary button */
+.stButton > button[kind="primary"] {
+    background-color: var(--caris-primary);
+    border-color: var(--caris-primary);
+}
+
+.stButton > button[kind="primary"]:hover {
+    background-color: var(--caris-secondary);
+    border-color: var(--caris-secondary);
+}
+
+/* ============================================
+   DATA TABLES
+   ============================================ */
+
+[data-testid="stDataFrame"] {
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-light);
+}
+
+[data-testid="stDataFrame"] table {
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+[data-testid="stDataFrame"] th {
+    background-color: var(--caris-primary) !important;
+    color: white !important;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85em;
+    letter-spacing: 0.5px;
+}
+
+[data-testid="stDataFrame"] tr:hover td {
+    background-color: #e8f5e9 !important;
+}
+
+/* ============================================
+   METRICS
+   ============================================ */
+
+[data-testid="stMetric"] {
+    background: white;
+    padding: 15px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-light);
+    border-left: 4px solid var(--caris-primary);
+}
+
+[data-testid="stMetricLabel"] {
+    font-size: 0.9em;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+[data-testid="stMetricValue"] {
+    font-size: 2em;
+    font-weight: 700;
+    color: var(--caris-dark);
+}
+
+[data-testid="stMetricDelta"] svg {
+    display: inline;
+}
+
+/* ============================================
+   EXPANDERS
+   ============================================ */
+
+[data-testid="stExpander"] {
+    background-color: white;
+    border-radius: var(--border-radius);
+    border: 1px solid #dee2e6;
+    box-shadow: var(--shadow-light);
+}
+
+[data-testid="stExpander"] summary {
+    font-weight: 500;
+    color: var(--caris-primary);
+}
+
+/* ============================================
+   CHAT INTERFACE
+   ============================================ */
+
+[data-testid="stChatMessage"] {
+    border-radius: var(--border-radius);
+    padding: 15px;
+    margin: 10px 0;
+}
+
+[data-testid="stChatMessage"][data-testid*="user"] {
+    background-color: #e8f5e9;
+    margin-left: 20%;
+}
+
+[data-testid="stChatMessage"][data-testid*="assistant"] {
+    background-color: #f5f5f5;
+    margin-right: 20%;
+}
+
+/* ============================================
+   DOWNLOAD BUTTON
+   ============================================ */
+
+[data-testid="stDownloadButton"] button {
+    background: linear-gradient(135deg, var(--caris-primary), var(--caris-secondary));
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-weight: 500;
+}
+
+[data-testid="stDownloadButton"] button:hover {
+    background: linear-gradient(135deg, var(--caris-secondary), var(--caris-primary));
+}
+
+/* ============================================
+   PROGRESS BARS
+   ============================================ */
+
+[data-testid="stProgress"] > div {
+    background-color: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+[data-testid="stProgress"] > div > div {
+    background: linear-gradient(90deg, var(--caris-primary), var(--caris-secondary));
+    border-radius: 10px;
+}
+
+/* ============================================
+   SPINNERS & LOADERS
+   ============================================ */
+
+[data-testid="stSpinner"] > div {
+    border-top-color: var(--caris-primary) !important;
+}
+
+/* ============================================
+   ACCESSIBILITY & RESPONSIVENESS
+   ============================================ */
+
+/* High contrast for better readability */
+@media (prefers-contrast: high) {
+    .kpi-card {
+        border-width: 2px;
+    }
+    
+    .kpi-value {
+        font-weight: 900;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .kpi-card {
+        padding: 15px;
+    }
+    
+    .kpi-value {
+        font-size: 2em;
+    }
+    
+    .kpi-label {
+        font-size: 0.8em;
+    }
+}
+
+/* ============================================
+   DARK MODE SUPPORT
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --caris-light: #1e1e1e;
+        --caris-dark: #f8f9fa;
+    }
+    
+    .kpi-card {
+        background: linear-gradient(135deg, #2d2d2d, #1e1e1e);
+        border-color: #444;
+    }
+    
+    .kpi-card:hover {
+        border-color: var(--caris-secondary);
+    }
+}
+
+/* ============================================
+   PRINT STYLES
+   ============================================ */
+
+@media print {
+    [data-testid="stSidebar"] {
+        display: none !important;
+    }
+    
+    .kpi-card {
+        break-inside: avoid;
+        page-break-inside: avoid;
+        box-shadow: none;
+        border: 1px solid #000;
+    }
+}
