@@ -7,12 +7,9 @@ from .charts import (
     create_malnutrition_pie,
     create_weekly_trend,
     create_monthly_trend,
-    create_comparison_chart,
     create_heatmap_by_commune,
     create_empty_chart,
-    create_mas_alert_chart,
-    CARIS_COLORS,
-    VIRIDIS_COLORS
+    CARIS_COLORS
 )
 
 __all__ = [
@@ -21,10 +18,7 @@ __all__ = [
     'create_malnutrition_pie',
     'create_weekly_trend',
     'create_monthly_trend',
-    'create_comparison_chart',
     'create_heatmap_by_commune',
     'create_empty_chart',
-    'create_mas_alert_chart',
-    'CARIS_COLORS',
-    'VIRIDIS_COLORS'
+    'CARIS_COLORS'
 ]

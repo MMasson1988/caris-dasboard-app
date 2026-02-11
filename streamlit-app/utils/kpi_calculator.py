@@ -1,3 +1,31 @@
+# === COMPARAISON TEMPORELLE ===
+def calculate_trend(current_val, previous_val):
+    """Calcule le pourcentage de progression entre deux périodes."""
+    if previous_val == 0:
+        return 0.0
+    return round(((current_val - previous_val) / previous_val) * 100, 2)
+
+def get_comparison_metrics(df, start_date, end_date):
+    """Compare les KPIs de la période actuelle sélectionnée vs la période précédente de même durée."""
+    import pandas as pd
+    # 1. Données de la période actuelle
+    mask_curr = (df['date_enrollement'].dt.date >= start_date) & (df['date_enrollement'].dt.date <= end_date)
+    df_curr = df[mask_curr]
+    # 2. Calcul de la période précédente (même nombre de jours)
+    delta = end_date - start_date
+    prev_start = start_date - delta - pd.Timedelta(days=1)
+    prev_end = start_date - pd.Timedelta(days=1)
+    # 3. Données de la période précédente
+    mask_prev = (df['date_enrollement'].dt.date >= prev_start) & (df['date_enrollement'].dt.date <= prev_end)
+    df_prev = df[mask_prev]
+    # 4. Calcul des métriques de comparaison (ex: Dépistages/Enrôlements)
+    curr_total = len(df_curr)
+    prev_total = len(df_prev)
+    return {
+        "depistages": curr_total,
+        "trend_dep": calculate_trend(curr_total, prev_total),
+        "period_label": f"vs {prev_start.strftime('%d/%m')} - {prev_end.strftime('%d/%m')}"
+    }
 """
 Calculateur de KPIs MEAL pour le programme nutrition
 Métriques clés : dépistages, enrôlements, taux d'admission, etc.

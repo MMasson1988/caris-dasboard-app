@@ -32,9 +32,7 @@ load_css()
 def load_config():
     """Charge la configuration d'authentification depuis secrets ou fichier YAML."""
     try:
-        # Essayer de charger depuis st.secrets (pour déploiement Streamlit Cloud)
         if "credentials" in st.secrets:
-            # Convertir les secrets en dictionnaire standard
             credentials_dict = {"usernames": {}}
             for username, user_data in st.secrets["credentials"]["usernames"].items():
                 credentials_dict["usernames"][username] = {
@@ -55,42 +53,26 @@ def load_config():
     except Exception as e:
         st.warning(f"Chargement depuis secrets.toml échoué: {e}")
     
-    # Fallback: charger depuis config.yaml local
     config_file = Path(__file__).parent / "config.yaml"
     if config_file.exists():
         with open(config_file) as file:
             config = yaml.load(file, Loader=SafeLoader)
         return config
     
-    # Configuration par défaut pour développement
     return {
-        "credentials": {
-            "usernames": {
-                "admin": {
-                    "email": "admin@carisfoundation.org",
-                    "name": "Administrateur MEAL",
-                    "password": "$2b$12$Zq9xkJlAjZQjZQjZQjZQjOeYQjZQjZQjZQjZQjZQjZQjZQjZQjZQj"
-                }
-            }
-        },
-        "cookie": {
-            "expiry_days": 30,
-            "key": "caris_meal_nutrition_key",
-            "name": "caris_meal_auth"
-        }
+        "credentials": {"usernames": {"admin": {"email": "admin@carisfoundation.org", "name": "Administrateur MEAL", "password": "$2b$12$Zq9xkJlAjZQjZQjZQjZQjOeYQjZQjZQjZQjZQjZQjZQjZQjZQjZQj"}}},
+        "cookie": {"expiry_days": 30, "key": "caris_meal_nutrition_key", "name": "caris_meal_auth"}
     }
 
 def init_authenticator():
     """Initialise l'authentificateur Streamlit."""
     config = load_config()
-    
     authenticator = stauth.Authenticate(
         config['credentials'],
         config['cookie']['name'],
         config['cookie']['key'],
         config['cookie']['expiry_days']
     )
-    
     return authenticator, config
 
 # ============================================
@@ -98,87 +80,78 @@ def init_authenticator():
 # ============================================
 
 def render_sidebar(authenticator, name):
-    """Affiche la sidebar avec logo, navigation et déconnexion."""
-    
+    """
+    Affiche la sidebar institutionnelle complète : Logo, Filtres Analytiques, 
+    Navigation (Dashboard, Alertes, IA, Rapport) et Déconnexion.
+    """
     with st.sidebar:
-        # Logo institutionnel
+        # 1. LOGO ET IDENTIFICATION
         logo_path = Path(__file__).parent / "assets" / "logo.png"
         if logo_path.exists():
             st.image(str(logo_path), use_container_width=True)
         else:
             st.markdown("""
-            <div style='text-align: center; padding: 20px; background: linear-gradient(135deg, #2E8B57, #3CB371); border-radius: 10px; margin-bottom: 20px;'>
-                <h2 style='color: white; margin: 0;'>🏥 CARIS</h2>
-                <p style='color: #E0E0E0; margin: 5px 0 0 0; font-size: 12px;'>Foundation International</p>
-            </div>
+                <div style='text-align: center; padding: 15px; background: #2E8B57; border-radius: 10px; margin-bottom: 15px;'>
+                    <h2 style='color: white; margin: 0;'>🏥 CARIS</h2>
+                    <p style='color: #E0E0E0; margin: 0; font-size: 10px;'>Foundation International</p>
+                </div>
             """, unsafe_allow_html=True)
         
+        st.success(f"👤 **{name}**")
         st.markdown("---")
+
+        # 2. FILTRES ANALYTIQUES (Synchronisés avec les pages)
+        st.markdown("### 🔍 FILTRES ANALYTIQUES")
         
-        # Message de bienvenue
-        st.markdown(f"""
-        <div style='background-color: #f0f8f0; padding: 10px; border-radius: 8px; border-left: 4px solid #2E8B57;'>
-            <p style='margin: 0; color: #2E8B57;'>👤 Bienvenue, <strong>{name}</strong></p>
-        </div>
-        """, unsafe_allow_html=True)
-        
+        from utils.data_loader import load_enrolled, get_unique_offices
+        df_all = load_enrolled()
+
+        if not df_all.empty:
+            # 2.1 Filtre par Bureau
+            offices = get_unique_offices(df_all)
+            st.selectbox("🏢 Bureau", options=["Tous les Bureaux"] + offices, key="filter_office")
+
+            # 2.2 Filtre par Commune
+            communes = sorted(df_all['commune'].dropna().unique().tolist())
+            st.multiselect("📍 Communes", options=communes, default=communes, key="filter_commune")
+
+            # 2.3 Filtre Temporel (Colonne date_enrollement)
+            if 'date_enrollement' in df_all.columns:
+                min_date = df_all['date_enrollement'].min().date()
+                max_date = df_all['date_enrollement'].max().date()
+                st.date_input("📅 Période d'Enrôlement", value=(min_date, max_date), key="filter_date_range")
+        else:
+            st.warning("⚠️ Données non disponibles pour les filtres")
+
         st.markdown("---")
-        
-        # Navigation
-        st.markdown("### 📋 Navigation")
+
+        # 3. MENU DE NAVIGATION
+        st.markdown("### 📋 NAVIGATION")
         
         menu_options = {
             "📊 Dashboard": "dashboard",
-            "📄 Rapport HTML": "rapport",
             "📧 Alertes MAS": "alertes",
-            "🤖 Assistant IA": "assistant"
+            "🤖 Assistant IA": "assistant",
+            "📄 Rapport HTML": "rapport"
         }
-        
-        # Utiliser session_state pour la navigation
+
         if "current_page" not in st.session_state:
             st.session_state.current_page = "dashboard"
-        
+
         for label, page_key in menu_options.items():
-            if st.button(label, key=f"nav_{page_key}", use_container_width=True):
+            button_type = "primary" if st.session_state.current_page == page_key else "secondary"
+            if st.button(label, key=f"nav_btn_{page_key}", use_container_width=True, type=button_type):
                 st.session_state.current_page = page_key
                 st.rerun()
+
+        st.markdown("---")
+
+        # 4. INFOS SYSTÈME ET DÉCONNEXION
+        st.caption("Version 2.5.0 - NextAdmin UI")
+        st.caption("Base de données : enrole_final")
         
         st.markdown("---")
-        
-        # Informations système
-        st.markdown("### ℹ️ Informations")
-        st.caption("📅 Données mises à jour quotidiennement")
-        st.caption("🔒 Session sécurisée")
-        
-        st.markdown("---")
-        
-        # Bouton de déconnexion
         authenticator.logout("🚪 Déconnexion", "sidebar")
-
-
-# ============================================
-# PAGES DE L'APPLICATION
-# ============================================
-
-def page_dashboard():
-    """Page Dashboard principale avec KPIs et visualisations."""
-    from pages.dashboard import render_dashboard
-    render_dashboard()
-
-def page_rapport():
-    """Page d'intégration du rapport HTML Quarto."""
-    from pages.rapport_html import render_rapport
-    render_rapport()
-
-def page_alertes():
-    """Page de gestion des alertes MAS."""
-    from pages.alertes import render_alertes
-    render_alertes()
-
-def page_assistant():
-    """Page de l'assistant IA MEAL."""
-    from pages.assistant_ia import render_assistant
-    render_assistant()
 
 
 # ============================================
@@ -186,12 +159,10 @@ def page_assistant():
 # ============================================
 
 def main():
-    """Point d'entrée principal de l'application."""
+    """Point d'entrée principal de l'application avec routage des pages."""
     
-    # Initialiser l'authentificateur
     authenticator, config = init_authenticator()
     
-    # Afficher le formulaire de connexion
     try:
         authenticator.login(location='main', fields={
             'Form name': 'Connexion - CARIS MEAL Nutrition',
@@ -203,27 +174,31 @@ def main():
         st.error(f"Erreur d'authentification: {e}")
         return
     
-    # Vérifier l'état de l'authentification
     if st.session_state.get("authentication_status"):
-        # Utilisateur connecté
         name = st.session_state.get("name", "Utilisateur")
-        
-        # Afficher la sidebar
         render_sidebar(authenticator, name)
         
-        # Router vers la page appropriée
         current_page = st.session_state.get("current_page", "dashboard")
         
+        # --- ROUTAGE DES PAGES ---
         if current_page == "dashboard":
-            page_dashboard()
-        elif current_page == "rapport":
-            page_rapport()
+            from pages.dashboard import render_dashboard
+            render_dashboard()
+        
         elif current_page == "alertes":
-            page_alertes()
+            from pages.alertes import render_alertes
+            render_alertes()
+        
         elif current_page == "assistant":
-            page_assistant()
+            from pages.assistant_ia import render_assistant
+            render_assistant()
+        
+        elif current_page == "rapport":
+            from pages.rapport_html import render_rapport
+            render_rapport()
         else:
-            page_dashboard()
+            from pages.dashboard import render_dashboard
+            render_dashboard()
             
     elif st.session_state.get("authentication_status") is False:
         st.error("❌ Nom d'utilisateur ou mot de passe incorrect")
@@ -231,34 +206,14 @@ def main():
     elif st.session_state.get("authentication_status") is None:
         st.warning("👋 Veuillez entrer vos identifiants pour accéder au système MEAL")
         
-        # Afficher des informations sur l'application
         st.markdown("---")
         col1, col2, col3 = st.columns(3)
-        
         with col1:
-            st.markdown("""
-            <div style='text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;'>
-                <h3>📊 Dashboard</h3>
-                <p>KPIs en temps réel, visualisations interactives</p>
-            </div>
-            """, unsafe_allow_html=True)
-        
+            st.markdown("<div style='text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;'><h3>📊 Dashboard</h3><p>KPIs en temps réel</p></div>", unsafe_allow_html=True)
         with col2:
-            st.markdown("""
-            <div style='text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;'>
-                <h3>🤖 Assistant IA</h3>
-                <p>Analyse MEAL assistée par Gemini 2.0</p>
-            </div>
-            """, unsafe_allow_html=True)
-        
+            st.markdown("<div style='text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;'><h3>🤖 Assistant IA</h3><p>Analyse par Gemini 2.0</p></div>", unsafe_allow_html=True)
         with col3:
-            st.markdown("""
-            <div style='text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;'>
-                <h3>📧 Alertes</h3>
-                <p>Notifications automatiques cas MAS</p>
-            </div>
-            """, unsafe_allow_html=True)
-
+            st.markdown("<div style='text-align: center; padding: 20px; background: #f8f9fa; border-radius: 10px;'><h3>📧 Alertes</h3><p>Détection automatique MAS</p></div>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
     main()
