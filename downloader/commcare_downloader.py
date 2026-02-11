@@ -638,10 +638,27 @@ def main():
     stats: Dict[str, Dict] = {}
     try:
         load_dotenv("id_cc.env")
-        email = os.getenv("EMAIL")
-        password = os.getenv("PASSWORD") or os.getenv("PASSWORD_CC")
+        import sys
+        from pathlib import Path
+        # Try module attributes first (set by GUI), then environment variables
+        email = getattr(sys.modules[__name__], "EMAIL", None) or os.getenv("EMAIL")
+        password = getattr(sys.modules[__name__], "PASSWORD", None) or os.getenv("PASSWORD") or os.getenv("PASSWORD_CC")
+        # If still missing, try variables/id_cc.env
         if not email or not password:
-            raise RuntimeError("Identifiants CommCare manquants (EMAIL / PASSWORD)")
+            env_path = Path("variables") / "id_cc.env"
+            if env_path.exists():
+                with env_path.open("r", encoding="utf-8") as f:
+                    for line in f:
+                        if "=" in line:
+                            key, value = line.strip().split("=", 1)
+                            key = key.strip().lower()
+                            value = value.strip()
+                            if key == "email" and not email:
+                                email = value
+                            if key == "password" and not password:
+                                password = value
+            if not email or not password:
+                raise RuntimeError("Identifiants CommCare manquants (EMAIL / PASSWORD)")
 
         # Login sur le premier export manquant
         first_url = EXPORT_URLS[missing[0]]

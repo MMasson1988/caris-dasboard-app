@@ -167,3 +167,6 @@ def creer_colonne_match_conditional(df1, df2, on, nouvelle_colonne, mapping):
     
     # Retourner seulement les colonnes originales de df1 avec la nouvelle colonne
     return merged_df
+
+if __name__ == '__main__':
+    print("Module caris_fonctions.py chargé. Ajoutez une fonction main() pour exécuter des tests ou des exemples.")

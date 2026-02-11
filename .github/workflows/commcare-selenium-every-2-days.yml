@@ -3,8 +3,8 @@ name: commcare-selenium-hybrid
 on:
   schedule:
     # Deux fois par jour : 5h00 locale (09h00 UTC) et 13h00 locale (18h00 UTC)
-    - cron: "0 07 * * *"  # 3h00 America/Port-au-Prince
-    - cron: "0 20 * * *"  # 15h00 America/Port-au-Prince
+    - cron: "0 05 * * *"  # 1h00 America/Port-au-Prince
+    - cron: "0 18 * * *"  # 13h00 America/Port-au-Prince
   workflow_dispatch:
 
 concurrency:
@@ -134,7 +134,7 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y xvfb
-          xvfb-run -a python commcare_downloader.py
+          xvfb-run -a python downloader/commcare_downloader.py
 
       # === Artifacts ===
       - name: Upload XLSX artifacts
@@ -153,7 +153,7 @@ jobs:
         with:
           name: commcare-logs-${{ github.run_id }}
           path: |
-            commcare_downloader.log
+            downloader/commcare_downloader.log
             stats.json
           if-no-files-found: warn
           retention-days: 90
@@ -164,6 +164,8 @@ jobs:
         run: |
           echo "📁 Contenu de data/ :"
           ls -lh data || true
+          echo "📄 Logs dans downloader/ :"
+          ls -lh downloader/*.log 2>/dev/null || echo "Aucun log dans downloader/."
           echo "🌿 Branche :"
           git branch || true
           git status || true

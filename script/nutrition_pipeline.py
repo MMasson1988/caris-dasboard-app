@@ -1,9 +1,22 @@
+
+from __future__ import annotations
+# ===============================
+# MAIN EXECUTION FUNCTION
+# ===============================
+def main():
+    # Place your pipeline logic here
+    print("Module nutrition_pipeline.py chargé. Ajoutez votre pipeline ici.")
+    # You can call your main pipeline functions, e.g.:
+    # run_nutrition_pipeline()
+
+# ===============================
+# EXECUTION BLOCK
+# ===============================
+if __name__ == "__main__":
+    main()
 """
 RAPPORT NUTRITION - Script Python exécutable avec python {MODULE}.py
 """
-from __future__ import annotations
-
-import pandas as pd
 # from _helpers import ensure_dirs, read_excel, write_json, write_excel, print_context  # Module non disponible
 
 import pandas as pd
@@ -24,8 +37,6 @@ import openpyxl
 import xlsxwriter
 import pymysql
 from sqlalchemy import create_engine
-from difflib import SequenceMatcher
-import unicodedata
 from typing import List
 #from utils import today_str, load_excel_to_df, creer_colonne_match_conditional, commcare_match_person
 from pathlib import Path
@@ -705,7 +716,11 @@ depistage = (
     .pipe(print_message, "Nombre depistage de janvier 2024 à aujourd'hui")
     .pipe(capitalize_column, 'departement')
 )
-
+# Correction: set office='PAP' where office=='GON' and username=='cleonie'
+if 'office' in depistage.columns and 'username' in depistage.columns:
+    mask = (depistage['office'] == 'GON') & (depistage['username'].str.lower() == 'cleonie')
+    depistage.loc[mask, 'office'] = 'PAP'
+    
 depistage_filtered = (
     depistage
     .pipe(extraire_data, start_date=start_date_nut, end_date=end_date_nut, date_col='date_de_depistage')
@@ -1138,6 +1153,11 @@ save_to_excel(
     index=False
 )
 
+# Correction: set office='PAP' where office=='GON' and username=='cleonie'
+if 'office' in enroled_total.columns and 'username' in enroled_total.columns:
+    mask = (enroled_total['office'] == 'GON') & (enroled_total['username'].str.lower() == 'cleonie')
+    enroled_total.loc[mask, 'office'] = 'PAP'
+    
 # Sauvegarder le fichier des enrolés de suivi_enroled
 save_to_excel(
     enroled:=enroled_total[enroled_total['enroled'] == 'yes'], 
@@ -1311,3 +1331,22 @@ print(f"Agrégation terminée: {club_aggregated.shape[0]} patients uniques avec 
 club_aggregated.to_excel(os.path.join(output_dir, 'club_nutrition.xlsx'), index=False)
 print(f"✅ Fichier sauvegardé: {os.path.join(output_dir, 'club_nutrition.xlsx')}")
 print(f"✅ Toutes les {club_aggregated.shape[1]} colonnes ont été conservées avec l'agrégation appropriée")
+# File club
+name_club_file = f"ht_club_nutrition {today_str}.xlsx"
+club_col = ['caseid', 'creation_date', 'name','office','commune','departement']
+club_path = name_club_file if os.path.isabs(name_club_file) else os.path.join(DATA_DIR, name_club_file)
+club_name = (
+
+    pd.read_excel(club_path, parse_dates=True)
+    .pipe(select_columns, club_col)
+)
+
+save_to_excel(
+    club_name, 
+    os.path.join(output_dir,'club_creation.xlsx'), 
+    sheet_name="club_creation", 
+    index=False
+)
+
+if __name__ == '__main__':
+    print("Module nutrition_pipeline.py chargé. Ajoutez une fonction main() pour exécuter le pipeline.")

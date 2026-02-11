@@ -286,3 +286,6 @@ attendance_summary = club_attendance.groupby(['patient_code', 'presence']).size(
 #attendance_summary.columns.name = None
 # save attendance_summary to excel file
 attendance_summary.to_excel('../outputs/YEARLY/annual_club_attendance_summary.xlsx', index=False)
+
+if __name__ == '__main__':
+    print("Module annual_reports.py chargé. Ajoutez une fonction main() pour exécuter le pipeline.")

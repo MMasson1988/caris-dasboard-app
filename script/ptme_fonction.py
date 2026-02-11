@@ -25,6 +25,9 @@ def execute_sql_query(env_path: str, sql_file_path: str) -> pd.DataFrame:
 
     return df
 
+if __name__ == '__main__':
+    print("Module ptme_fonction.py chargé. Ajoutez une fonction main() pour exécuter des tests ou des exemples.")
+
 #===========================================================================================================================
 #========================================================================================================================= 
 import os

@@ -1,5 +1,5 @@
 # ============================================================================
-# INSTALLATION AUTOMATIQUE DES PACKAGES R - CARIS-MEAL-APP
+# INSTALLATION AUTOMATIQUE DES PACKAGES R - caris-dashboard-app
 # ============================================================================
 
 # Packages R détectés dans le projet

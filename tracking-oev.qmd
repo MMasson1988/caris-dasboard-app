@@ -50,7 +50,7 @@ suppressPackageStartupMessages(library(reticulate))
 ```
 
 ```{r, echo=FALSE}
-reticulate::use_virtualenv("C:/Users/moise/Downloads/caris-meal-app/.venv", required = TRUE)
+reticulate::use_virtualenv("C:/Users/moise/Downloads/caris-dashboard-app/.venv", required = TRUE)
 
 #use_virtualenv("./../../python_env", required = TRUE)
 ```
@@ -323,7 +323,7 @@ tx_curr = pd.read_excel("outputs/OEV/TX_CURR.xlsx",sheet_name=0)
 tx_curr = tx_curr[tx_curr['LTFU 30days']=="No"]
 
 # Save to CSV for R to avoid datetime conversion issues
-tx_curr.to_csv("outputs/OEVtx_curr_for_r.csv", index=False)
+tx_curr.to_csv("outputs/OEV/tx_curr_for_r.csv", index=False)
 ```
 
 
@@ -338,7 +338,7 @@ plot_beneficiaries_by_categorie(
 ```
 
 ```{r, echo=FALSE}
-rtx_curr <- read.csv("outputs/OEVtx_curr_for_r.csv", stringsAsFactors = FALSE)
+rtx_curr <- read.csv("outputs/OEV/tx_curr_for_r.csv", stringsAsFactors = FALSE)
 DT::datatable(rtx_curr, extensions = 'Buttons', filter = 'bottom',
                                            options = list(dom = 'Bfrtip',
                                                           columnDefs = list(list(className = 'dt-center', targets = "_all")),
@@ -452,15 +452,15 @@ not_on_arv = plot_viral_load_summary2_sns(start_date= '2025-01-01', end_date='20
 no_result = plot_viral_load_summary2_sns(start_date= '2025-01-01', end_date='2026-01-31', df=tx_curr, age_min=0, age_max=17, output='no_result')
 
 # Save to CSV for R
-not_covered.to_csv("outputs/OEVnot_covered_for_r.csv", index=False)
-no_result.to_csv("outputs/OEVno_result_for_r.csv", index=False)
-vl_coverage.to_csv("outputs/OEVvl_coverage_for_r.csv", index=False)
-vl_coverage_cor.to_csv("outputs/OEVvl_coverage_cor_for_r.csv", index=False)
+not_covered.to_csv("outputs/OEV/not_covered_for_r.csv", index=False)
+no_result.to_csv("outputs/OEV/no_result_for_r.csv", index=False)
+vl_coverage.to_csv("outputs/OEV/vl_coverage_for_r.csv", index=False)
+vl_coverage_cor.to_csv("outputs/OEV/vl_coverage_cor_for_r.csv", index=False)
 ```
 
 ## Enfants sans charges virales actualisées
 ```{r, echo=FALSE}
-rnot_covered <- read.csv("outputs/OEVnot_covered_for_r.csv", stringsAsFactors = FALSE)
+rnot_covered <- read.csv("outputs/OEV/not_covered_for_r.csv", stringsAsFactors = FALSE)
 DT::datatable(rnot_covered, extensions = 'Buttons', filter = 'bottom',
                                            options = list(dom = 'Bfrtip',
                                                           columnDefs = list(list(className = 'dt-center', targets = "_all")),
@@ -474,7 +474,7 @@ DT::datatable(rnot_covered, extensions = 'Buttons', filter = 'bottom',
 
 ## Liste des enfants de moins de 18 ans avec prélèvement dans les 12 derniers mois sans résultat
 ```{r,echo=FALSE}
-rno_result <- read.csv("outputs/OEVno_result_for_r.csv", stringsAsFactors = FALSE)
+rno_result <- read.csv("outputs/OEV/no_result_for_r.csv", stringsAsFactors = FALSE)
 DT::datatable(rno_result, extensions = 'Buttons', filter = 'bottom',
                                            options = list(dom = 'Bfrtip',
                                                           columnDefs = list(list(className = 'dt-center', targets = "_all")),

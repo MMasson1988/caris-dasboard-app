@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script d'installation des dépendances Python pour le projet CARIS-MEAL-APP
+# Script d'installation des dépendances Python pour le projet caris-dashboard-app
 # Usage: bash install_venv.sh
 
 set -e  # Arrêter le script en cas d'erreur

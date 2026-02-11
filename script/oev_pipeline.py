@@ -100,7 +100,7 @@ def main():
     caseid = pd.read_excel(os.path.expanduser(path))
 
     # Étape 3 : Charger la base de données charges virales
-    oev_data = execute_sql_query('dot.env', os.path.join('sql', 'Charges_virales_pediatriques.sql'))
+    oev_data = execute_sql_query(os.path.join('variables', 'dot.env'), os.path.join('sql', 'Charges_virales_pediatriques.sql'))
 
     # Étape 4 : Nettoyer les doublons
     oev_data = oev_data.loc[:, ~oev_data.columns.duplicated()]
@@ -127,6 +127,12 @@ def main():
     print("DataFrame not_in_club sauvegardé dans outputs/OEV/oev_not_in_club.xlsx")
     filtered_df.to_excel(os.path.join("outputs", "OEV", "oev_data_final.xlsx"), index=False)
     print("DataFrame final sauvegardé dans outputs/OEV/oev_data_final.xlsx")
+    # Export CSV pour Quarto (nom et emplacement exacts)
+    if not filtered_df.empty:
+        filtered_df.to_csv(os.path.join("outputs", "OEV", "oev_tx_curr_for_r.csv"), index=False)
+        print("DataFrame final sauvegardé dans outputs/OEV/oev_tx_curr_for_r.csv")
+    else:
+        print("❌ Attention : filtered_df est vide, aucun CSV généré pour Quarto.")
     # ========== EXTRACTION AJOUT + CHILD ==========
 
     ajout_url = 'https://www.commcarehq.org/a/caris-test/api/odata/forms/v1/41b99d862f48b671c2b2880b6e2c4cea/feed'
@@ -208,7 +214,7 @@ def main():
 
 if __name__ == "__main__":
     # Charger les variables d'environnement
-    load_dotenv(os.path.join('dot.env'))
+    load_dotenv(os.path.join('variables', 'dot.env'))
     
     # Créer le dossier de sortie s'il n'existe pas
     os.makedirs(os.path.join("outputs", "OEV"), exist_ok=True)

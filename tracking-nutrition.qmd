@@ -152,7 +152,7 @@ suppressPackageStartupMessages(library(reticulate))
 
 ```{r, echo=FALSE}
 # Configure reticulate to use the .venv virtual environment
-reticulate::use_virtualenv("C:/Users/moise/Downloads/caris-meal-app/.venv", required = TRUE)
+reticulate::use_virtualenv("C:/Users/moise/Downloads/caris-dashboard-app/.venv", required = TRUE)
 ```
 
 ```{python, echo=FALSE, results='hide', warning=FALSE, message=FALSE}
@@ -1218,50 +1218,54 @@ display_table(py$exeat_week, "Enfants_exeatés", "#000080")
 
 :::{.card-body}
 ```{python, echo=FALSE}
+
 club_week = club_nutrition[(club_nutrition.last_session_date >= week_start) & (club_nutrition.last_session_date <= week_end)]
 
-nombre_clubs_uniques = club_week['club_id'].nunique()
-nombre_children_en_club = club_week['caseid'].nunique()
-#nombre_children_en_club_week = club_week['caseid'].nunique()
-
-# Calcul du nombre d'enfants uniques par club (caseid) en gardant les colonnes demandées
-if not club_week.empty:
-    children_uniques_par_club = club_week.groupby(['club_id', 'member_type', 'first_session_date', 'last_session_date', 'data_clerk']).agg(nombre_enfants_uniques=('caseid', 'nunique'))
-else :
-    print("Pas de données disponibles")
-
-# Charger le fichier club_creation.xlsx comme club_create
-#club_create = pd.read_excel('outputs/NUTRITION/club_creation.xlsx')
-# Renommer la colonne 'caseid' en 'club_id' dans club_create
-if 'caseid' in club_create.columns:
-    club_create = club_create.rename(columns={'caseid': 'club_id', 'departement': 'departement_club', 'commune': 'commune_club', 'office': 'office_club', 'name': 'name_club'})
-# Fusionner avec le DataFrame children_uniques_par_club
-# Retirer les clubs de test
-clubs_a_exclure = ['Club Test', 'TEST ATELIER CARIS', 'Test Cap']
-children_by_club = children_uniques_par_club.reset_index().merge(club_create[['club_id','name_club','office_club','creation_date','departement_club','commune_club']], on='club_id', how='left')
-children_by_club = children_by_club[~children_by_club['name_club'].isin(clubs_a_exclure)]
-#children_by_club.to_excel('outputs/NUTRITION/children_by_club.xlsx', index=False)
-#children_by_club = children_by_club.rename(columns={'caseid': 'number_of_children'})
-#print("Nombre d'enfants uniques par club (caseid) :")
-#print(children_uniques_par_club)
-nombre_children_en_club_week = children_by_club['nombre_enfants_uniques'].sum()
-if not children_by_club.empty:
-    plot_beneficiaries_stacked_eligible_matplotlib(
-        df=children_by_club,
-        plot_col = "nombre_enfants_uniques",
-        sum_logic = 1,
-        group_col = "office_club" if "office_club" in children_by_club.columns else "data_clerk",
-        eligible_col = "member_type",
-        set_title = "Répartition des enfants en club par malnutris vs voisins",
-        set_xlabel = "Nombre d'enfants en club",
-        set_ylabel = "Type de membre",
-        horizontal = True,
-        table = "no",           # "no" => permet d'afficher le graphique
-        percent = False,       # True → tableau et graph en %
-        display = "both"        # "plot" | "table" | "both"
-    )
+if not club_week.empty and 'club_id' in club_week.columns:
+    nombre_clubs_uniques = club_week['club_id'].nunique()
+    nombre_children_en_club = club_week['caseid'].nunique()
+    # Calcul du nombre d'enfants uniques par club (caseid) en gardant les colonnes demandées
+    children_uniques_par_club = club_week.groupby([
+        'club_id', 'member_type', 'first_session_date', 'last_session_date', 'data_clerk'
+    ]).agg(nombre_enfants_uniques=('caseid', 'nunique'))
+    # Charger le fichier club_creation.xlsx comme club_create
+    #club_create = pd.read_excel('outputs/NUTRITION/club_creation.xlsx')
+    # Renommer la colonne 'caseid' en 'club_id' dans club_create
+    if 'caseid' in club_create.columns:
+        club_create = club_create.rename(columns={'caseid': 'club_id', 'departement': 'departement_club', 'commune': 'commune_club', 'office': 'office_club', 'name': 'name_club'})
+    # Fusionner avec le DataFrame children_uniques_par_club
+    # Retirer les clubs de test
+    clubs_a_exclure = ['Club Test', 'TEST ATELIER CARIS', 'Test Cap']
+    children_by_club = children_uniques_par_club.reset_index().merge(club_create[['club_id','name_club','office_club','creation_date','departement_club','commune_club']], on='club_id', how='left')
+    children_by_club = children_by_club[~children_by_club['name_club'].isin(clubs_a_exclure)]
+    #children_by_club.to_excel('outputs/NUTRITION/children_by_club.xlsx', index=False)
+    #children_by_club = children_by_club.rename(columns={'caseid': 'number_of_children'})
+    #print("Nombre d'enfants uniques par club (caseid) :")
+    #print(children_uniques_par_club)
+    nombre_children_en_club_week = children_by_club['nombre_enfants_uniques'].sum()
+    if not children_by_club.empty:
+        plot_beneficiaries_stacked_eligible_matplotlib(
+            df=children_by_club,
+            plot_col = "nombre_enfants_uniques",
+            sum_logic = 1,
+            group_col = "office_club" if "office_club" in children_by_club.columns else "data_clerk",
+            eligible_col = "member_type",
+            set_title = "Répartition des enfants en club par malnutris vs voisins",
+            set_xlabel = "Nombre d'enfants en club",
+            set_ylabel = "Type de membre",
+            horizontal = True,
+            table = "no",           # "no" => permet d'afficher le graphique
+            percent = False,       # True → tableau et graph en %
+            display = "both"        # "plot" | "table" | "both"
+        )
+    # else block removed to avoid syntax error if empty
 else:
     print("Pas de données disponibles")
+    nombre_clubs_uniques = 0
+    nombre_children_en_club = 0
+    children_uniques_par_club = pd.DataFrame()
+    children_by_club = pd.DataFrame()
+    nombre_children_en_club_week = 0
 ```
 :::
 
@@ -1895,14 +1899,20 @@ display_table(py$exeat_month, "Enfants_exéatés_mois", "#000080")
 ```{python, echo=FALSE}
 club_month = club_nutrition[(club_nutrition.last_session_date >= month_start) & (club_nutrition.last_session_date <= month_end)]
 
-nombre_clubs_month = club_month['club_id'].nunique()
+if not club_month.empty and 'club_id' in club_month.columns:
+    nombre_clubs_month = club_month['club_id'].nunique()
+else:
+    nombre_clubs_month = 0
 nombre_children_en_club = club_month['caseid'].nunique()
 nombre_children_en_club_month = club_month['caseid'].nunique()
 # Calcul du nombre d'enfants uniques par club (caseid) en gardant les colonnes demandées
 if not club_month.empty:
-    children_uniques_par_club = club_month.groupby(['club_id', 'member_type', 'first_session_date', 'last_session_date', 'data_clerk']).agg(nombre_enfants_uniques=('caseid', 'nunique'))
-else :
+    children_uniques_par_club = club_month.groupby([
+        'club_id', 'member_type', 'first_session_date', 'last_session_date', 'data_clerk'
+    ]).agg(nombre_enfants_uniques=('caseid', 'nunique'))
+else:
     print("Pas de données disponibles")
+    children_uniques_par_club = pd.DataFrame()
 
 # Charger le fichier club_creation.xlsx comme club_create
 #club_create = pd.read_excel('outputs/NUTRITION/club_creation.xlsx')
@@ -2214,7 +2224,7 @@ display_table(py$child_to_exit_global, "Enfants_à_exeater_global", "#800000")
 
 #### Nombre d'enfants exéatés pour la période sélectionnée par bureau {#exeat-global-office}
 ```{python, echo=FALSE}
-exeat_global = enroled_global.loc[enroled_global['sortie']=='yes']
+exeat_global = enroled_global.loc[enroled_global['actif']=='no']
 if not exeat_global.empty and 'office' in exeat_global.columns:
     plot_beneficiaries_by_categorie(
         df=exeat_global,
@@ -2311,24 +2321,32 @@ display_table(py$no_household, "Enfants_sans_comptage_de_menage", "#800000")
 ```{python, echo=FALSE}
 club_global = club_nutrition[(club_nutrition.last_session_date >= start_date) & (club_nutrition.last_session_date <= end_date)]
 
-nombre_clubs_global = club_global['club_id'].nunique()
+# Initialisation robuste des variables
+nombre_clubs_global = 0
+nombre_children_en_club_global = 0
+children_uniques_global = pd.DataFrame()
+children_by_global_club = pd.DataFrame()
 
-if not club_global.empty:
+if not club_global.empty and 'club_id' in club_global.columns:
+    nombre_clubs_global = club_global['club_id'].nunique()
     # Calcul du nombre d'enfants uniques par club
-    children_uniques_global = club_global.groupby(['club_id', 'member_type', 'first_session_date', 'last_session_date', 'data_clerk']).agg(nombre_enfants_uniques=('caseid', 'nunique'))
-    
+    children_uniques_global = club_global.groupby([
+        'club_id', 'member_type', 'first_session_date', 'last_session_date', 'data_clerk'
+    ]).agg(nombre_enfants_uniques=('caseid', 'nunique'))
+
     # Renommer la colonne 'caseid' en 'club_id' dans club_create si nécessaire
     if 'caseid' in club_create.columns:
         club_create = club_create.rename(columns={'caseid': 'club_id', 'departement': 'departement_club', 'commune': 'commune_club', 'office': 'office_club', 'name': 'name_club'})
-    
+
     # Fusionner avec le DataFrame children_uniques_global et retirer les clubs de test
     clubs_a_exclure = ['Club Test', 'TEST ATELIER CARIS', 'Test Cap']
-    children_by_global_club = children_uniques_global.reset_index().merge(club_create[['club_id','name_club','office_club','creation_date','departement_club','commune_club']], on='club_id', how='left')
+    children_by_global_club = children_uniques_global.reset_index().merge(
+        club_create[['club_id','name_club','office_club','creation_date','departement_club','commune_club']],
+        on='club_id', how='left')
     children_by_global_club = children_by_global_club[~children_by_global_club['name_club'].isin(clubs_a_exclure)]
-    children_by_global_club.to_excel('outputs/NUTRITION/children_by_club.xlsx', index=False)
-    
+
     nombre_children_en_club_global = children_by_global_club['nombre_enfants_uniques'].sum()
-    
+
     if not children_by_global_club.empty:
         plot_beneficiaries_stacked_eligible_matplotlib(
             df=children_by_global_club,
@@ -2348,8 +2366,6 @@ if not club_global.empty:
         print("Pas de données disponibles après filtrage des clubs de test")
 else:
     print("Pas de données disponibles pour la période sélectionnée")
-    children_by_global_club = pd.DataFrame()
-    nombre_children_en_club_global = 0
 ```
 :::
 

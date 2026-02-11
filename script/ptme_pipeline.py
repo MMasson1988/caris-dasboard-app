@@ -33,7 +33,7 @@ from utils import execute_sql_query,creer_colonne_match_conditional
 #from ptme_fonction import creer_colonne_match_conditional
 
 # Charger les variables d'environnement
-load_dotenv('dot.env')
+load_dotenv(os.path.join('variables', 'dot.env'))
 
 # Définition des dates pour les sessions détaillées
 date_debut = '2025-01-01'

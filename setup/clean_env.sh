@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ============================================================================
-# 🧹 NETTOYAGE ENVIRONNEMENT CARIS-MEAL-APP
+# 🧹 NETTOYAGE ENVIRONNEMENT caris-dashboard-app
 # ============================================================================
 # Ce script supprime tous les environnements et permet une réinstallation propre
 # ============================================================================
@@ -30,7 +30,7 @@ print_warning() {
     echo -e "${YELLOW}⚠️  $1${NC}"
 }
 
-print_header "NETTOYAGE ENVIRONNEMENT CARIS-MEAL-APP"
+print_header "NETTOYAGE ENVIRONNEMENT caris-dashboard-app"
 
 echo -e "${RED}⚠️  ATTENTION: Cette opération va supprimer:${NC}"
 echo "   - L'environnement virtuel Python (venv/)"

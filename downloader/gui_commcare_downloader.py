@@ -6,7 +6,7 @@ from tkinter import ttk, filedialog, messagebox
 from datetime import datetime
 
 MODULE_NAME = "commcare_downloader"
-ID_ENV_FILENAME = "id_cc.env"
+ID_ENV_FILENAME = str(Path("variables") / "id_cc.env")
 
 try:
     downloader = __import__(MODULE_NAME)
@@ -48,8 +48,11 @@ class SmartDownloaderApp(tk.Tk):
         self.headless_var = tk.BooleanVar(value=bool(getattr(downloader, "HEADLESS", False)))
         self.skip_existing_var = tk.BooleanVar(value=True)
         self.force_download_var = tk.BooleanVar(value=False)
-        self.email_var = tk.StringVar()
-        self.pass_var = tk.StringVar()
+        import os
+        default_email = os.environ.get("COMMCARE_EMAIL", "")
+        default_pass = os.environ.get("COMMCARE_PASSWORD", "")
+        self.email_var = tk.StringVar(value=default_email)
+        self.pass_var = tk.StringVar(value=default_pass)
         default_dir = getattr(downloader, "DOWNLOAD_DIR", str(Path.home() / "Downloads"))
         self.dir_var = tk.StringVar(value=default_dir)
         self.base_vars = []
@@ -1111,6 +1114,9 @@ class SmartDownloaderApp(tk.Tk):
                 if hasattr(downloader, 'main_enhanced'):
                     downloader.main_enhanced()
                 elif hasattr(downloader, 'main'):
+                    # Pass credentials from GUI to downloader module
+                    setattr(downloader, "EMAIL", self.email_var.get())
+                    setattr(downloader, "PASSWORD", self.pass_var.get())
                     downloader.main()
                 else:
                     raise Exception("Aucune fonction main trouvée dans smart_downloader")
@@ -1119,7 +1125,7 @@ class SmartDownloaderApp(tk.Tk):
                 
             except Exception as e:
                 logging.getLogger().exception(f"Erreur pendant l'exécution: {e}")
-                self.after(0, lambda: self._append_log(f"\n❌ ERREUR: {e}\n", "ERROR"))
+                self.after(0, lambda err=e: self._append_log(f"\n❌ ERREUR: {err}\n", "ERROR"))
             finally:
                 # Nettoyage
                 if env_path and not self.keep_env_file.get():
@@ -1308,7 +1314,7 @@ def file_matches_today(base, fname):
     
     # Fallback vers l'ancienne logique
     base_norm = base.lower().replace(" ", "_")
-    fname_norm = os.path.basename(fname).lower().replace(" ", "_")
+    fname_norm = Path(fname).name.lower().replace(" ", "_")
     pat = re.compile(rf"^{re.escape(base_norm)}(\s*\(created\s+\d{{4}}-\d{{2}}-\d{{2}}\))?\s+{today}(?:\s+\(\d+\))?\.xlsx$")
     return bool(pat.match(fname_norm))
 

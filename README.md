@@ -1,4 +1,4 @@
-# 🍽️ CARIS-MEAL-APP
+# 🍽️ caris-dashboard-app
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://python.org)
 [![R](https://img.shields.io/badge/R-4.0+-blue.svg)](https://r-project.org)
@@ -14,8 +14,8 @@ Application complète de traitement et d'analyse des données pour le programme 
 ### Installation automatique complète
 ```bash
 # 1. Cloner le repository
-git clone https://github.com/MMasson1988/caris-meal-app.git
-cd caris-meal-app
+git clone https://github.com/MMasson1988/caris-dashboard-app.git
+cd caris-dashboard-app
 
 # 2. Configuration automatique (une seule commande!)
 ./config/setup_complete_env.sh
@@ -33,7 +33,7 @@ cd caris-meal-app
 ## 📁 Structure du Projet
 
 ```
-caris-meal-app/
+caris-dashboard-app/
 ├── 🐍 script/                    # Scripts Python
 │   ├── nutrition_pipeline.py     # Pipeline nutrition
 │   ├── ptme_pipeline.py          # Pipeline PTME
@@ -235,4 +235,4 @@ MIT License - voir [LICENSE](LICENSE) pour plus de détails.
 
 ---
 
-🎉 **Avec CARIS-MEAL-APP, votre analyse de données de santé est automatisée et prête en quelques minutes !**
+🎉 **Avec caris-dashboard-app, votre analyse de données de santé est automatisée et prête en quelques minutes !**

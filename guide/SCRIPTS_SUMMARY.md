@@ -1,4 +1,4 @@
-# 🎉 RÉSUMÉ DES SCRIPTS CRÉÉS - CARIS-MEAL-APP
+# 🎉 RÉSUMÉ DES SCRIPTS CRÉÉS - caris-dashboard-app
 
 ## 📋 SCRIPTS PRINCIPAUX CRÉÉS
 
@@ -182,7 +182,7 @@ R -e "renv::update()"
 
 ## 🎉 RÉSULTAT FINAL
 
-**Votre projet CARIS-MEAL-APP est maintenant :**
+**Votre projet caris-dashboard-app est maintenant :**
 
 ✅ **Complètement automatisé** - Configuration en une commande  
 ✅ **Entièrement portable** - Fonctionne partout avec les mêmes versions  

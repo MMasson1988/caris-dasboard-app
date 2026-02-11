@@ -1,7 +1,10 @@
 #!/bin/bash
 
+# Toujours exécuter depuis la racine du projet
+cd "$(dirname "$0")"/..
+
 # ============================================================================
-# 🚀 DÉMARRAGE RAPIDE CARIS-MEAL-APP
+# 🚀 DÉMARRAGE RAPIDE caris-dashboard-app
 # ============================================================================
 # Script de démarrage intelligent qui configure automatiquement l'environnement
 # si nécessaire et active les environnements Python et R
@@ -28,7 +31,7 @@ print_warning() {
     echo -e "${YELLOW}⚠️  $1${NC}"
 }
 
-print_header "DÉMARRAGE CARIS-MEAL-APP"
+print_header "DÉMARRAGE caris-dashboard-app"
 
 # Configuration pour Windows - Créer alias python si py existe
 if command -v py &> /dev/null && ! command -v python &> /dev/null; then

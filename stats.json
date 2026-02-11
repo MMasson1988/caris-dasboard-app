@@ -1,20 +1,44 @@
 {
   "per_file": {
-    "Nutrition": {
+    "Ajout de menages ptme [officiel]": {
       "status": "downloaded",
-      "size_mb": 4.473316192626953,
-      "seconds": 176.7,
-      "mbps": 0.025
+      "size_mb": 9.395359992980957,
+      "seconds": 262.7,
+      "mbps": 0.036
+    },
+    "Household mother": {
+      "status": "downloaded",
+      "size_mb": 10.096504211425781,
+      "seconds": 341.1,
+      "mbps": 0.03
+    },
+    "PTME WITH PATIENT CODE": {
+      "status": "downloaded",
+      "size_mb": 0.4012002944946289,
+      "seconds": 152.1,
+      "mbps": 0.003
+    },
+    "All_child_PatientCode_CaseID": {
+      "status": "downloaded",
+      "size_mb": 1.3189382553100586,
+      "seconds": 163.7,
+      "mbps": 0.008
+    },
+    "household_child": {
+      "status": "downloaded",
+      "size_mb": 3.8593978881835938,
+      "seconds": 191.7,
+      "mbps": 0.02
     }
   },
   "run_summary": {
-    "expected": 1,
-    "present_today": 1,
+    "expected": 5,
+    "present_today": 5,
     "failed_count": 0,
     "failed_list": [],
-    "total_mb": 4.47,
-    "total_time_sec": 176.7,
-    "avg_mbps": 0.025,
-    "run_date": "2026-02-04T15:15:54"
+    "total_mb": 25.07,
+    "total_time_sec": 1111.3,
+    "avg_mbps": 0.023,
+    "run_date": "2026-02-09T10:08:46"
   }
 }

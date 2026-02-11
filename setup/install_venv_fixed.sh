@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script d'installation simplifié et robuste pour CARIS-MEAL-APP
+# Script d'installation simplifié et robuste pour caris-dashboard-app
 # Usage: bash install_venv_fixed.sh
 
 echo "======================================"

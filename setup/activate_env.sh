@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "🚀 Activation environnement CARIS-MEAL-APP..."
+echo "🚀 Activation environnement caris-dashboard-app..."
 
 # Créer alias python pour Windows si nécessaire
 if command -v py &> /dev/null && ! command -v python &> /dev/null; then

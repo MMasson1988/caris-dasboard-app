@@ -1188,3 +1188,6 @@ if not df_mother_child_pcr.empty:
     df_mother_child_pcr.to_excel('./outputs/PTME/mother_child_linked_pcr.xlsx', index=False)
 else:
     print("Aucune donnée PCR mère-enfant trouvée pour la période spécifiée.")
+
+if __name__ == '__main__':
+    print("Module executor.py chargé. Ajoutez une fonction main() pour exécuter le pipeline.")

@@ -1,0 +1,33 @@
+name: Run Python Scripts
+
+on:
+  push:
+    paths:
+      - 'script/*.py'
+  schedule:
+    # Deux fois par jour : 7h00 UTC et 20h00 UTC
+    - cron: "0 09 * * *"  # 4h00 America/Port-au-Prince
+    - cron: "0 20 * * *"  # 15h00 America/Port-au-Prince
+  workflow_dispatch:
+
+concurrency:
+  group: run-scripts
+  cancel-in-progress: false
+
+jobs:
+  run-all-scripts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Run all scripts
+        run: |
+          for file in script/*.py; do
+            echo "Running $file"
+            python "$file"
+          done

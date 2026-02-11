@@ -1,7 +1,7 @@
-# 🚀 GUIDE D'UTILISATION - SETUP ENVIRONNEMENT CARIS-MEAL-APP
+# 🚀 GUIDE D'UTILISATION - SETUP ENVIRONNEMENT caris-dashboard-app
 
 ## 📋 DESCRIPTION
-Le script `setup_complete_env.sh` automatise complètement la configuration de l'environnement de développement pour le projet CARIS-MEAL-APP.
+Le script `setup_complete_env.sh` automatise complètement la configuration de l'environnement de développement pour le projet caris-dashboard-app.
 
 ## 🔍 QUE FAIT LE SCRIPT ?
 
@@ -170,4 +170,4 @@ Pour ajouter de nouveaux packages :
 
 ---
 
-🎉 **Avec ce script, votre environnement CARIS-MEAL-APP est prêt en moins de 5 minutes !**
+🎉 **Avec ce script, votre environnement caris-dashboard-app est prêt en moins de 5 minutes !**

@@ -24,9 +24,12 @@ if now.hour >= 24:
 today_str = now.strftime("%Y-%m-%d")
 #====================================================================================================
 def write_excel(df, output_file):
-    os.makedirs(os.path.dirname(output_file), exist_ok=True)
-    df.to_excel(output_file, index=False)
-    print(f"✅ Fichier enregistré : {output_file}")
+    output_path = Path(output_file)
+    if not output_path.is_absolute():
+        output_path = Path(__file__).resolve().parent.parent / output_path
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    df.to_excel(output_path, index=False)
+    print(f"✅ Fichier enregistré : {output_path}")
 #====================================================================================================
 
 def load_excel_to_df(filename: str, df_name: str) -> pd.DataFrame:
@@ -41,17 +44,18 @@ def load_excel_to_df(filename: str, df_name: str) -> pd.DataFrame:
     Returns:
         pd.DataFrame: le DataFrame chargé depuis le fichier Excel
     """
-    # Déterminer la racine du projet (2 niveaux au-dessus de ce script)
-    base_dir = Path(__file__).resolve().parent
+    # Déterminer la racine du projet (racine du dossier)
+    base_dir = Path(__file__).resolve().parent.parent
     data_path = base_dir / "data" / filename
-
     if not data_path.exists():
         raise FileNotFoundError(f"❌ Fichier introuvable : {data_path}")
-
     print(f"📂 Lecture du fichier '{filename}' dans {data_path}")
     df = pd.read_excel(data_path)
     print(f"✅ DataFrame '{df_name}' chargé ({len(df)} lignes, {len(df.columns)} colonnes)")
     return df
+
+if __name__ == '__main__':
+    print("Module utils.py chargé. Ajoutez une fonction main() pour exécuter des tests ou des exemples.")
 #=====================================================================================================
 def get_commcare_odata(url, auth_credentials, filter_params):
     """

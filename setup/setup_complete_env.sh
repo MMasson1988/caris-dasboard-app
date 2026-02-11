@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ============================================================================
-# 🚀 SETUP COMPLET ENVIRONNEMENT CARIS-MEAL-APP
+# 🚀 SETUP COMPLET ENVIRONNEMENT caris-dashboard-app
 # ============================================================================
 # Ce script analyse automatiquement tous les packages Python et R utilisés
 # dans le projet et configure un environnement complet pour l'exécution
@@ -43,7 +43,7 @@ print_error() {
     echo -e "${RED}❌ $1${NC}"
 }
 
-print_header "CONFIGURATION ENVIRONNEMENT CARIS-MEAL-APP"
+print_header "CONFIGURATION ENVIRONNEMENT caris-dashboard-app"
 
 # ============================================================================
 # 🔍 ANALYSE DES PACKAGES PYTHON
@@ -53,7 +53,7 @@ print_header "ANALYSE DES PACKAGES PYTHON"
 # Créer le fichier requirements.txt
 cat > requirements.txt << 'EOF'
 # ============================================================================
-# REQUIREMENTS.TXT GÉNÉRÉ AUTOMATIQUEMENT - CARIS-MEAL-APP
+# REQUIREMENTS.TXT GÉNÉRÉ AUTOMATIQUEMENT - caris-dashboard-app
 # ============================================================================
 # Packages Python identifiés dans le projet
 
@@ -160,7 +160,7 @@ fi
 # Créer un script R pour installer les packages détectés
 cat > install_r_packages_auto.R << 'EOF'
 # ============================================================================
-# INSTALLATION AUTOMATIQUE DES PACKAGES R - CARIS-MEAL-APP
+# INSTALLATION AUTOMATIQUE DES PACKAGES R - caris-dashboard-app
 # ============================================================================
 
 # Packages R détectés dans le projet
@@ -327,7 +327,7 @@ print_header "CRÉATION SCRIPTS D'ACTIVATION"
 # Script d'activation pour Windows
 cat > activate_env.bat << 'EOF'
 @echo off
-echo 🚀 Activation environnement CARIS-MEAL-APP...
+echo 🚀 Activation environnement caris-dashboard-app...
 call venv\Scripts\activate.bat
 echo ✅ Environnement Python activé!
 echo 📊 Pour R, utilisez RStudio ou R console
@@ -338,7 +338,7 @@ EOF
 # Script d'activation pour Linux/macOS/Git Bash
 cat > activate_env.sh << 'EOF'
 #!/bin/bash
-echo "🚀 Activation environnement CARIS-MEAL-APP..."
+echo "🚀 Activation environnement caris-dashboard-app..."
 
 # Créer alias python pour Windows si nécessaire
 if command -v py &> /dev/null && ! command -v python &> /dev/null; then
@@ -359,7 +359,7 @@ chmod +x activate_env.sh
 cat > test_environment.py << 'EOF'
 #!/usr/bin/env python3
 """
-🧪 SCRIPT DE TEST ENVIRONNEMENT CARIS-MEAL-APP
+🧪 SCRIPT DE TEST ENVIRONNEMENT caris-dashboard-app
 Vérifie que tous les packages essentiels sont installés
 """
 
@@ -379,7 +379,7 @@ def test_package(package_name, import_name=None):
         return False
 
 def main():
-    print("🧪 TEST ENVIRONNEMENT CARIS-MEAL-APP")
+    print("🧪 TEST ENVIRONNEMENT caris-dashboard-app")
     print("=" * 50)
     
     # Packages essentiels à tester
@@ -431,7 +431,7 @@ python test_environment.py
 # ============================================================================
 print_header "CONFIGURATION TERMINÉE"
 
-echo -e "${GREEN}🎉 ENVIRONNEMENT CARIS-MEAL-APP CONFIGURÉ!${NC}"
+echo -e "${GREEN}🎉 ENVIRONNEMENT caris-dashboard-app CONFIGURÉ!${NC}"
 echo ""
 echo -e "${CYAN}📁 Fichiers créés:${NC}"
 echo "  ✅ requirements.txt        - Packages Python"

@@ -22,6 +22,20 @@ from dateutil.parser import parse
 
 warnings.filterwarnings('ignore')
 
+def main():
+    print("=== Analyse interactive des appels CARIS ===")
+    start_date = input("Date de début (YYYY-MM-DD): ")
+    end_date = input("Date de fin (YYYY-MM-DD): ")
+    try:
+        analyzer = CallAppAnalyzer(start_date, end_date)
+        # Ajoutez ici l'appel à la méthode principale d'analyse
+        # Ex : analyzer.run_analysis()
+        print("Analyse terminée.")
+    except Exception as e:
+        print(f"Erreur lors de l'analyse: {e}")
+
+if __name__ == '__main__':
+    main()
 
 class CallAppAnalyzer:
     """Classe principale pour l'analyse des données CallApp"""
@@ -156,7 +170,7 @@ class CallAppAnalyzer:
         """Charge tous les fichiers de données avec today_date et chemins absolus"""
         print("📂 Chargement des fichiers de données...\n")
         datasets = {}
-        base_path = "C:/Users/Moise/Downloads/caris-meal-app/data/"
+        base_path = "C:/Users/Moise/Downloads/caris-dashboard-app/data/"
         today_date = self.today_date
         file_mapping = {
             'Apel_ptme': f"Caris Health Agent - Femme PMTE  - APPELS PTME (created 2025-02-13) {today_date}.xlsx",
