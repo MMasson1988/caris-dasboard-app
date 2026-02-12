@@ -1,3 +1,5 @@
+# For loading environment variables
+python-dotenv
 # Requirements.txt compatible Python 3.13
 # Packages essentiels sans contraintes de version strictes
 
