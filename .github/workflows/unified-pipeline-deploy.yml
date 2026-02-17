@@ -70,8 +70,9 @@ jobs:
           echo "Starting Pipeline Execution"
           echo "================================"
           
-          # Find all *_pipeline.py files in script/ directory
-          PIPELINE_FILES=$(find script/ -name "*_pipeline.py" -type f | sort)
+          # Find all pipeline files in script/ directory
+          # Includes both *_pipeline.py and *-pipeline.py patterns
+          PIPELINE_FILES=$(find script/ -type f \( -name "*_pipeline.py" -o -name "*-pipeline.py" \) | sort)
           
           if [ -z "$PIPELINE_FILES" ]; then
             echo "⚠️  No pipeline files found"
