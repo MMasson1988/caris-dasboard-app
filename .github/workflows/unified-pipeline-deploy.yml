@@ -202,7 +202,7 @@ jobs:
           echo "" >> $GITHUB_STEP_SUMMARY
           
           # Count pipeline files
-          PIPELINE_COUNT=$(find script/ -name "*_pipeline.py" -type f | wc -l)
+          PIPELINE_COUNT=$(find script/ -type f \( -name "*_pipeline.py" -o -name "*-pipeline.py" \) | wc -l)
           echo "**Pipelines executed:** $PIPELINE_COUNT" >> $GITHUB_STEP_SUMMARY
           
           # Count QMD files
