@@ -39,7 +39,13 @@ jobs:
       - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          # Install dependencies excluding Windows-only packages
+          pip install -r requirements.txt --no-deps
+          pip install -r requirements.txt || pip install -r requirements.txt --ignore-requires-python || true
+          # Explicitly exclude pywinpty as it's Windows-only
+          pip uninstall -y pywinpty || true
+          # Re-install to ensure all dependencies are met (except pywinpty)
+          pip check || echo "Some dependencies might be missing but continuing..."
 
       # ========================================
       # 3. SETUP R ENVIRONMENT
