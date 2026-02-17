@@ -1,0 +1,215 @@
+name: Unified Pipeline & Deployment
+
+on:
+  push:
+    paths:
+      - 'script/**/*.py'
+      - '*.qmd'
+      - 'data/**'
+      - '.github/workflows/unified-pipeline-deploy.yml'
+  workflow_dispatch:
+
+concurrency:
+  group: unified-pipeline-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  run-pipelines-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # ========================================
+      # 1. CHECKOUT REPOSITORY
+      # ========================================
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      # ========================================
+      # 2. SETUP PYTHON ENVIRONMENT
+      # ========================================
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Python dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # ========================================
+      # 3. SETUP R ENVIRONMENT
+      # ========================================
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: '4.3'
+
+      - name: Install R dependencies
+        run: |
+          Rscript setup/install_r_dependencies.R
+
+      # ========================================
+      # 4. INSTALL QUARTO
+      # ========================================
+      - name: Install Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+        with:
+          version: 'latest'
+
+      # ========================================
+      # 5. RUN ALL PIPELINE SCRIPTS
+      # ========================================
+      - name: Run all pipeline scripts
+        run: |
+          echo "================================"
+          echo "Starting Pipeline Execution"
+          echo "================================"
+          
+          # Find all *_pipeline.py files in script/ directory
+          PIPELINE_FILES=$(find script/ -name "*_pipeline.py" -type f | sort)
+          
+          if [ -z "$PIPELINE_FILES" ]; then
+            echo "⚠️  No pipeline files found"
+            exit 0
+          fi
+          
+          # Run each pipeline
+          for pipeline in $PIPELINE_FILES; do
+            echo ""
+            echo "▶️  Running: $pipeline"
+            echo "─────────────────────────────────"
+            
+            if python "$pipeline"; then
+              echo "✅ Success: $pipeline"
+            else
+              echo "❌ Failed: $pipeline"
+              exit 1
+            fi
+          done
+          
+          echo ""
+          echo "================================"
+          echo "All Pipelines Completed"
+          echo "================================"
+
+      # ========================================
+      # 6. RENDER ALL QMD FILES
+      # ========================================
+      - name: Render all QMD reports
+        run: |
+          echo "================================"
+          echo "Starting QMD Rendering"
+          echo "================================"
+          
+          # Find all .qmd files in root directory
+          QMD_FILES=$(find . -maxdepth 1 -name "*.qmd" -type f | sort)
+          
+          if [ -z "$QMD_FILES" ]; then
+            echo "⚠️  No QMD files found"
+            exit 0
+          fi
+          
+          # Render each QMD file
+          for qmd_file in $QMD_FILES; do
+            echo ""
+            echo "📄 Rendering: $qmd_file"
+            echo "─────────────────────────────────"
+            
+            if quarto render "$qmd_file"; then
+              echo "✅ Success: $qmd_file"
+            else
+              echo "❌ Failed: $qmd_file"
+              exit 1
+            fi
+          done
+          
+          echo ""
+          echo "================================"
+          echo "All QMD Files Rendered"
+          echo "================================"
+
+      # ========================================
+      # 7. COMMIT AND PUSH RESULTS
+      # ========================================
+      - name: Configure Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+
+      - name: Commit and push changes
+        run: |
+          echo "================================"
+          echo "Committing Results"
+          echo "================================"
+          
+          # Add all generated outputs
+          git add outputs/ || true
+          git add _site/ || true
+          git add *.html || true
+          git add data/ || true
+          
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "ℹ️  No changes to commit"
+          else
+            # Get current timestamp
+            TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
+            
+            # Create commit message with details
+            COMMIT_MSG="🤖 Automated Pipeline Run - $TIMESTAMP
+
+Pipeline execution and report generation completed successfully.
+
+Changes include:
+- Pipeline outputs from script/ folder
+- Rendered QMD reports
+- Generated HTML files
+
+Triggered by: ${{ github.event_name }}
+Commit: ${{ github.sha }}
+Branch: ${{ github.ref_name }}"
+            
+            git commit -m "$COMMIT_MSG"
+            
+            echo "✅ Changes committed"
+            echo ""
+            echo "Pushing to repository..."
+            
+            git push
+            
+            echo "✅ Changes pushed successfully"
+          fi
+          
+          echo "================================"
+          echo "Deployment Complete"
+          echo "================================"
+
+      # ========================================
+      # 8. SUMMARY
+      # ========================================
+      - name: Generate summary
+        if: always()
+        run: |
+          echo "## 📊 Pipeline Execution Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Workflow:** Unified Pipeline & Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "**Triggered by:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "**Timestamp:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          # Count pipeline files
+          PIPELINE_COUNT=$(find script/ -name "*_pipeline.py" -type f | wc -l)
+          echo "**Pipelines executed:** $PIPELINE_COUNT" >> $GITHUB_STEP_SUMMARY
+          
+          # Count QMD files
+          QMD_COUNT=$(find . -maxdepth 1 -name "*.qmd" -type f | wc -l)
+          echo "**Reports rendered:** $QMD_COUNT" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ **Status:** Workflow completed" >> $GITHUB_STEP_SUMMARY
