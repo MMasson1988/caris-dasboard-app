@@ -158,7 +158,6 @@ pytokens==0.4.1
 pytweening==1.2.0
 pytz==2025.2
 pywhatkit==5.4
-pywinpty==3.0.2
 PyYAML==6.0.3
 pyzmq==27.1.0
 RapidFuzz==3.14.3
