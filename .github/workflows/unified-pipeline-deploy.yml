@@ -37,16 +37,13 @@ jobs:
           cache: 'pip'
 
       - name: Install Python dependencies
-        env:
-          # Prevent installation of Windows-only packages
-          PIP_NO_BUILD_ISOLATION: "false"
         run: |
           python -m pip install --upgrade pip
-          # Filter out commented lines and install
-          grep -v "^#" requirements.txt | grep -v "^$" > /tmp/requirements_filtered.txt || true
-          pip install -r /tmp/requirements_filtered.txt --prefer-binary || {
-            echo "Some packages failed to install, continuing with available packages..."
-            exit 0
+          # Install all dependencies except pywinpty (Windows-only)
+          pip install -r requirements.txt || {
+            echo "⚠️ Some packages failed, retrying without strict dependencies..."
+            pip install -r requirements.txt --no-deps
+            pip install $(grep -v "^#" requirements.txt | grep -v "pywinpty" | tr '\n' ' ')
           }
 
       # ========================================
