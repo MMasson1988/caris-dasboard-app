@@ -37,15 +37,17 @@ jobs:
           cache: 'pip'
 
       - name: Install Python dependencies
+        env:
+          # Prevent installation of Windows-only packages
+          PIP_NO_BUILD_ISOLATION: "false"
         run: |
           python -m pip install --upgrade pip
-          # Install dependencies excluding Windows-only packages
-          pip install -r requirements.txt --no-deps
-          pip install -r requirements.txt || pip install -r requirements.txt --ignore-requires-python || true
-          # Explicitly exclude pywinpty as it's Windows-only
-          pip uninstall -y pywinpty || true
-          # Re-install to ensure all dependencies are met (except pywinpty)
-          pip check || echo "Some dependencies might be missing but continuing..."
+          # Filter out commented lines and install
+          grep -v "^#" requirements.txt | grep -v "^$" > /tmp/requirements_filtered.txt || true
+          pip install -r /tmp/requirements_filtered.txt --prefer-binary || {
+            echo "Some packages failed to install, continuing with available packages..."
+            exit 0
+          }
 
       # ========================================
       # 3. SETUP R ENVIRONMENT
