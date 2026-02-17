@@ -160,21 +160,17 @@ jobs:
             # Get current timestamp
             TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
             
-            # Create commit message with details
-            COMMIT_MSG="🤖 Automated Pipeline Run - $TIMESTAMP
-
-Pipeline execution and report generation completed successfully.
-
-Changes include:
-- Pipeline outputs from script/ folder
-- Rendered QMD reports
-- Generated HTML files
-
-Triggered by: ${{ github.event_name }}
-Commit: ${{ github.sha }}
-Branch: ${{ github.ref_name }}"
-            
-            git commit -m "$COMMIT_MSG"
+            # Create commit message
+            git commit -m "🤖 Automated Pipeline Run - $TIMESTAMP" \
+                       -m "Pipeline execution and report generation completed successfully." \
+                       -m "Changes include:" \
+                       -m "- Pipeline outputs from script/ folder" \
+                       -m "- Rendered QMD reports" \
+                       -m "- Generated HTML files" \
+                       -m "" \
+                       -m "Triggered by: ${{ github.event_name }}" \
+                       -m "Commit: ${{ github.sha }}" \
+                       -m "Branch: ${{ github.ref_name }}"
             
             echo "✅ Changes committed"
             echo ""
