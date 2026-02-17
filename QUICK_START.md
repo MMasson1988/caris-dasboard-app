@@ -21,12 +21,13 @@
 
 ### What Gets Executed
 
-**5 Python Pipelines:**
-1. `script/garden_pipeline.py`
-2. `script/muso_pipeline.py`
-3. `script/nutrition_pipeline.py`
-4. `script/oev_pipeline.py`
-5. `script/ptme_pipeline.py`
+**6 Python Pipelines:**
+1. `script/call-pipeline.py`
+2. `script/garden_pipeline.py`
+3. `script/muso_pipeline.py`
+4. `script/nutrition_pipeline.py`
+5. `script/oev_pipeline.py`
+6. `script/ptme_pipeline.py`
 
 **6 QMD Reports:**
 1. `tracking-call.qmd`
