@@ -1,0 +1,5 @@
+# Constraints file for Linux/GitHub Actions
+# Excludes Windows-only packages
+
+# Explicitly exclude pywinpty (Windows-only terminal wrapper)
+pywinpty==999.999.999  # Version impossible to installer pour forcer l'exclusion
