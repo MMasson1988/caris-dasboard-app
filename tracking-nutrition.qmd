@@ -152,7 +152,7 @@ suppressPackageStartupMessages(library(reticulate))
 
 ```{r, echo=FALSE}
 # Configure reticulate to use the .venv virtual environment
-# reticulate::use_virtualenv("C:/Users/moise/Downloads/caris-dashboard-app/.venv", required = TRUE)
+reticulate::use_python(Sys.which("python"), required = TRUE)
 ```
 
 ```{python, echo=FALSE, results='hide', warning=FALSE, message=FALSE}
