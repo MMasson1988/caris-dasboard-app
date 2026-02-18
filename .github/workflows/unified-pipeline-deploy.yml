@@ -92,9 +92,13 @@ jobs:
       # 5. RUN ALL PIPELINE SCRIPTS
       # ========================================
       - name: Run all pipeline scripts
+        env:
+          TZ: 'America/Port-au-Prince'  # Fuseau horaire d'Haïti
         run: |
           echo "================================"
           echo "Starting Pipeline Execution"
+          echo "Timezone: $TZ"
+          echo "Current date: $(date)"
           echo "================================"
           
           # Find all pipeline files in script/ directory
