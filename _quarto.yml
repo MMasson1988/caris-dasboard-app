@@ -2,22 +2,7 @@ project:
   type: website
 
 website:
-  navbar:
-    background: success   # Vert forêt
-    foreground: white
-    left:
-      - text: "<i class='bi bi-hospital'></i> RAPPOR PTME"
-        href: tracking-ptme.qmd
-      - text: "<i class='bi bi-flower3'></i> RAPPORT JARDINAGE"
-        href: tracking-gardening.qmd
-      - text: "<i class='bi bi-people'></i> RAPPORT OEV"
-        href: tracking-oev.qmd
-      - text: "<i class='bi bi-bar-chart-line'></i> RAPPORT MUSO"
-        href: tracking-muso.qmd
-      - text: "<i class='bi bi-egg-fried'></i> RAPPORT NUTRITION"
-        href: tracking-nutrition.qmd
-      - text: "<i class='bi bi-telephone'></i> RAPPORT VISITES ET APPELS"
-        href: tracking-call.qmd
+  # navbar supprimée à la demande de l'utilisateur
 
   page-footer:
     center: "© 2025 CFI – Tous droits réservés"
