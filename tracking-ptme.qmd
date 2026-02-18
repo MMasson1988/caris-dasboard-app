@@ -165,6 +165,24 @@ suppressPackageStartupMessages(library(gridExtra))
 ```{r, echo=FALSE}
 reticulate::use_python(Sys.which("python"), required = TRUE)
 
+reticulate::py_install(c(
+  "python-dateutil",
+  "itables",
+  "pandas",
+  "numpy",
+  "matplotlib",
+  "seaborn",
+  "plotly",
+  "openpyxl",
+  "xlsxwriter",
+  "pymysql",
+  "sqlalchemy",
+  "selenium",
+  "webdriver-manager",
+  "dotenv",
+  "ipython"
+), pip = TRUE)
+
 #use_virtualenv("./../../python_env", required = TRUE)
 ```
 

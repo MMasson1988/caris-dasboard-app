@@ -369,10 +369,22 @@ plot_beneficiaries_by_categorie(
 :::
 
 ## Liste des groupes MUSO actifs
-```{r, echo= FALSE}
-muso_group_r <- py$muso_group
-
-DT::datatable(muso_group_r, extensions = 'Buttons', filter = 'bottom',
+```{r, echo=FALSE}
+reticulate::use_python(Sys.which("python"), required = TRUE)
+# Installer tous les packages Python nécessaires si besoin
+reticulate::py_install(c(
+  "python-dateutil",
+  "pandas",
+  "numpy",
+  "matplotlib",
+  "seaborn",
+  "plotly",
+  "openpyxl",
+  "xlsxwriter",
+  "pymysql",
+  "sqlalchemy"
+), pip = TRUE)
+#use_virtualenv("./../../python_env", required = TRUE)
                                            options = list(dom = 'Bfrtip',
                                                           columnDefs = list(list(className = 'dt-center', targets = "_all")),
                                                           initComplete = JS(

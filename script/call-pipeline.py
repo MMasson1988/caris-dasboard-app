@@ -447,9 +447,7 @@ def main():
     today_date = datetime.today().date().strftime('%Y-%m-%d')
     # Import visit dataset using absolute paths
     print("Reading visit datasets...")
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    data_dir = os.path.abspath(os.path.join(script_dir, '..', 'data'))
-
+    data_dir = "data"
     Apel_ptme = pd.read_excel(os.path.join(data_dir, f"Caris Health Agent - Femme PMTE  - APPELS PTME (created 2025-02-13) {today_date}.xlsx"), parse_dates=True)
     Apel_oev = pd.read_excel(os.path.join(data_dir, f"Caris Health Agent - Enfant - APPELS OEV (created 2025-01-08) {today_date}.xlsx"), parse_dates=True)
     Visite_ptme = pd.read_excel(os.path.join(data_dir, f"Caris Health Agent - Femme PMTE  - Visite PTME (created 2025-02-13) {today_date}.xlsx"), parse_dates=True)

@@ -1,4 +1,12 @@
----
+```{r, echo=FALSE}
+reticulate::use_python(Sys.which("python"), required = TRUE)
+reticulate::py_install(c(
+    "pandas",
+    "numpy",
+    "matplotlib",
+    "seaborn"
+), pip = TRUE)
+```
 title: "APPELS ET VISITES"
 subtitle: "Caris Foundation | Rapport des appels et visites des agents"
 author: "M&E Department"
@@ -20,7 +28,6 @@ execute:
   echo: false
   warning: false
   message: false
----
 
 <style>
   h2, h3 { color: #003366; border-bottom: 2px solid #0055a5; padding-bottom: 0.3em; }

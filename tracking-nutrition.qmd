@@ -153,6 +153,23 @@ suppressPackageStartupMessages(library(reticulate))
 ```{r, echo=FALSE}
 # Configure reticulate to use the .venv virtual environment
 reticulate::use_python(Sys.which("python"), required = TRUE)
+reticulate::py_install(c(
+    "python-dateutil",
+    "itables",
+    "pandas",
+    "numpy",
+    "matplotlib",
+    "seaborn",
+    "plotly",
+    "openpyxl",
+    "xlsxwriter",
+    "pymysql",
+    "sqlalchemy",
+    "selenium",
+    "webdriver-manager",
+    "dotenv",
+    "ipython"
+), pip = TRUE)
 ```
 
 ```{python, echo=FALSE, results='hide', warning=FALSE, message=FALSE}

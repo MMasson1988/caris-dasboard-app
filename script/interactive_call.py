@@ -170,7 +170,7 @@ class CallAppAnalyzer:
         """Charge tous les fichiers de données avec today_date et chemins absolus"""
         print("📂 Chargement des fichiers de données...\n")
         datasets = {}
-        base_path = "C:/Users/Moise/Downloads/caris-dashboard-app/data/"
+        base_path = "data/"
         today_date = self.today_date
         file_mapping = {
             'Apel_ptme': f"Caris Health Agent - Femme PMTE  - APPELS PTME (created 2025-02-13) {today_date}.xlsx",

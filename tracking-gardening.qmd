@@ -61,8 +61,24 @@ format:
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 # Configuration pour GitHub Actions : utiliser le chemin Python de l'environnement virtuel
 reticulate::use_python(Sys.which("python"), required = TRUE)
-# Installer python-dateutil si besoin
-reticulate::py_install("python-dateutil", pip = TRUE)
+# Installer tous les packages Python nécessaires si besoin
+reticulate::py_install(c(
+    "python-dateutil",
+    "itables",
+    "pandas",
+    "numpy",
+    "matplotlib",
+    "seaborn",
+    "plotly",
+    "openpyxl",
+    "xlsxwriter",
+    "pymysql",
+    "sqlalchemy",
+    "selenium",
+    "webdriver-manager",
+    "python-dotenv",
+    "ipython"
+), pip = TRUE)
 ```
 
 
