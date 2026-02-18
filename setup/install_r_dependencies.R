@@ -1,9 +1,14 @@
 # ==============================================================================
-# Script d'installation des dépendances R - CARIS MEAL Pipeline
-# Ce script prépare l'environnement pour Quarto + Python (reticulate)
+# Script d'installation OPTIMISÉ - CARIS MEAL Pipeline
 # ==============================================================================
 
-# Liste exhaustive des packages utilisés dans votre rapport
+# Forcer la désactivation de renv au sein de la session
+options(renv.config.activate = FALSE)
+
+# Utilisation du dépôt binaire de Posit pour Ubuntu Noble (très rapide)
+# Cela évite de recompiler les packages à partir des sources
+options(repos = c(PPM = "https://packagemanager.posit.co/cran/__linux__/noble/latest"))
+
 packages <- c(
   "dplyr", "RMySQL", "odbc", "DBI", "viridis", "ggplot2", 
   "ggrepel", "ggthemes", "plotly", "stringr", "RColorBrewer", 
@@ -12,31 +17,31 @@ packages <- c(
   "writexl", "reticulate", "knitr", "rmarkdown"
 )
 
-# Fonction d'installation intelligente
+# Fonction d'installation via utils pour court-circuiter renv
 install_if_missing <- function(p) {
-  if (!require(p, character.only = TRUE)) {
+  if (!require(p, character.only = TRUE, quietly = TRUE)) {
     message(paste("📦 Installation du package :", p))
-    install.packages(p, dependencies = TRUE, repos = "https://cloud.r-project.org")
+    # Installation propre sans interférence
+    utils::install.packages(p, dependencies = TRUE)
   }
 }
 
 # 1. Installation des packages de base
-invisible(sapply(packages, install_if_missing))
+invisible(lapply(packages, install_if_missing))
 
-# 2. Configuration spécifique pour RETICULATE (Le pont R-Python)
-# Indispensable pour que Quarto ne cherche pas un .venv inexistant sur GitHub
+# 2. Configuration spécifique pour RETICULATE
 if (require(reticulate)) {
-  message("🐍 Configuration de reticulate...")
-  # On force l'installation de miniconda uniquement si nécessaire, 
-  # mais sur GitHub Actions, on préfère utiliser le Python système.
-  reticulate::configure_environment()
+  message("🐍 Configuration de reticulate pour GitHub Actions...")
+  # On force l'utilisation du Python système détecté par le workflow
+  reticulate::use_python(Sys.which("python"), required = TRUE)
 }
 
-# 3. Gestion des polices pour extrafont (Optionnel mais évite des erreurs de rendu)
+# 3. Gestion des polices (silencieux pour éviter les blocages de rendu)
 if (require(extrafont)) {
-  # Sur Linux (GitHub Actions), l'importation peut échouer sans polices système
-  # On tente une initialisation silencieuse
-  try(extrafont::font_import(prompt = FALSE), silent = TRUE)
+  try({
+    extrafont::font_import(prompt = FALSE)
+    extrafont::loadfonts(device = "pdf", quiet = TRUE)
+  }, silent = TRUE)
 }
 
-message("✅ Toutes les dépendances R ont été installées avec succès.")
+message("✅ Environnement R prêt pour Quarto.")

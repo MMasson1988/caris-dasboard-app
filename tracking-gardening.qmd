@@ -573,7 +573,7 @@ ggplot(household_garden,
   geom_label(aes(label = `Nombre de ménage compté`),
              size = 3.5, color = "black", show.legend = FALSE) +
   coord_flip() +
-  theme_bw() +
+    ggthemes::theme_hc() +
   labs(
     title   = paste("Total des bénéficiaires indirects :", total_beneficiaires),
     caption = paste("Data source: CommCare", Sys.Date()),

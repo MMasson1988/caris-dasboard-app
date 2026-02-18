@@ -1069,7 +1069,7 @@ if (nrow(graf_clb_oev) == 0) {
       show.legend = FALSE
     ) +
     coord_flip() +
-    theme_bw() +
+    ggthemes::theme_hc() +
     theme(
       panel.grid = element_blank(),
       plot.caption = element_text(face = "italic", size = 8)

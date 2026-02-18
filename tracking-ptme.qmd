@@ -1005,7 +1005,7 @@ plot_ptme_summary <- function(ptme_df,
     labs(
       caption = paste("Source:", data_source, "/", Sys.Date())
     ) +
-    theme_bw() +
+    ggthemes::theme_hc() +
     theme(
       plot.caption = element_text(face = "italic"),
       axis.title.x = element_blank(),
@@ -1055,7 +1055,7 @@ ggplot(club_by_office, aes(x = reorder(office, count), y = count)) +
     y = "Nombre de femmes",
     caption = paste("Source: Caris Foundation /", Sys.Date())
   ) +
-  theme_minimal() +
+  ggthemes::theme_hc() +
   theme(
     plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
     plot.subtitle = element_text(hjust = 0.5, size = 12),

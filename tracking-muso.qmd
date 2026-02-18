@@ -88,7 +88,20 @@ suppressPackageStartupMessages(library(reticulate))
 ```{r, echo=FALSE}
 # Use system Python instead of virtual environment
 reticulate::use_python(Sys.which("python"), required = TRUE)
-reticulate::use_python(Sys.which("python"), required = TRUE)
+# Installer tous les packages Python nécessaires si besoin
+reticulate::py_install(c(
+  "python-dateutil",
+  "pandas",
+  "numpy",
+  "matplotlib",
+  "seaborn",
+  "plotly",
+  "openpyxl",
+  "xlsxwriter",
+  "pymysql",
+  "sqlalchemy"
+), pip = TRUE)
+
 #reticulate::use_python(Sys.which("python"))
 ```
 
@@ -370,21 +383,8 @@ plot_beneficiaries_by_categorie(
 
 ## Liste des groupes MUSO actifs
 ```{r, echo=FALSE}
-reticulate::use_python(Sys.which("python"), required = TRUE)
-# Installer tous les packages Python nécessaires si besoin
-reticulate::py_install(c(
-  "python-dateutil",
-  "pandas",
-  "numpy",
-  "matplotlib",
-  "seaborn",
-  "plotly",
-  "openpyxl",
-  "xlsxwriter",
-  "pymysql",
-  "sqlalchemy"
-), pip = TRUE)
-#use_virtualenv("./../../python_env", required = TRUE)
+muso_group_r <- py$muso_group
+DT::datatable(muso_group_r, extensions = 'Buttons', filter = 'bottom',
                                            options = list(dom = 'Bfrtip',
                                                           columnDefs = list(list(className = 'dt-center', targets = "_all")),
                                                           initComplete = JS(
@@ -392,7 +392,7 @@ reticulate::py_install(c(
                                                               "$(this.api().table().header()).css({'background-color': '#3E4827', 'color': '#fff'});",
                                                               "}"),
                                                           buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),
-                                                          pageLength = 4))
+                                                          pageLength = 4))  
 ```
 
 
@@ -552,7 +552,7 @@ ggplot(df_sum, aes(x = reorder(username, total_households),
     x = "Agents",
     y = "Total des ménages"
   ) +
-  theme_minimal(base_size = 14) +
+  ggthemes::theme_hc(base_size = 14) +
   theme(plot.title = element_text(face = "bold")) +
   expand_limits(y = max(df_sum$total_households) * 1.1)
 
