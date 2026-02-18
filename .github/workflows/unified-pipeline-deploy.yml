@@ -27,9 +27,11 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # Désactiver l'activation automatique de renv pour éviter les conflits d'installation
-      - name: Disable renv auto-activation
-        run: echo "RENV_CONFIG_ACTIVATE = FALSE" >> .Renviron
+      # Suppression critique de renv pour éviter le blocage de l'installation
+      - name: Purge renv and local profiles
+        run: |
+          rm -rf renv/ renv.lock .Rprofile .Renviron
+          echo "RENV_CONFIG_ACTIVATE = FALSE" >> .Renviron
 
       # ========================================
       # 2. SETUP PYTHON ENVIRONMENT
@@ -79,11 +81,11 @@ jobs:
             libjpeg-dev \
             libgdal-dev \
             libproj-dev \
-            libgeos-dev \
-            libmagick++-dev
+            libgeos-dev
 
       - name: Install R dependencies
         run: |
+          # Exécution du script d'installation système propre
           Rscript setup/install_r_dependencies.R
 
       # ========================================
@@ -102,12 +104,7 @@ jobs:
           DB_USER: ${{ secrets.DB_USER }}
           DB_PASS: ${{ secrets.DB_PASS }}
         run: |
-          echo "================================"
-          echo "Starting Pipeline Execution"
-          echo "================================"
-          
           PIPELINE_FILES=$(find script/ -type f \( -name "*_pipeline.py" -o -name "*-pipeline.py" \) | sort)
-          
           if [ -z "$PIPELINE_FILES" ]; then
             echo "⚠️ No pipeline files found"
           else
@@ -124,12 +121,7 @@ jobs:
         env:
           TZ: 'America/Port-au-Prince'
         run: |
-          echo "================================"
-          echo "Starting QMD Rendering"
-          echo "================================"
-          
           QMD_FILES=$(find . -maxdepth 1 -name "*.qmd" -type f | sort)
-          
           for qmd_file in $QMD_FILES; do
             echo "📄 Rendering: $qmd_file"
             quarto render "$qmd_file" || exit 1
@@ -142,11 +134,9 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          
           git add outputs/ || true
           git add *.html || true
           git add data/ || true
-          
           if git diff --staged --quiet; then
             echo "ℹ️ No changes to commit"
           else

@@ -6,7 +6,7 @@
 # Liste exhaustive des packages utilisés dans votre rapport
 packages <- c(
   "dplyr", "RMySQL", "odbc", "DBI", "viridis", "ggplot2", 
-  "ggrepel", "hrbrthemes", "plotly", "stringr", "RColorBrewer", 
+  "ggrepel", "ggthemes", "plotly", "stringr", "RColorBrewer", 
   "tidytext", "purrr", "lubridate", "tidyr", "scales", 
   "extrafont", "forcats", "DT", "data.table", "readxl", 
   "writexl", "reticulate", "knitr", "rmarkdown"
@@ -32,7 +32,7 @@ if (require(reticulate)) {
   reticulate::configure_environment()
 }
 
-# 3. Gestion des polices pour hrbrthemes (Optionnel mais évite des erreurs de rendu)
+# 3. Gestion des polices pour extrafont (Optionnel mais évite des erreurs de rendu)
 if (require(extrafont)) {
   # Sur Linux (GitHub Actions), l'importation peut échouer sans polices système
   # On tente une initialisation silencieuse
