@@ -140,7 +140,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "ℹ️ No changes to commit"
           else
-            git commit -m "🤖 Automated Pipeline & Report - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
+            git commit -m "Automated Pipeline & Report - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
             git push
           fi
 
