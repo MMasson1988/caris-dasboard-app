@@ -27,6 +27,10 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      # Désactiver l'activation automatique de renv pour éviter les conflits d'installation
+      - name: Disable renv auto-activation
+        run: echo "RENV_CONFIG_ACTIVATE = FALSE" >> .Renviron
+
       # ========================================
       # 2. SETUP PYTHON ENVIRONMENT
       # ========================================
@@ -37,34 +41,24 @@ jobs:
           cache: 'pip'
 
       - name: Install Python dependencies
-        continue-on-error: false
         run: |
           python -m pip install --upgrade pip
-          # Install dependencies, skipping pywinpty if it fails
           pip install -r requirements.txt 2>&1 | tee /tmp/pip_install.log || {
-            echo "⚠️  Some packages failed to build"
-            echo "Checking if pywinpty was the only failure..."
-            
-            if grep -q "Failed to build pywinpty" /tmp/pip_install.log && \
-               grep -q "Successfully installed" /tmp/pip_install.log; then
-              echo "✅ pywinpty failed (Windows-only package) but other packages installed successfully"
-              echo "Continuing with available packages..."
-              exit 0
+            if grep -q "Failed to build pywinpty" /tmp/pip_install.log; then
+              echo "✅ pywinpty failed (Windows-only) but continuing..."
             else
-              echo "❌ Critical packages failed to install"
               exit 1
             fi
           }
-          # Install python-dateutil for reticulate/Quarto compatibility
           pip install python-dateutil
 
       # ========================================
-      # 3. SETUP R ENVIRONMENT
+      # 3. SETUP R ENVIRONMENT & SYSTEM DEPS
       # ========================================
       - name: Set up R
         uses: r-lib/actions/setup-r@v2
         with:
-          r-version: '4.4'  # Updated from 4.3 to support Matrix package
+          r-version: '4.4'
 
       - name: Install system dependencies for R packages
         run: |
@@ -77,8 +71,17 @@ jobs:
             libssl-dev \
             libxml2-dev \
             unixodbc-dev \
-            pandoc
-      
+            pandoc \
+            libharfbuzz-dev \
+            libfribidi-dev \
+            libfreetype6-dev \
+            libtiff5-dev \
+            libjpeg-dev \
+            libgdal-dev \
+            libproj-dev \
+            libgeos-dev \
+            libmagick++-dev
+
       - name: Install R dependencies
         run: |
           Rscript setup/install_r_dependencies.R
@@ -88,139 +91,68 @@ jobs:
       # ========================================
       - name: Install Quarto
         uses: quarto-dev/quarto-actions/setup@v2
-        # No version specified - uses action's default
 
       # ========================================
       # 5. RUN ALL PIPELINE SCRIPTS
       # ========================================
       - name: Run all pipeline scripts
         env:
-          TZ: 'America/Port-au-Prince'  # Fuseau horaire d'Haïti
+          TZ: 'America/Port-au-Prince'
+          DB_HOST: ${{ secrets.DB_HOST }}
+          DB_USER: ${{ secrets.DB_USER }}
+          DB_PASS: ${{ secrets.DB_PASS }}
         run: |
           echo "================================"
           echo "Starting Pipeline Execution"
-          echo "Timezone: $TZ"
-          echo "Current date: $(date)"
           echo "================================"
           
-          # Find all pipeline files in script/ directory
-          # Includes both *_pipeline.py and *-pipeline.py patterns
           PIPELINE_FILES=$(find script/ -type f \( -name "*_pipeline.py" -o -name "*-pipeline.py" \) | sort)
           
           if [ -z "$PIPELINE_FILES" ]; then
-            echo "⚠️  No pipeline files found"
-            exit 0
+            echo "⚠️ No pipeline files found"
+          else
+            for pipeline in $PIPELINE_FILES; do
+              echo "▶️ Running: $pipeline"
+              python "$pipeline" || exit 1
+            done
           fi
-          
-          # Run each pipeline
-          for pipeline in $PIPELINE_FILES; do
-            echo ""
-            echo "▶️  Running: $pipeline"
-            echo "─────────────────────────────────"
-            
-            if python "$pipeline"; then
-              echo "✅ Success: $pipeline"
-            else
-              echo "❌ Failed: $pipeline"
-              exit 1
-            fi
-          done
-          
-          echo ""
-          echo "================================"
-          echo "All Pipelines Completed"
-          echo "================================"
 
       # ========================================
-      # 6. RENDER ALL QMD FILES
+      # 6. RENDER ALL QMD REPORTS
       # ========================================
       - name: Render all QMD reports
         env:
-          TZ: 'America/Port-au-Prince'  # Fuseau horaire d'Haïti
+          TZ: 'America/Port-au-Prince'
         run: |
           echo "================================"
           echo "Starting QMD Rendering"
-          echo "Timezone: $TZ"
           echo "================================"
           
-          # Find all .qmd files in root directory
           QMD_FILES=$(find . -maxdepth 1 -name "*.qmd" -type f | sort)
           
-          if [ -z "$QMD_FILES" ]; then
-            echo "⚠️  No QMD files found"
-            exit 0
-          fi
-          
-          # Render each QMD file
           for qmd_file in $QMD_FILES; do
-            echo ""
             echo "📄 Rendering: $qmd_file"
-            echo "─────────────────────────────────"
-            
-            if quarto render "$qmd_file"; then
-              echo "✅ Success: $qmd_file"
-            else
-              echo "❌ Failed: $qmd_file"
-              exit 1
-            fi
+            quarto render "$qmd_file" || exit 1
           done
-          
-          echo ""
-          echo "================================"
-          echo "All QMD Files Rendered"
-          echo "================================"
 
       # ========================================
       # 7. COMMIT AND PUSH RESULTS
       # ========================================
-      - name: Configure Git
+      - name: Commit and push changes
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-
-      - name: Commit and push changes
-        run: |
-          echo "================================"
-          echo "Committing Results"
-          echo "================================"
           
-          # Add all generated outputs
           git add outputs/ || true
-          git add _site/ || true
           git add *.html || true
           git add data/ || true
           
-          # Check if there are changes to commit
           if git diff --staged --quiet; then
-            echo "ℹ️  No changes to commit"
+            echo "ℹ️ No changes to commit"
           else
-            # Get current timestamp
-            TIMESTAMP=$(date -u +"%Y-%m-%d %H:%M:%S UTC")
-            
-            # Create commit message
-            git commit -m "🤖 Automated Pipeline Run - $TIMESTAMP" \
-                       -m "Pipeline execution and report generation completed successfully." \
-                       -m "Changes include:" \
-                       -m "- Pipeline outputs from script/ folder" \
-                       -m "- Rendered QMD reports" \
-                       -m "- Generated HTML files" \
-                       -m "" \
-                       -m "Triggered by: ${{ github.event_name }}" \
-                       -m "Commit: ${{ github.sha }}" \
-                       -m "Branch: ${{ github.ref_name }}"
-            
-            echo "✅ Changes committed"
-            echo ""
-            echo "Pushing to repository..."
-            
+            git commit -m "🤖 Automated Pipeline & Report - $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
             git push
-            
-            echo "✅ Changes pushed successfully"
           fi
-          
-          echo "================================"
-          echo "Deployment Complete"
-          echo "================================"
 
       # ========================================
       # 8. SUMMARY
@@ -229,20 +161,4 @@ jobs:
         if: always()
         run: |
           echo "## 📊 Pipeline Execution Summary" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Workflow:** Unified Pipeline & Deployment" >> $GITHUB_STEP_SUMMARY
-          echo "**Triggered by:** ${{ github.event_name }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Commit:** \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
-          echo "**Timestamp:** $(date -u +"%Y-%m-%d %H:%M:%S UTC")" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          
-          # Count pipeline files
-          PIPELINE_COUNT=$(find script/ -type f \( -name "*_pipeline.py" -o -name "*-pipeline.py" \) | wc -l)
-          echo "**Pipelines executed:** $PIPELINE_COUNT" >> $GITHUB_STEP_SUMMARY
-          
-          # Count QMD files
-          QMD_COUNT=$(find . -maxdepth 1 -name "*.qmd" -type f | wc -l)
-          echo "**Reports rendered:** $QMD_COUNT" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "✅ **Status:** Workflow completed" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Status: Workflow completed" >> $GITHUB_STEP_SUMMARY
