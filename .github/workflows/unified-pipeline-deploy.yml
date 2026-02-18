@@ -74,6 +74,7 @@ jobs:
             libpng-dev \
             libssl-dev \
             libxml2-dev \
+            unixodbc-dev \
             pandoc
       
       - name: Install R dependencies
