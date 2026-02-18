@@ -56,8 +56,13 @@ format:
 </style>
 
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+# Forcer l'utilisation du bon environnement virtuel Python
+reticulate::use_virtualenv(".venv", required = TRUE)
+# Installer python-dateutil si besoin
+reticulate::py_install("python-dateutil", pip = TRUE)
 ```
 
 
