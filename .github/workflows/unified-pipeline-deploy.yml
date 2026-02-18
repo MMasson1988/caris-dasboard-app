@@ -133,9 +133,12 @@ jobs:
       # 6. RENDER ALL QMD FILES
       # ========================================
       - name: Render all QMD reports
+        env:
+          TZ: 'America/Port-au-Prince'  # Fuseau horaire d'Haïti
         run: |
           echo "================================"
           echo "Starting QMD Rendering"
+          echo "Timezone: $TZ"
           echo "================================"
           
           # Find all .qmd files in root directory
