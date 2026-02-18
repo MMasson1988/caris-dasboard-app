@@ -90,7 +90,7 @@ suppressPackageStartupMessages(library(reticulate))
 ```
 
 ```{r, echo=FALSE}
-reticulate::use_virtualenv("C:/Users/moise/Downloads/caris-dashboard-app/.venv", required = TRUE)
+# reticulate::use_virtualenv("C:/Users/moise/Downloads/caris-dashboard-app/.venv", required = TRUE)
 
 #use_virtualenv("./../../python_env", required = TRUE)
 ```
