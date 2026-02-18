@@ -55,6 +55,8 @@ jobs:
               exit 1
             fi
           }
+          # Install python-dateutil for reticulate/Quarto compatibility
+          pip install python-dateutil
 
       # ========================================
       # 3. SETUP R ENVIRONMENT
