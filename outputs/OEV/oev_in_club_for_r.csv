@@ -1,7 +1,7 @@
 site,office,patient_code,age,sex,club_type,took_viral_load_test,indetectable_ou_inf_1000,last_viral_load_collection_date,arv_start_date,viral_load_date,coordonnatrices,nom_complet_agent,username_agent
 PIG/HOBP,CAP,PIG/HOBP/00000728,14,F,club_13_17,1.0,OUI,2024-09-11,2011-09-12,2025-11-04 00:00:00,Djafie Memnon / Adeline Pierre,Lonique Michel,1michel / 1aldonzar
 PIG/HOBP,CAP,PIG/HOBP/0000021,15,F,club_13_17,1.0,OUI,2025-11-26,2011-08-18,2025-12-12 00:00:00,Djafie Memnon / Adeline Pierre,Lonique Michel,1michel / 1aldonzar
-PIL/HOEP,CAP,PIL/HOEP/PED01148,14,F,club_13_17,1.0,OUI,2024-10-23,2013-01-31,2024-12-16 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Rosanie Beauliva,1rosanie
+PIL/HOEP,CAP,PIL/HOEP/PED01148,14,F,club_13_17,1.0,OUI,2024-10-23,2013-01-31,2025-12-05 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Rosanie Beauliva,1rosanie
 PIG/HOBP,CAP,PIG/HOBP/00000340,17,F,club_13_17,1.0,NON,2026-01-30,2010-03-25,2025-07-25 00:00:00,Djafie Memnon / Adeline Pierre,Lonique Michel,1michel / 1aldonzar
 LAG/HWLG,PAP,LAG/HWLG/ST00496,14,F,club_9_12,1.0,OUI,2025-01-31,2012-03-15,2025-01-31 00:00:00,Miss Petit Marie Gislaine,Pas d'agent,Pas d'agent
 GRO/HAMG,GON,GRO/HAMG/01137,14,M,club_13_17,1.0,NON,2025-11-28,2012-09-25,2026-01-13 00:00:00,D. Frantzie / Frantz Massé,Rosena Norvilus,6norvilus
@@ -19,7 +19,6 @@ LIM/HOSJ,CAP,LIM/HOSJ/ST01216,14,F,club_13_17,1.0,OUI,2025-09-05,2012-07-11,2025
 PAP/HFSC,PAP,PAP/HFSC/DJ2809R,14,F,club_9_12,1.0,OUI,2025-02-20,2012-09-21,2025-05-29 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 LIM/HOSJ,CAP,LIM/HOSJ/ST01329,14,M,club_13_17,1.0,OUI,2025-11-14,2012-11-19,2025-06-11 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Joseph Jean Elie,
 CAP/HSCM,CAP,CAP/HSCM/ST02293,13,F,club_13_17,1.0,OUI,2025-05-27,2013-12-27,2025-04-01 00:00:00,Djafie Memnon / Adeline Pierre,Fleurgil Cleonie / Maselaine Meronard,1 fleurgile / 1maselaine / 1jeanelie / 1fenelus
-LAG/HWLG,PAP,LAG/HWLG/ST00558,13,F,club_9_12,1.0,OUI,2025-04-09,2014-12-15,2025-04-09 00:00:00,Miss Petit Marie Gislaine,Pas d'agent,Pas d'agent
 CAP/NEWH,CAP,PAP/GCHO/ST05514,14,M,club_13_17,1.0,OUI,2025-05-22,2012-11-22,2025-06-27 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Bazile Yanne Targie,
 CAP/CMCD,CAP,CAP/CMCD/PED00035,13,M,club_13_17,1.0,OUI,2026-01-15,2013-02-01,2025-02-23 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Myrlene St Amour,1myrlene
 CAP/CMBV,CAP,CAP/CMBV/ST02777,13,F,club_13_17,1.0,OUI,2025-05-30,2017-05-16,2025-07-17 00:00:00,Djafie Memnon / Adeline Pierre,Bazile Yanne Targie,
@@ -31,15 +30,15 @@ LIM/PORM,CAP,LIM/PORM/ST00114,12,F,club_9_12,1.0,OUI,2025-12-08,2013-12-19,2024-
 LIM/HOSJ,CAP,LIM/HOSJ/SO00177,12,F,club_9_12,1.0,NON,2025-11-14,2014-01-28,2025-12-03 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Joseph Jean Elie,
 CAP/CMCD,CAP,CAP/CMCD/PED00066,12,M,club_9_12,1.0,OUI,2025-11-14,2014-09-19,2025-12-08 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Myrlene St Amour,1myrlene
 PAP/OMFP,PAP,PAP/OMFP/RM1013J,12,F,club_9_12,1.0,OUI,2024-11-13,2016-06-30,2024-12-18 00:00:00,Dossous Marie Phane,Elie Marie Florance,Florance
-PIL/HOEP,CAP,PIL/HOEP/PED01608,12,M,club_9_12,1.0,NON,2026-01-29,2014-07-10,2025-09-22 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Rosanie Beauliva,1rosanie
-PAP/HFSC,PAP,PAP/HFSC/ST00536,13,F,club_9_12,1.0,OUI,2024-09-27,2012-10-16,2024-12-10 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
+PIL/HOEP,CAP,PIL/HOEP/PED01608,13,M,club_9_12,1.0,NON,2026-01-29,2014-07-10,2025-09-22 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Rosanie Beauliva,1rosanie
+PAP/HFSC,PAP,PAP/HFSC/ST00536,13,F,club_9_12,1.0,OUI,2025-12-11,2012-10-16,2025-12-11 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST00794,13,F,club_9_12,1.0,OUI,2025-04-16,2013-08-29,2025-05-29 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST00773,14,M,club_9_12,1.0,OUI,2025-03-07,2013-08-12,2025-05-29 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
-PAP/HFSC,PAP,PAP/HFSC/ST00448,14,M,club_9_12,1.0,OUI,2025-11-28,2012-07-25,2024-12-10 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
+PAP/HFSC,PAP,PAP/HFSC/ST00448,14,M,club_9_12,1.0,OUI,2025-11-28,2012-07-25,2025-12-12 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST00258,17,F,club_13_17,1.0,OUI,2025-06-20,2012-05-11,2025-06-20 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST01120,14,F,club_9_12,1.0,OUI,2025-12-12,2014-02-14,2024-12-23 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HBMP,PAP,PAP/HBMP/ST03013,14,M,club_9_12,1.0,NON,2025-04-21,2013-05-13,2025-06-15 00:00:00,Sabruna Lazard,Altema Mona / Saint felix Frantcy,2altema /
-PAP/HBMP,PAP,PAP/HBMP/ST02985,17,M,club_13_17,1.0,OUI,2025-01-24,2013-04-23,2025-02-04 00:00:00,Sabruna Lazard,Altema Mona / Saint felix Frantcy,2altema /
+PAP/HBMP,PAP,PAP/HBMP/ST02985,17,M,club_13_17,1.0,OUI,2025-09-23,2013-04-23,2025-10-03 00:00:00,Sabruna Lazard,Altema Mona / Saint felix Frantcy,2altema /
 MCH/HCHM,GON,MCH/HCHM/ST00843,14,F,club_9_12,1.0,OUI,2025-10-28,2014-01-14,2024-01-17 00:00:00,Marie Valmie Dormevil,Charles Evelyne/ Bolimais Phikennia,6evelyne
 MCH/HCHM,GON,MCH/HCHM/ST00704,14,M,club_9_12,1.0,OUI,2024-06-18,2012-12-18,2024-07-15 00:00:00,Marie Valmie Dormevil,Charles Evelyne/ Bolimais Phikennia,6evelyne
 PAP/HOFP,PAP,PAP/HOFP/ST00755,15,F,club_9_12,1.0,OUI,2025-03-25,2012-09-13,2025-06-04 00:00:00,Miss Petit Marie Gislaine,athis Paulette / christelle narcilien,2paulette
@@ -82,9 +81,9 @@ PAP/NPFS,PAP,PAP/NPFS/ST01572,15,M,club_13_17,1.0,OUI,2025-10-20,2012-03-19,2025
 PAP/NPFS,PAP,PAP/NPFS/ST00884,16,F,club_13_17,1.0,OUI,2025-01-20,2010-09-07,2025-02-20 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST00980,16,F,club_13_17,1.0,OUI,2025-12-23,2011-01-10,2026-01-28 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST00873,17,M,club_13_17,1.0,OUI,2025-06-12,2010-05-04,2025-07-14 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
-PAP/NPFS,PAP,PAP/NPFS/ST01750,15,M,club_13_17,1.0,OUI,2025-05-28,2010-10-18,2025-07-14 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
+PAP/NPFS,PAP,PAP/NPFS/ST01750,16,M,club_13_17,1.0,OUI,2025-05-28,2010-10-18,2025-07-14 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST00559,16,F,club_13_17,1.0,OUI,2025-10-27,2009-12-16,2025-12-11 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
-PAP/NPFS,PAP,PAP/NPFS/ST01996,14,F,club_13_17,1.0,OUI,2025-03-24,2013-04-23,2025-06-04 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
+PAP/NPFS,PAP,PAP/NPFS/ST01996,15,F,club_13_17,1.0,OUI,2025-03-24,2013-04-23,2025-06-04 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST01716,17,M,club_13_17,1.0,OUI,2025-01-09,2012-07-10,2025-02-17 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST01651,17,M,club_13_17,1.0,OUI,2025-06-17,2012-12-26,2025-07-22 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST01139,17,M,club_13_17,1.0,OUI,2025-12-05,2011-09-21,2026-01-20 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
@@ -96,14 +95,13 @@ PAP/NPFS,PAP,PAP/NPFS/ST01499,16,F,club_13_17,1.0,OUI,2024-10-11,2012-04-24,2025
 PAP/NPFS,PAP,PAP/NPFS/ST01551,15,M,club_13_17,1.0,OUI,2025-11-03,2012-05-22,2024-10-15 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST01567,15,M,club_13_17,1.0,OUI,2025-10-16,2012-04-19,2026-01-09 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST01670,14,F,club_13_17,1.0,OUI,2025-06-16,2012-08-13,2025-07-28 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
-PAP/NPFS,PAP,PAP/NPFS/ST00584,17,F,club_13_17,1.0,OUI,2024-10-01,2009-08-13,2024-12-23 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST02071,13,M,club_9_12,1.0,OUI,2026-03-13,2013-06-18,2025-06-24 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST02056,16,F,club_13_17,1.0,OUI,2025-01-07,2013-08-08,2025-02-17 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST02018,16,F,club_13_17,1.0,OUI,2025-03-24,2013-08-01,2025-03-24 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST01300,16,M,club_13_17,1.0,OUI,2025-06-23,2011-09-29,2025-07-14 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST00403,17,F,club_13_17,1.0,OUI,2025-07-16,2009-07-15,2025-07-28 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST01922,15,F,club_13_17,1.0,OUI,2025-10-15,2013-06-19,2025-01-06 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
-PAP/NPFS,PAP,PAP/NPFS/ST01906,17,M,club_13_17,1.0,OUI,2024-10-07,2013-01-16,2024-12-23 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
+PAP/NPFS,PAP,PAP/NPFS/ST01906,17,M,club_13_17,1.0,OUI,2026-02-09,2013-01-16,2024-12-23 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST01819,14,F,club_9_12,1.0,OUI,2025-10-20,2012-11-14,2025-11-24 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 CAP/NEWH,CAP,PAP/NPFS/ST01683,14,M,club_13_17,1.0,OUI,2024-06-14,2012-09-05,2025-09-22 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Bazile Yanne Targie,
 PAP/NPFS,PAP,PAP/NPFS/ST00937,15,F,club_13_17,1.0,OUI,2025-10-16,2012-12-28,2025-11-24 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
@@ -112,11 +110,10 @@ PAP/NPFS,PAP,PAP/NPFS/ST01692,14,M,club_13_17,1.0,OUI,2025-10-20,2012-08-14,2025
 PAP/NPFS,PAP,PAP/NPFS/ST01276,14,F,club_13_17,1.0,OUI,2024-12-27,2011-10-03,2025-01-06 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST01221,15,F,club_13_17,1.0,OUI,2025-07-13,2011-08-10,2026-01-27 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST01198,15,M,club_13_17,1.0,OUI,2025-03-11,2012-09-03,2025-03-31 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
-PAP/HFSC,PAP,PAP/HFSC/ST01158,16,M,club_13_17,1.0,OUI,2025-12-05,2014-02-21,2024-12-10 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
+PAP/HFSC,PAP,PAP/HFSC/ST01158,16,M,club_13_17,1.0,OUI,2025-12-05,2014-02-21,2025-12-17 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 GRO/HAMG,GON,GRO/HAMG/ST00993,16,F,club_13_17,1.0,NON,2025-11-10,2011-10-20,2026-01-14 00:00:00,D. Frantzie / Frantz Massé,Rosena Norvilus,6norvilus
 GRO/HAMG,GON,GRO/HAMG/ST01064,15,M,club_13_17,1.0,OUI,2024-10-12,2012-07-24,2024-10-28 00:00:00,D. Frantzie / Frantz Massé,Rosena Norvilus,6norvilus
 GRO/HAMG,GON,GRO/HAMG/ST01088,17,F,club_13_17,1.0,OUI,2025-04-20,2011-10-19,2025-05-23 00:00:00,D. Frantzie / Frantz Massé,Rosena Norvilus,6norvilus
-GRO/HAMG,GON,GRO/HAMG/ST00930,17,F,club_13_17,1.0,OUI,2025-04-20,2010-09-28,2025-05-28 00:00:00,D. Frantzie / Frantz Massé,Rosena Norvilus,6norvilus
 GRO/HAMG,GON,GRO/HAMG/ST00743,17,M,club_13_17,1.0,OUI,2025-11-10,2008-09-20,2026-01-12 00:00:00,D. Frantzie / Frantz Massé,Rosena Norvilus,6norvilus
 CAP/CMBV,CAP,CAP/CMBV/PED00038,11,M,club_9_12,1.0,OUI,2025-06-10,2016-02-01,2025-07-11 00:00:00,Djafie Memnon / Adeline Pierre,Bazile Yanne Targie,
 GON/CDIR,GON,GON/CDIR/ST00627,14,M,club_13_17,1.0,OUI,2025-12-15,2014-09-04,2024-04-19 00:00:00,Marie Valmie Dormevil,Cheranor Majorie,6cheranor
@@ -124,7 +121,6 @@ GON/CSKS,GON,GON/CSKS/00186,15,M,club_13_17,1.0,OUI,2025-06-23,2016-08-01,2025-0
 GON/CSKS,GON,GON/CSKS/00448,17,M,club_13_17,1.0,OUI,2024-10-07,2014-04-24,2025-02-13 00:00:00,Marie Valmie Dormevil,Dorena Claudine,6dorena
 GON/CSFA,GON,GON/CSFA/ST00180,16,F,club_13_17,1.0,OUI,2024-10-11,2014-06-06,2024-11-15 00:00:00,Marie Valmie Dormevil,Celian Fresnel,6fresnel
 GON/CSFA,GON,GON/CSFA/ST00065,16,F,club_13_17,1.0,OUI,2024-10-08,2015-04-20,2024-11-15 00:00:00,Marie Valmie Dormevil,Celian Fresnel,6fresnel
-PIG/HOBP,CAP,PIG/HOBP/ST01056,17,M,club_13_17,1.0,OUI,2025-07-25,2016-08-12,2025-09-21 00:00:00,Djafie Memnon / Adeline Pierre,Lonique Michel,1michel / 1aldonzar
 SMA/CSSM,GON,SMA/CSSM/ST00224,16,F,club_13_17,1.0,OUI,2025-12-09,2013-04-22,2024-11-15 00:00:00,Marie Valmie Dormevil,Joseph Viviane,6joseph
 LIM/HOSJ,CAP,BOR/ASDB/ST00728,15,F,club_13_17,1.0,OUI,2025-08-12,2013-08-28,2023-01-26 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Joseph Jean Elie,
 CAP/HSCM,CAP,CAP/HSCM/ST02791,14,M,club_13_17,1.0,OUI,2025-09-18,2014-06-25,2025-09-26 00:00:00,Djafie Memnon / Adeline Pierre,Fleurgil Cleonie / Maselaine Meronard,1 fleurgile / 1maselaine / 1jeanelie / 1fenelus
@@ -145,10 +141,11 @@ PAP/NPFS,PAP,PAP/NPFS/ST01739,13,M,club_9_12,1.0,OUI,2025-09-30,2013-07-09,2025-
 PAP/NPFS,PAP,PAP/NPFS/ST00990,15,M,club_13_17,1.0,OUI,2025-01-16,2011-03-22,2025-02-20 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/GCHO,PAP,PAP/GCHO/ST05663,15,M,club_13_17,1.0,NON,2025-09-19,2013-03-11,2025-09-19 00:00:00,Sabruna Lazard,Francois Ntahalie / Thomas Higgie,2nathalie / 2 higgie
 CAP/CDSF,CAP,CAP/CDSF/AJ1114R,11,F,club_9_12,1.0,NON,2025-09-25,2015-05-07,2025-10-20 00:00:00,Djafie Memnon / Adeline Pierre,Plyviose Exilhomme,1plyviose
+LAG/HWLG,PAP,LAG/HWLG/ST00468,15,F,club_13_17,1.0,OUI,2025-05-26,2012-01-31,2025-05-26 00:00:00,Miss Petit Marie Gislaine,Pas d'agent,Pas d'agent
 LAG/HWLG,PAP,LAG/HWLG/ST00397,16,F,club_13_17,1.0,OUI,2025-05-02,2010-10-08,2025-05-09 00:00:00,Miss Petit Marie Gislaine,Pas d'agent,Pas d'agent
 LAG/HWLG,PAP,LAG/HWLG/ST00565,16,M,club_13_17,1.0,OUI,2023-06-05,2013-06-21,2025-04-06 00:00:00,Miss Petit Marie Gislaine,Pas d'agent,Pas d'agent
 PAP/GCHO,PAP,PAP/GCHO/ST06379,13,M,club_9_12,1.0,NON,2025-07-07,2014-10-22,2025-07-08 00:00:00,Sabruna Lazard,Francois Ntahalie / Thomas Higgie,2nathalie / 2 higgie
-PAP/GCHO,PAP,PAP/GCHO/ST06190,15,M,club_9_12,1.0,OUI,2025-09-05,2016-09-26,2025-09-08 00:00:00,Sabruna Lazard,Francois Ntahalie / Thomas Higgie,2nathalie / 2 higgie
+PAP/GCHO,PAP,PAP/GCHO/ST06190,16,M,club_9_12,1.0,OUI,2025-09-05,2016-09-26,2025-09-08 00:00:00,Sabruna Lazard,Francois Ntahalie / Thomas Higgie,2nathalie / 2 higgie
 PAP/NPFS,PAP,PAP/NPFS/ST02240,12,M,club_9_12,1.0,OUI,2025-05-06,2013-10-24,2025-07-22 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST01966,15,F,club_13_17,1.0,OUI,2025-10-01,2013-03-23,2025-10-21 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 LIM/HOSJ,CAP,LIM/HOSJ/ST01620,14,M,club_13_17,1.0,OUI,2025-11-14,2013-11-04,2025-12-03 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Joseph Jean Elie,
@@ -156,14 +153,14 @@ LAG/HWLG,PAP,LAG/HWLG/ST00665,15,F,club_13_17,1.0,OUI,2025-05-12,2013-07-08,2025
 GON/CSKS,GON,GON/CSKS/ST00485,16,F,club_13_17,1.0,NON,2025-07-18,2015-03-12,2025-08-20 00:00:00,Marie Valmie Dormevil,Dorena Claudine,6dorena
 GON/CSKS,GON,GON/CSKS/ST00754,13,M,club_9_12,1.0,NON,2025-10-24,2015-03-16,2025-11-24 00:00:00,Marie Valmie Dormevil,Dorena Claudine,6dorena
 LAG/HWLG,PAP,LAG/HWLG/ST00848,17,M,club_13_17,1.0,OUI,2025-03-20,2015-07-27,2025-03-20 00:00:00,Miss Petit Marie Gislaine,Pas d'agent,Pas d'agent
-PIG/HOBP,CAP,PIG/CSSR/00008,11,M,club_9_12,1.0,OUI,2025-11-28,2015-08-11,2024-12-16 00:00:00,Djafie Memnon / Adeline Pierre,Lonique Michel,1michel / 1aldonzar
+PIG/HOBP,CAP,PIG/CSSR/00008,12,M,club_9_12,1.0,OUI,2025-11-28,2015-08-11,2024-12-16 00:00:00,Djafie Memnon / Adeline Pierre,Lonique Michel,1michel / 1aldonzar
 MON/POZS,PAP,MON/POZS/ST01166,17,F,club_13_17,1.0,OUI,2025-03-21,2014-12-03,2025-04-10 00:00:00,Sabruna Lazard,/ Pierre Cleanie,/ bcleonie
 PAP/NPFS,PAP,PAP/NPFS/ST00780,17,F,club_13_17,1.0,OUI,2025-07-11,2009-12-24,2025-07-22 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 GRO/HAMG,GON,GRO/HAMG/ST01764,12,M,club_9_12,1.0,OUI,2025-03-04,2016-03-16,2025-05-30 00:00:00,D. Frantzie / Frantz Massé,Rosena Norvilus,6norvilus
 GRO/HAMG,GON,GRO/HAMG/ST01762,14,M,club_13_17,1.0,OUI,2024-07-04,2015-05-26,2024-10-28 00:00:00,D. Frantzie / Frantz Massé,Rosena Norvilus,6norvilus
 PAP/HBMP,PAP,PAP/HBMP/ST03805,16,F,club_13_17,1.0,OUI,2025-09-10,2015-05-12,2025-09-28 00:00:00,Sabruna Lazard,Altema Mona / Saint felix Frantcy,2altema /
+PAP/HFSC,PAP,PAP/HFSC/ST01468,14,F,club_9_12,1.0,OUI,2025-05-08,2015-02-12,2025-05-30 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 LIM/PORM,CAP,LIM/PORM/ST00342,15,F,club_13_17,1.0,OUI,2025-05-05,2015-08-10,2025-06-13 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,pas d'agent,
-CAP/CSLT,CAP,CAP/CSLT/ST00334,11,M,club_9_12,1.0,OUI,2024-09-24,2015-09-28,2024-10-08 00:00:00,Blenzaire Etienne,Pas d'agent,1 josette /
 CAP/CMBV,CAP,CAP/CMBV/ST02123,15,M,club_13_17,1.0,OUI,2025-06-06,2017-01-10,2025-07-11 00:00:00,Djafie Memnon / Adeline Pierre,Bazile Yanne Targie,
 PIG/HOBP,CAP,PIG/HOBP/ST01145,17,M,club_13_17,1.0,OUI,2025-06-27,2015-12-23,2025-07-25 00:00:00,Djafie Memnon / Adeline Pierre,Lonique Michel,1michel / 1aldonzar
 CAP/CDSF,CAP,CAP/CDSF/ST01726,17,F,club_13_17,1.0,OUI,2025-11-19,2015-08-14,2024-09-10 00:00:00,Djafie Memnon / Adeline Pierre,Plyviose Exilhomme,1plyviose
@@ -183,7 +180,6 @@ GRO/HAMG,GON,GRO/HAMG/ST01641,16,M,club_13_17,1.0,OUI,2024-10-22,2016-12-08,2024
 PAP/HBMP,PAP,PAP/HBMP/ST03908,13,M,club_9_12,1.0,OUI,2024-12-04,2015-07-17,2025-01-15 00:00:00,Sabruna Lazard,Altema Mona / Saint felix Frantcy,2altema /
 GON/CSKS,GON,GON/CSKS/ST00985,17,F,club_13_17,1.0,NON,2025-10-31,2016-08-23,2025-11-24 00:00:00,Marie Valmie Dormevil,Dorena Claudine,6dorena
 MON/POZS,PAP,MON/POZS/ST01258,13,M,club_9_12,1.0,OUI,2025-10-31,2015-11-25,2025-11-19 00:00:00,Sabruna Lazard,/ Pierre Cleanie,/ bcleonie
-MON/POZS,PAP,MON/POZS/ST91526,12,F,club_9_12,1.0,OUI,2025-04-07,2015-06-30,2025-05-27 00:00:00,Sabruna Lazard,/ Pierre Cleanie,/ bcleonie
 MON/POZS,PAP,MON/POZS/ST01270,17,M,club_13_17,1.0,OUI,2025-06-23,2016-01-05,2025-07-18 00:00:00,Sabruna Lazard,/ Pierre Cleanie,/ bcleonie
 LIM/HOSJ,CAP,LIM/HOSJ/SO00301,10,F,club_9_12,1.0,OUI,2025-09-19,2016-06-14,2025-10-03 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Joseph Jean Elie,
 PIG/HOBP,CAP,PIG/HOBP/00164,10,M,club_9_12,1.0,NON,2026-01-30,2016-06-29,2025-09-22 00:00:00,Djafie Memnon / Adeline Pierre,Lonique Michel,1michel / 1aldonzar
@@ -201,19 +197,18 @@ GRO/HAMG,GON,GRO/HAMG/ST02050,14,M,club_13_17,1.0,OUI,2025-11-28,2016-04-25,2025
 PAP/NPFS,PAP,PAP/NPFS/ST02567,11,M,club_9_12,1.0,OUI,2025-10-16,2015-08-20,2025-01-10 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST02461,12,F,club_9_12,1.0,OUI,2025-01-20,2014-11-11,2025-02-20 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 LIM/HOSJ,CAP,LIM/HOSJ/ST02034,12,M,club_9_12,1.0,OUI,2025-10-17,2015-05-25,2025-11-11 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Joseph Jean Elie,
+LAG/HWLG,PAP,LAG/HWLG/ST00950,11,F,club_9_12,1.0,OUI,2026-01-23,2016-04-20,2024-11-20 00:00:00,Miss Petit Marie Gislaine,Pas d'agent,Pas d'agent
 PAP/NPFS,PAP,PAP/NPFS/ST02592,16,M,club_13_17,1.0,OUI,2024-10-08,2015-08-28,2024-12-23 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST02620,16,F,club_13_17,1.0,OUI,2025-03-14,2015-11-16,2025-06-24 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 LIM/HOSJ,CAP,LIM/HOSJ/ST02266,17,M,club_13_17,1.0,OUI,2025-08-20,2017-05-29,2025-09-10 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Joseph Jean Elie,
-LIM/PORM,CAP,LIM/PORM/PED00035,9,M,club_9_12,1.0,NON,2025-06-05,2016-05-23,2025-07-07 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,pas d'agent,
+LIM/PORM,CAP,LIM/PORM/PED00035,10,M,club_9_12,1.0,NON,2025-06-05,2016-05-23,2025-07-07 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,pas d'agent,
 PAP/NPFS,PAP,PAP/NPFS/ST02415,13,F,club_9_12,1.0,OUI,2024-10-16,2014-08-21,2024-10-16 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST02559,13,M,club_9_12,1.0,OUI,2024-11-25,2015-08-18,2024-12-23 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST02580,12,F,club_9_12,1.0,NON,2025-10-24,2015-07-27,2025-12-11 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
-FOP/HCPT,PAP,FOP/HCPT/ST00016,14,M,club_9_12,1.0,OUI,2025-10-15,2016-04-15,2024-08-06 00:00:00,Dossous Marie Phane,Pas d'agent,Pas d'agent
-FOP/HCPT,PAP,FOP/HCPT/ST00031,17,F,club_13_17,1.0,OUI,2025-05-27,2016-04-19,2025-07-03 00:00:00,Dossous Marie Phane,Pas d'agent,Pas d'agent
+FOP/HCPT,PAP,FOP/HCPT/ST00016,14,M,club_9_12,1.0,OUI,2025-08-13,2016-04-15,2025-08-06 00:00:00,Dossous Marie Phane,Pas d'agent,Pas d'agent
 PAP/NPFS,PAP,PAP/NPFS/ST02604,12,F,club_9_12,1.0,OUI,2025-10-16,2015-11-19,2025-11-24 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 MAR/CALM,GON,MAR/CALM/ST00205,12,M,club_9_12,1.0,OUI,2025-09-02,2016-04-05,2023-09-28 00:00:00,D. Frantzie / Frantz Massé,Fannelle P. Florvilus superviseur agents,Pas d'agent
-PAP/CSPL,PAP,PAP/CSPL/ST00569,15,F,club_13_17,1.0,OUI,2025-07-01,2015-07-22,2025-07-30 00:00:00,Miss Petit Marie Gislaine,Anne Telong,2telong
-PIL/HOEP,CAP,PIL/HOEP/PED02172,10,F,club_9_12,1.0,OUI,2024-12-15,2016-06-27,2025-02-28 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Rosanie Beauliva,1rosanie
+PIL/HOEP,CAP,PIL/HOEP/PED02172,11,F,club_9_12,1.0,OUI,2024-12-15,2016-06-27,2025-02-28 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Rosanie Beauliva,1rosanie
 MCH/DSCA,GON,MCH/DSCA/ST00795,10,F,club_9_12,1.0,OUI,2026-01-22,2016-06-28,2025-02-07 00:00:00,Marie Valmie Dormevil,Bolimais Phikennia,6phikenia
 LIM/PORM,CAP,LIM/PORM/ST00308,15,M,club_13_17,1.0,NON,2025-02-13,2015-06-11,2025-11-25 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,pas d'agent,
 GON/CSFA,GON,GON/CSFA/ST00526,13,M,club_13_17,1.0,OUI,2024-10-08,2016-06-07,2024-10-21 00:00:00,Marie Valmie Dormevil,Celian Fresnel,6fresnel
@@ -227,7 +222,7 @@ PAP/HFSC,PAP,PAP/HFSC/ST01863,11,M,club_9_12,1.0,OUI,2025-01-03,2016-03-28,2025-
 PAP/HFSC,PAP,PAP/HFSC/ST01668,12,F,club_9_12,1.0,OUI,2025-03-07,2016-10-16,2025-05-29 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST01624,15,M,club_13_17,1.0,OUI,2025-04-17,2015-08-31,2025-05-30 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 STM/CSPP,PAP,STM/CSPP/ST01063,15,M,club_13_17,1.0,OUI,2025-09-29,2015-07-20,2025-10-31 00:00:00,Sabruna Lazard,/ Pierre Cleanie,/ bcleonie
-PAP/HFSC,PAP,PAP/HFSC/ST01665,16,F,club_13_17,1.0,OUI,2025-12-03,2015-05-25,2024-12-31 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
+PAP/HFSC,PAP,PAP/HFSC/ST01665,16,F,club_13_17,1.0,OUI,2025-12-03,2015-05-25,2025-12-03 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 CAP/CMCD,CAP,CAP/CMCD/ST00753,14,F,club_13_17,1.0,OUI,2025-09-11,2016-01-27,2025-12-09 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Myrlene St Amour,1myrlene
 STM/CSPP,PAP,STM/CSPP/ST01307,16,M,club_13_17,1.0,OUI,2025-09-19,2009-12-07,2025-10-23 00:00:00,Sabruna Lazard,/ Pierre Cleanie,/ bcleonie
 PAP/NPFS,PAP,PAP/NPFS/ST02491,12,F,club_9_12,1.0,OUI,2025-05-20,2015-02-05,2025-05-20 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
@@ -235,7 +230,7 @@ STM/CSPP,PAP,STM/CSPP/ST01088,17,F,club_13_17,1.0,OUI,2025-09-30,2015-07-20,2025
 MCH/DSCA,GON,MCH/DSCA/ST00810,9,F,club_9_12,1.0,OUI,2025-11-05,2016-10-14,2024-12-18 00:00:00,Marie Valmie Dormevil,Bolimais Phikennia,6phikenia
 GON/CSKS,GON,GON/CSKS/ST01115,15,M,club_13_17,1.0,NON,2025-08-22,2016-08-19,2025-09-08 00:00:00,Marie Valmie Dormevil,Dorena Claudine,6dorena
 CAP/NEWH,CAP,PAP/GCHO/ST06934,14,F,club_13_17,1.0,OUI,2025-09-26,2016-09-26,2025-10-16 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Bazile Yanne Targie,
-PAP/NPFS,PAP,PAP/NPFS/ST02756,11,M,club_9_12,1.0,OUI,2025-11-13,2016-08-25,2026-01-09 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
+PAP/NPFS,PAP,PAP/NPFS/ST02756,12,M,club_9_12,1.0,OUI,2025-11-13,2016-08-25,2026-01-09 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST02674,12,F,club_9_12,1.0,OUI,2024-10-21,2016-01-07,2024-10-24 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST02736,11,M,club_9_12,1.0,OUI,2025-11-03,2016-07-26,2025-12-11 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST02689,11,F,club_9_12,1.0,OUI,2025-12-05,2017-05-23,2024-12-23 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
@@ -245,7 +240,6 @@ CAP/HSCM,CAP,CAP/HSCM/SO00412,9,M,club_9_12,1.0,OUI,2025-12-19,2016-12-02,2025-0
 PAP/GCHO,PAP,PAP/GCHO/ST06849,14,M,club_9_12,1.0,NON,2026-01-16,2016-07-06,2025-06-15 00:00:00,Sabruna Lazard,Francois Ntahalie / Thomas Higgie,2nathalie / 2 higgie
 CAP/NEWH,CAP,PAP/GCHO/ST06698,13,M,club_13_17,1.0,OUI,2025-11-07,2015-12-08,2025-12-02 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Bazile Yanne Targie,
 CAP/CSLT,CAP,CAP/CSLT/ST00401,13,M,club_13_17,1.0,NON,2025-02-04,2016-02-25,2025-03-10 00:00:00,Blenzaire Etienne,Pas d'agent,1 josette /
-CAP/CSLT,CAP,CAP/CSLT/S00397,12,F,club_9_12,1.0,NON,2025-06-17,2016-02-26,2025-03-10 00:00:00,Blenzaire Etienne,Pas d'agent,1 josette /
 GON/CSKS,GON,GON/CSKS/ST01178,15,M,club_13_17,1.0,OUI,2024-11-25,2016-10-11,2024-12-12 00:00:00,Marie Valmie Dormevil,Dorena Claudine,6dorena
 PAP/NPFS,PAP,PAP/NPFS/ST01830,14,M,club_9_12,1.0,OUI,2025-10-01,2012-11-28,2025-10-21 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 LAG/HWLG,PAP,LAG/HWLG/ST00875,14,F,club_13_17,1.0,OUI,2024-10-15,2015-05-28,2024-11-20 00:00:00,Miss Petit Marie Gislaine,Pas d'agent,Pas d'agent
@@ -265,22 +259,20 @@ CAP/CMCD,CAP,CAP/CMCD/ST00907,12,M,club_9_12,1.0,NON,2026-01-15,2017-03-28,2025-
 CAP/CMBV,CAP,CAP/CMBV/ST02345,15,F,club_13_17,1.0,OUI,2025-10-17,2016-07-04,2025-11-11 00:00:00,Djafie Memnon / Adeline Pierre,Bazile Yanne Targie,
 CAP/CMBV,CAP,CAP/CMBV/ST02445,15,F,club_13_17,1.0,NON,2025-09-25,2016-07-18,2025-10-10 00:00:00,Djafie Memnon / Adeline Pierre,Bazile Yanne Targie,
 CAP/CMBV,CAP,CAP/CMBV/ST02499,14,M,club_13_17,1.0,NON,2025-09-05,2016-06-02,2025-07-17 00:00:00,Djafie Memnon / Adeline Pierre,Bazile Yanne Targie,
-CAP/CMBV,CAP,CAP/CMBV/ST02513,16,M,club_13_17,1.0,OUI,2025-10-23,2017-02-14,2025-11-10 00:00:00,Djafie Memnon / Adeline Pierre,Bazile Yanne Targie,
+CAP/CMBV,CAP,CAP/CMBV/ST02513,17,M,club_13_17,1.0,OUI,2025-10-23,2017-02-14,2025-11-10 00:00:00,Djafie Memnon / Adeline Pierre,Bazile Yanne Targie,
 LIM/HOSJ,CAP,LIM/HOSJ/ST01925,13,F,club_13_17,1.0,OUI,2025-10-10,2015-02-20,2025-10-24 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Joseph Jean Elie,
 LIM/PORM,CAP,LIM/PORM/ST00497,17,M,club_13_17,1.0,OUI,2025-05-08,2017-04-04,2025-06-13 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,pas d'agent,
 STM/CSPP,PAP,STM/CSPP/ST01513,16,M,club_13_17,1.0,OUI,2025-10-15,2017-02-14,2025-11-04 00:00:00,Sabruna Lazard,/ Pierre Cleanie,/ bcleonie
 PAP/NPFS,PAP,PAP/NPFS/ST02373,16,M,club_13_17,1.0,OUI,2025-10-16,2016-06-03,2026-01-09 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
-PAP/NPFS,PAP,PAP/NPFS/ST02809,13,F,club_9_12,1.0,OUI,2025-06-09,2016-12-27,2025-07-14 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
-CAP/CALT,CAP,CAP/CALT/ST01201,17,F,club_13_17,1.0,NON,2025-12-11,2017-01-05,2026-01-13 00:00:00,Blenzaire Etienne,Irania Fenelus,1irania / 1Pierre / 1nathalie
-PAP/NPFS,PAP,PAP/NPFS/ST02803,17,M,club_13_17,1.0,OUI,2025-10-30,2016-11-28,2025-12-11 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
+PAP/NPFS,PAP,PAP/NPFS/ST02809,14,F,club_9_12,1.0,OUI,2025-06-09,2016-12-27,2025-07-14 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 SMA/CSSM,GON,SMA/CSSM/ST00618,13,F,club_9_12,1.0,OUI,2024-10-09,2017-02-22,2023-08-22 00:00:00,Marie Valmie Dormevil,Joseph Viviane,6joseph
+CAP/HSCM,CAP,CAP/HSCM/SO00433,9,M,club_9_12,1.0,OUI,2025-10-20,2017-08-10,2025-11-10 00:00:00,Djafie Memnon / Adeline Pierre,Fleurgil Cleonie / Maselaine Meronard,1 fleurgile / 1maselaine / 1jeanelie / 1fenelus
 CAP/CALT,CAP,CAP/CALT/ST01081,11,F,club_9_12,1.0,NON,2025-12-03,2016-06-23,2025-08-06 00:00:00,Blenzaire Etienne,Irania Fenelus,1irania / 1Pierre / 1nathalie
 CAP/CALT,CAP,CAP/CALT/ST01099,16,M,club_13_17,1.0,OUI,2026-01-22,2016-07-21,2024-12-19 00:00:00,Blenzaire Etienne,Irania Fenelus,1irania / 1Pierre / 1nathalie
 CAP/CALT,CAP,CAP/CALT/ST01183,17,F,club_13_17,1.0,OUI,2025-01-15,2017-01-13,2025-02-18 00:00:00,Blenzaire Etienne,Irania Fenelus,1irania / 1Pierre / 1nathalie
 GON/CSFA,GON,GON/CSFA/ST00648,14,F,club_13_17,1.0,OUI,2025-07-08,2017-05-10,2025-09-08 00:00:00,Marie Valmie Dormevil,Celian Fresnel,6fresnel
-CAP/CSLT,CAP,CAP/CSLT/ST00498,16,F,club_13_17,1.0,OUI,2025-03-11,2017-01-13,2024-02-26 00:00:00,Blenzaire Etienne,Pas d'agent,1 josette /
-FOP/HCPT,PAP,FOP/HCPT/ST00200,10,F,club_9_12,1.0,OUI,2025-07-17,2017-06-07,2025-05-02 00:00:00,Dossous Marie Phane,Pas d'agent,Pas d'agent
-PAP/NPFS,PAP,PAP/NPFS/ST02873,10,F,club_9_12,1.0,OUI,2025-10-01,2016-09-29,2025-01-06 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
+FOP/HCPT,PAP,FOP/HCPT/ST00200,10,F,club_9_12,1.0,OUI,2025-07-17,2017-06-07,2025-07-17 00:00:00,Dossous Marie Phane,Pas d'agent,Pas d'agent
+PAP/NPFS,PAP,PAP/NPFS/ST02873,10,F,club_9_12,1.0,NON,2025-10-01,2016-09-29,2025-10-27 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/HFSC,PAP,PAP/HFSC/ST02146,9,M,club_9_12,1.0,OUI,2025-05-07,2017-06-07,2025-05-30 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HBMP,PAP,PAP/HBMP/ST03715,17,M,club_13_17,1.0,OUI,2025-08-20,2015-02-12,2025-09-13 00:00:00,Sabruna Lazard,Altema Mona / Saint felix Frantcy,2altema /
 PAP/NPFS,PAP,PAP/NPFS/ST02676,17,M,club_13_17,1.0,OUI,2025-06-16,2016-08-17,2025-07-14 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
@@ -296,7 +288,6 @@ GRO/HAMG,GON,GON/CSTB/ST00190,14,F,club_13_17,1.0,OUI,2025-05-20,2017-08-25,2025
 PAP/NPFS,PAP,PAP/NPFS/ST02896,10,F,club_9_12,1.0,OUI,2025-05-19,2017-06-30,2025-07-14 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 GON/CSFA,GON,GON/CSFA/ST00663,9,F,club_9_12,1.0,OUI,2025-11-05,2017-06-13,2024-10-21 00:00:00,Marie Valmie Dormevil,Celian Fresnel,6fresnel
 PIL/HOEP,CAP,PIL/HOEP/ST02433,15,F,club_13_17,1.0,OUI,2025-10-27,2017-06-29,2025-12-30 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Rosanie Beauliva,1rosanie
-PAP/HFSC,PAP,PAP/HFSC/ST02287,17,M,club_13_17,1.0,OUI,2025-01-18,2017-04-11,2025-02-20 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 CAP/CSLT,CAP,CAP/CSLT/ST00279,17,F,club_13_17,1.0,OUI,2025-01-08,2017-03-14,2025-02-23 00:00:00,Blenzaire Etienne,Pas d'agent,1 josette /
 PIL/HOEP,CAP,PIL/HOEP/ST02147,13,F,club_13_17,1.0,OUI,2025-11-06,2016-03-21,2025-06-09 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Rosanie Beauliva,1rosanie
 PIL/HOEP,CAP,PIL/HOEP/ST02181,11,M,club_9_12,1.0,OUI,2025-10-17,2016-05-09,2025-11-11 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Rosanie Beauliva,1rosanie
@@ -308,25 +299,23 @@ CAP/CMBV,CAP,CAP/CMBV/ST02780,16,F,club_13_17,1.0,NON,2025-06-10,2017-05-22,2025
 CAP/CMBV,CAP,CAP/CMBV/ST02781,11,M,club_9_12,1.0,OUI,2024-12-18,2017-05-22,2025-01-24 00:00:00,Djafie Memnon / Adeline Pierre,Bazile Yanne Targie,
 CAP/CDSF,CAP,CAP/CDSF/ST02348,10,M,club_9_12,1.0,OUI,2025-09-19,2017-10-23,2024-08-26 00:00:00,Djafie Memnon / Adeline Pierre,Plyviose Exilhomme,1plyviose
 CAP/CDSF,CAP,CAP/CDSF/ST02313,14,F,club_13_17,1.0,OUI,2025-11-21,2017-09-19,2024-10-14 00:00:00,Djafie Memnon / Adeline Pierre,Plyviose Exilhomme,1plyviose
-CAP/CMSO,CAP,CAP/CMSO/ST02273,11,M,club_9_12,1.0,OUI,2024-05-20,2017-08-30,2024-06-12 00:00:00,Blenzaire Etienne,Rose Ferline Dorvil,
+CAP/CMSO,CAP,CAP/CMSO/ST02273,11,M,club_9_12,1.0,OUI,2025-12-10,2017-08-30,2026-01-09 00:00:00,Blenzaire Etienne,Rose Ferline Dorvil,
 PIL/HOEP,CAP,PIL/HOEP/ST02331,11,M,club_9_12,1.0,OUI,2025-10-17,2017-01-26,2025-11-11 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Rosanie Beauliva,1rosanie
 CAP/CMCD,CAP,CAP/CMCD/ST00984,10,F,club_9_12,1.0,OUI,2025-09-11,2017-10-23,2025-12-08 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Myrlene St Amour,1myrlene
 GON/CSFA,GON,GON/CSFA/ST00733,13,F,club_13_17,1.0,OUI,2025-11-27,2017-12-01,2024-10-21 00:00:00,Marie Valmie Dormevil,Celian Fresnel,6fresnel
 MAR/CALM,GON,MAR/CALM/ST00366,16,M,club_13_17,1.0,OUI,2025-11-18,2017-12-15,2024-12-19 00:00:00,D. Frantzie / Frantz Massé,Fannelle P. Florvilus superviseur agents,Pas d'agent
 PAP/NPFS,PAP,PAP/NPFS/ST02961,10,F,club_9_12,1.0,OUI,2025-10-21,2017-09-29,2025-11-24 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
-CAP/NEWH,CAP,PAP/NPFS/ST02948,10,M,club_9_12,1.0,NON,2025-09-26,2017-08-29,2025-10-23 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Bazile Yanne Targie,
 PAP/NPFS,PAP,PAP/NPFS/ST02940,10,F,club_9_12,1.0,OUI,2025-11-13,2017-08-17,2025-12-16 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST02917,9,M,club_9_12,1.0,OUI,2025-12-11,2017-07-21,2026-01-27 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
-FOP/HCPT,PAP,FOP/HCPT/ST00284,11,F,club_9_12,1.0,OUI,2025-11-06,2017-10-16,2024-11-06 00:00:00,Dossous Marie Phane,Pas d'agent,Pas d'agent
-FOP/HCPT,PAP,FOP/HCPT/ST00323,17,F,club_13_17,1.0,OUI,2025-06-03,2018-01-18,2025-07-15 00:00:00,Dossous Marie Phane,Pas d'agent,Pas d'agent
-PIL/HOEP,CAP,PIL/HOEP/ST02563,10,F,club_9_12,1.0,OUI,2025-11-14,2018-01-31,2024-06-18 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Rosanie Beauliva,1rosanie
+FOP/HCPT,PAP,FOP/HCPT/ST00284,11,F,club_9_12,1.0,OUI,2025-11-06,2017-10-16,2026-01-08 00:00:00,Dossous Marie Phane,Pas d'agent,Pas d'agent
+PIL/HOEP,CAP,PIL/HOEP/ST02563,10,F,club_9_12,1.0,OUI,2025-11-14,2018-01-31,2025-12-20 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Rosanie Beauliva,1rosanie
+GON/CSTB,GON,GON/CSTB/ST00160,12,F,club_9_12,1.0,OUI,2025-11-25,2017-11-09,2026-01-16 00:00:00,D. Frantzie / Frantz Massé,Kerbancia Abrican,
 CAP/HSCM,CAP,CAP/HSCM/ST03748,9,M,club_9_12,1.0,NON,2026-01-15,2017-08-10,2025-10-28 00:00:00,Djafie Memnon / Adeline Pierre,Fleurgil Cleonie / Maselaine Meronard,1 fleurgile / 1maselaine / 1jeanelie / 1fenelus
 CAP/NEWH,CAP,PAP/GCHO/ST07291,15,M,club_13_17,1.0,OUI,2025-01-23,2017-12-11,2025-04-01 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Bazile Yanne Targie,
-CAP/CSLT,CAP,CAP/CSLT/ST00622,9,F,club_9_12,1.0,OUI,2025-03-11,2018-09-28,2024-01-25 00:00:00,Blenzaire Etienne,Pas d'agent,1 josette /
 GON/CSFA,GON,GON/CSFA/ST00769,13,M,club_9_12,1.0,OUI,2024-10-01,2018-03-27,2025-05-31 00:00:00,Marie Valmie Dormevil,Celian Fresnel,6fresnel
 PAP/NPFS,PAP,PAP/NPFS/ST03102,13,M,club_9_12,1.0,OUI,2025-11-19,2018-02-19,2025-12-26 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 GON/CSKS,GON,GON/CSKS/ST01633,11,F,club_9_12,1.0,OUI,2025-10-24,2018-02-22,2024-09-26 00:00:00,Marie Valmie Dormevil,Dorena Claudine,6dorena
-PAP/NPFS,PAP,PAP/NPFS/ST02748,13,M,club_9_12,1.0,OUI,2025-03-21,2016-12-22,2025-06-04 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
+PAP/NPFS,PAP,PAP/NPFS/ST02748,14,M,club_9_12,1.0,OUI,2025-03-21,2016-12-22,2025-06-04 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST02925,13,M,club_9_12,1.0,OUI,2024-12-09,2017-08-17,2024-12-23 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST02989,13,F,club_9_12,1.0,OUI,2025-06-12,2017-11-09,2025-07-14 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST03145,10,M,club_9_12,1.0,OUI,2025-06-16,2018-04-17,2025-07-28 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
@@ -338,13 +327,11 @@ PAP/OMFP,PAP,PAP/OMFP/ST04644,13,M,club_9_12,1.0,OUI,2025-09-29,2018-03-15,2025-
 PAP/OMFP,PAP,PAP/OMFP/ST04744,16,F,club_13_17,1.0,OUI,2025-07-23,2018-08-08,2025-07-23 00:00:00,Dossous Marie Phane,Elie Marie Florance,Florance
 PAP/HFSC,PAP,PAP/HFSC/ST02861,15,F,club_9_12,1.0,OUI,2025-05-20,2018-08-21,2025-06-30 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PIG/HOBP,CAP,PIG/HOBP/ST01381,10,M,club_9_12,1.0,OUI,2025-07-25,2018-09-18,2025-08-21 00:00:00,Djafie Memnon / Adeline Pierre,Lonique Michel,1michel / 1aldonzar
-PAP/NPFS,PAP,PAP/NPFS/ST03296,17,F,club_13_17,1.0,OUI,2025-09-23,2018-09-06,2025-09-29 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 CAP/CALT,CAP,CAP/CALT/ST01414,15,M,club_13_17,1.0,OUI,2025-07-23,2018-01-30,2025-08-07 00:00:00,Blenzaire Etienne,Irania Fenelus,1irania / 1Pierre / 1nathalie
 PAP/NPFS,PAP,PAP/NPFS/ST00495,17,M,club_13_17,1.0,OUI,2025-12-05,2009-09-30,2026-01-20 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST03274,15,M,club_13_17,1.0,OUI,2025-10-20,2018-11-12,2025-11-24 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 GRO/HAMG,GON,GRO/HAMG/ST02586,12,M,club_9_12,1.0,OUI,2025-11-28,2018-12-24,2025-06-20 00:00:00,D. Frantzie / Frantz Massé,Rosena Norvilus,6norvilus
 GRO/HAMG,GON,GRO/HAMG/ST02585,12,M,club_9_12,1.0,OUI,2025-11-28,2018-12-24,2025-06-20 00:00:00,D. Frantzie / Frantz Massé,Rosena Norvilus,6norvilus
-MCH/DSCA,GON,MCH/DSCA/ST01342,17,M,club_13_17,1.0,OUI,2025-06-16,2019-01-25,2025-07-24 00:00:00,Marie Valmie Dormevil,Bolimais Phikennia,6phikenia
 CAP/CDSF,CAP,CAP/CDSF/ST02600,12,M,club_9_12,1.0,NON,2026-01-21,2018-10-11,2025-09-29 00:00:00,Djafie Memnon / Adeline Pierre,Plyviose Exilhomme,1plyviose
 PAP/CMSP,PAP,PAP/CMSP/ST00950,15,M,club_13_17,1.0,OUI,2025-11-19,2019-04-16,2025-11-25 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
 GON/CSKS,GON,GON/CSKS/ST01939,17,M,club_13_17,1.0,OUI,2024-11-29,2019-04-23,2025-06-09 00:00:00,Marie Valmie Dormevil,Dorena Claudine,6dorena
@@ -375,10 +362,10 @@ PAP/OMFP,PAP,PAP/OMFP/ST05035,11,M,club_9_12,1.0,OUI,2025-07-18,2019-08-05,2024-
 PAP/CMSP,PAP,PAP/CMSP/ST00836,15,F,club_13_17,1.0,OUI,2024-08-15,2018-08-28,2024-09-02 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
 PAP/HSFS,PAP,PAP/HSFS/ST00773,15,F,club_13_17,1.0,OUI,2025-10-22,2019-09-20,2025-11-25 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
 PAP/HSFS,PAP,PAP/HSFS/ST00862,15,M,club_13_17,1.0,OUI,2024-11-27,2019-11-06,2024-12-09 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
-CAP/CDSF,CAP,CAP/CDSF/ST02882,11,F,club_9_12,1.0,NON,2025-07-01,2019-12-04,2025-07-31 00:00:00,Djafie Memnon / Adeline Pierre,Plyviose Exilhomme,1plyviose
+CAP/CDSF,CAP,CAP/CDSF/ST02882,11,F,club_9_12,1.0,NON,2025-07-01,2019-12-04,2025-12-29 00:00:00,Djafie Memnon / Adeline Pierre,Plyviose Exilhomme,1plyviose
 CAP/CSBL,CAP,CAP/CSBL/ST00084,11,M,club_9_12,1.0,NON,2024-05-03,2019-01-28,2024-06-06 00:00:00,Blenzaire Etienne,Evana Fleurimond,1evana
 CAP/CSBL,CAP,CAP/CSBL/ST00082,13,F,club_9_12,1.0,OUI,2024-02-15,2019-01-28,2024-06-06 00:00:00,Blenzaire Etienne,Evana Fleurimond,1evana
-CAP/CSLT,CAP,CAP/CSLT/ST00693,11,M,club_9_12,1.0,OUI,2024-08-27,2018-07-05,2024-09-27 00:00:00,Blenzaire Etienne,Pas d'agent,1 josette /
+CAP/CMSO,CAP,CAP/CMSO/ST02354,9,M,club_9_12,1.0,OUI,2026-01-23,2018-01-03,2024-09-10 00:00:00,Blenzaire Etienne,Rose Ferline Dorvil,
 PAP/HSFS,PAP,PAP/HSFS/ST00954,10,M,club_9_12,1.0,OUI,2025-12-30,2020-01-22,2025-01-21 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
 LIM/HOSJ,CAP,LIM/HOSJ/ST02146,14,M,club_13_17,1.0,OUI,2025-07-16,2020-01-23,2025-08-07 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Joseph Jean Elie,
 SMA/CSSM,GON,SMA/CSSM/ST00871,12,M,club_9_12,1.0,OUI,2025-12-09,2019-09-30,2024-09-18 00:00:00,Marie Valmie Dormevil,Joseph Viviane,6joseph
@@ -386,29 +373,29 @@ PAP/GCHO,PAP,PAP/GCHO/ST07746,16,M,club_13_17,1.0,OUI,2025-07-25,2019-12-16,2025
 GON/CSKS,GON,GON/CSKS/ST02243,17,M,club_13_17,1.0,OUI,2025-10-24,2020-04-21,2025-11-24 00:00:00,Marie Valmie Dormevil,Dorena Claudine,6dorena
 MCH/HCHM,GON,MCH/HCHM/ST01852,10,F,club_9_12,1.0,OUI,2025-10-27,2020-01-22,2024-06-05 00:00:00,Marie Valmie Dormevil,Charles Evelyne/ Bolimais Phikennia,6evelyne
 PIL/HOEP,CAP,PIL/HOEP/ST02986,13,M,club_13_17,1.0,OUI,2025-10-17,2020-07-20,2025-11-11 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Rosanie Beauliva,1rosanie
-PAP/HSFS,PAP,PAP/HSFS/ST00965,10,M,club_9_12,1.0,OUI,2025-11-28,2020-02-10,2024-10-29 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
-PAP/HSFS,PAP,PAP/HSFS/ST00999,14,F,club_13_17,1.0,OUI,2024-12-02,2020-04-14,2024-12-09 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
+PAP/HSFS,PAP,PAP/HSFS/ST00965,10,M,club_9_12,1.0,OUI,2025-11-28,2020-02-10,2026-01-07 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
+PAP/HSFS,PAP,PAP/HSFS/ST00999,14,F,club_13_17,1.0,OUI,2026-01-28,2020-04-14,2024-12-09 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
 PAP/HFSC,PAP,PAP/HFSC/ST03623,17,F,club_13_17,1.0,OUI,2025-04-17,2020-07-15,2025-05-16 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
-PAP/HFSC,PAP,PAP/HFSC/ST03561,15,M,club_13_17,1.0,OUI,2024-12-16,2020-04-13,2024-12-31 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
+PAP/HFSC,PAP,PAP/HFSC/ST03561,15,M,club_13_17,1.0,OUI,2025-12-12,2020-04-13,2026-01-12 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST03516,9,F,club_9_12,1.0,OUI,2025-03-13,2020-03-12,2025-05-29 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST03449,11,M,club_9_12,1.0,OUI,2025-02-24,2020-02-07,2025-05-29 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST03420,17,F,club_13_17,1.0,OUI,2025-06-25,2020-01-24,2025-07-29 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST03377,11,F,club_9_12,1.0,OUI,2025-12-16,2019-12-18,2025-07-17 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST03359,16,M,club_13_17,1.0,OUI,2025-06-10,2019-12-11,2025-06-27 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
+PAP/HFSC,PAP,PAP/HFSC/ST03314,16,F,club_9_12,1.0,OUI,2025-07-23,2019-10-26,2025-08-12 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST03309,16,F,club_13_17,1.0,OUI,2025-11-13,2019-10-26,2025-12-16 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST03305,17,M,club_13_17,1.0,OUI,2025-12-09,2019-10-26,2025-12-23 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
-PAP/HFSC,PAP,PAP/HFSC/ST03302,16,M,club_13_17,1.0,OUI,2025-12-23,2019-10-26,2024-10-20 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
-PAP/HFSC,PAP,PAP/HFSC/ST03288,10,M,club_9_12,1.0,OUI,2024-12-02,2019-10-27,2024-12-30 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
-PAP/HFSC,PAP,PAP/HFSC/ST03191,15,F,club_13_17,1.0,OUI,2025-02-26,2019-08-13,2025-03-31 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
-PAP/HFSC,PAP,PAP/HFSC/ST03136,15,M,club_13_17,1.0,OUI,2025-04-14,2019-06-25,2025-05-22 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
+PAP/HFSC,PAP,PAP/HFSC/ST03302,16,M,club_13_17,1.0,OUI,2025-12-05,2019-10-26,2025-12-23 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
+PAP/HFSC,PAP,PAP/HFSC/ST03191,15,F,club_13_17,1.0,OUI,2025-11-13,2019-08-13,2025-11-29 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
+PAP/HFSC,PAP,PAP/HFSC/ST03136,16,M,club_13_17,1.0,OUI,2025-04-14,2019-06-25,2025-05-22 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST03044,14,F,club_9_12,1.0,OUI,2025-04-15,2019-03-18,2025-05-30 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
-PAP/HFSC,PAP,PAP/HFSC/ST03009,17,F,club_13_17,1.0,OUI,2025-02-21,2019-02-01,2025-01-16 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
+PAP/HFSC,PAP,PAP/HFSC/ST03009,17,F,club_13_17,1.0,OUI,2025-06-09,2019-02-01,2025-07-02 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST03008,17,M,club_13_17,1.0,OUI,2025-05-24,2019-08-12,2025-06-30 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST02974,13,M,club_9_12,1.0,OUI,2025-03-31,2018-12-10,2025-05-29 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
-PAP/HFSC,PAP,PAP/HFSC/ST02939,10,M,club_9_12,1.0,OUI,2024-11-14,2018-10-26,2024-12-31 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
+PAP/HFSC,PAP,PAP/HFSC/ST02939,10,M,club_9_12,1.0,OUI,2025-12-05,2018-10-26,2025-12-17 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 GON/CSFA,GON,GON/CSFA/ST00874,14,F,club_13_17,1.0,NON,2025-08-24,2019-03-26,2025-05-21 00:00:00,Marie Valmie Dormevil,Celian Fresnel,6fresnel
 GRO/HAMG,GON,GRO/HAMG/ST02960,16,F,club_13_17,1.0,OUI,2025-01-24,2020-09-14,2025-02-24 00:00:00,D. Frantzie / Frantz Massé,Rosena Norvilus,6norvilus
-GON/CSFA,GON,GON/CSFA/ST01018,13,M,club_13_17,1.0,OUI,2024-10-07,2020-08-31,2024-11-19 00:00:00,Marie Valmie Dormevil,Celian Fresnel,6fresnel
+GON/CSFA,GON,GON/CSFA/ST01018,14,M,club_13_17,1.0,OUI,2024-10-07,2020-08-31,2024-11-19 00:00:00,Marie Valmie Dormevil,Celian Fresnel,6fresnel
 PAP/HFSC,PAP,PAP/HFSC/ST02775,17,F,club_13_17,1.0,OUI,2025-12-26,2018-06-05,2025-05-29 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/NPFS,PAP,PAP/NPFS/ST03838,12,M,club_9_12,1.0,OUI,2025-05-05,2020-09-04,2025-06-26 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/HFSC,PAP,PAP/HFSC/ST02798,9,F,club_9_12,1.0,OUI,2025-05-07,2018-06-27,2025-05-30 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
@@ -420,14 +407,14 @@ PAP/HFSC,PAP,PAP/HFSC/ST02261,13,F,club_9_12,1.0,OUI,2025-11-25,2017-03-22,2026-
 PAP/OMFP,PAP,PAP/OMFP/ST03876,15,F,club_13_17,1.0,OUI,2025-09-08,2015-06-10,2025-09-08 00:00:00,Dossous Marie Phane,Elie Marie Florance,Florance
 CAP/HSCM,CAP,CAP/HSCM/ST03724,12,F,club_9_12,1.0,OUI,2025-09-03,2020-12-09,2025-09-29 00:00:00,Djafie Memnon / Adeline Pierre,Fleurgil Cleonie / Maselaine Meronard,1 fleurgile / 1maselaine / 1jeanelie / 1fenelus
 CAP/HSCM,CAP,CAP/HSCM/ST03012,12,F,club_9_12,1.0,OUI,2025-08-26,2015-11-26,2025-07-11 00:00:00,Djafie Memnon / Adeline Pierre,Fleurgil Cleonie / Maselaine Meronard,1 fleurgile / 1maselaine / 1jeanelie / 1fenelus
-PAP/HSFS,PAP,PAP/HSFS/ST01102,16,F,club_13_17,1.0,OUI,2024-09-27,2020-08-10,2024-10-29 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
-FOP/HCPT,PAP,FOP/HCPT/ST00515,14,M,club_9_12,1.0,OUI,2025-06-19,2019-02-28,2025-06-19 00:00:00,Dossous Marie Phane,Pas d'agent,Pas d'agent
+PAP/HSFS,PAP,PAP/HSFS/ST01102,16,F,club_13_17,1.0,OUI,2026-01-26,2020-08-10,2024-10-29 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
+FOP/HCPT,PAP,FOP/HCPT/ST00515,14,M,club_9_12,1.0,OUI,2025-06-19,2019-02-28,2025-09-12 00:00:00,Dossous Marie Phane,Pas d'agent,Pas d'agent
 PAP/NPFS,PAP,PAP/NPFS/ST00464,17,M,club_13_17,1.0,OUI,2025-06-02,2017-08-31,2025-07-14 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PIG/HOBP,CAP,PIG/HOBP/ST01404,14,M,club_13_17,1.0,NON,2025-11-28,2013-03-12,2025-12-16 00:00:00,Djafie Memnon / Adeline Pierre,Lonique Michel,1michel / 1aldonzar
 PIG/HOBP,CAP,PIG/HOBP/ST01268 ,15,M,club_13_17,1.0,OUI,2025-07-25,2013-05-17,2025-08-21 00:00:00,Djafie Memnon / Adeline Pierre,Lonique Michel,1michel / 1aldonzar
 PAP/NPFS,PAP,PAP/NPFS/ST03661,16,M,club_13_17,1.0,OUI,2025-06-03,2020-05-11,2025-07-14 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST03727,17,F,club_13_17,1.0,OUI,2025-10-16,2020-05-29,2025-11-24 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
-PAP/HSFS,PAP,PAP/HSFS/ST01257,15,M,club_13_17,1.0,OUI,2025-01-22,2021-03-03,2025-02-09 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
+PAP/HSFS,PAP,PAP/HSFS/ST01257,15,M,club_13_17,1.0,OUI,2025-12-01,2021-03-03,2026-01-07 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
 PAP/HFSC,PAP,PAP/HFSC/ST03766,15,M,club_13_17,1.0,OUI,2025-12-12,2022-01-05,2026-01-16 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/NPFS,PAP,PAP/NPFS/ST03789,15,F,club_13_17,1.0,OUI,2025-06-10,2020-07-31,2025-07-14 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/CSPL,PAP,PAP/CSPL/ST02122,16,F,club_13_17,1.0,OUI,2025-05-21,2021-01-21,2025-05-21 00:00:00,Miss Petit Marie Gislaine,Anne Telong,2telong
@@ -439,10 +426,9 @@ STM/CSPP,PAP,STM/CSPP/ST01310,16,F,club_13_17,1.0,OUI,2025-10-15,2013-04-24,2025
 PAP/HSFS,PAP,PAP/HSFS/ST01279,11,M,club_9_12,1.0,OUI,2025-06-17,2021-04-20,2025-06-17 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
 PAP/HSFS,PAP,PAP/HSFS/ST01260,10,F,club_9_12,1.0,OUI,2025-11-21,2021-03-10,2024-10-29 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
 PAP/HSFS,PAP,PAP/HSFS/ST01264,16,F,club_13_17,1.0,OUI,2025-06-27,2021-03-16,2025-07-03 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
-MCH/DSCA,GON,MCH/DSCA/ST01156,15,F,club_13_17,1.0,NON,2025-01-14,2018-04-09,2025-05-14 00:00:00,Marie Valmie Dormevil,Bolimais Phikennia,6phikenia
-FOP/HCPT,PAP,FOP/HCPT/ST00600,10,F,club_9_12,1.0,OUI,2025-11-06,2019-07-12,2024-11-06 00:00:00,Dossous Marie Phane,Pas d'agent,Pas d'agent
+FOP/HCPT,PAP,FOP/HCPT/ST00600,10,F,club_9_12,1.0,OUI,2025-11-06,2019-07-12,2026-01-08 00:00:00,Dossous Marie Phane,Pas d'agent,Pas d'agent
 PAP/HBMP,PAP,PAP/HBMP/ST03639,13,F,club_9_12,1.0,OUI,2025-09-10,2018-12-12,2025-09-28 00:00:00,Sabruna Lazard,Altema Mona / Saint felix Frantcy,2altema /
-GON/CSFA,GON,GON/CSFA/ST01163,10,M,club_9_12,1.0,OUI,2024-10-21,2021-08-25,2024-11-29 00:00:00,Marie Valmie Dormevil,Celian Fresnel,6fresnel
+GON/CSFA,GON,GON/CSFA/ST01163,11,M,club_9_12,1.0,OUI,2024-10-21,2021-08-25,2024-11-29 00:00:00,Marie Valmie Dormevil,Celian Fresnel,6fresnel
 PAP/CMSP,PAP,PAP/CMSP/ST01474,15,F,club_13_17,1.0,OUI,2025-10-27,2021-08-07,2025-12-02 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
 CAP/CALT,CAP,CAP/CALT/ST01835,9,F,club_9_12,1.0,OUI,2025-12-03,2020-07-17,2025-12-13 00:00:00,Blenzaire Etienne,Irania Fenelus,1irania / 1Pierre / 1nathalie
 PAP/CMSP,PAP,PAP/CMSP/ST01494,15,M,club_13_17,1.0,OUI,2024-08-23,2021-08-19,2024-09-16 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
@@ -460,8 +446,8 @@ CAP/NEWH,CAP,PAP/GCHO/ST08049,9,F,club_9_12,1.0,OUI,2025-09-19,2021-03-11,2025-1
 PAP/GCHO,PAP,PAP/GCHO/ST08169,10,F,club_9_12,1.0,OUI,2025-09-17,2021-09-17,2025-09-17 00:00:00,Sabruna Lazard,Francois Ntahalie / Thomas Higgie,2nathalie / 2 higgie
 PAP/GCHO,PAP,PAP/GCHO/ST07862,16,M,club_13_17,1.0,NON,2025-11-13,2020-05-13,2025-11-13 00:00:00,Sabruna Lazard,Francois Ntahalie / Thomas Higgie,2nathalie / 2 higgie
 PAP/HFSC,PAP,PAP/HFSC/ST03915,11,F,club_9_12,1.0,OUI,2025-04-09,2021-09-08,2025-05-29 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
-PAP/HSFS,PAP,PAP/HSFS/ST01321,16,F,club_13_17,1.0,OUI,2025-06-02,2021-07-27,2025-06-02 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
-PAP/HSFS,PAP,PAP/HSFS/ST01345,17,M,club_13_17,1.0,OUI,2025-01-24,2021-09-16,2025-02-06 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
+PAP/HSFS,PAP,PAP/HSFS/ST01321,17,F,club_13_17,1.0,OUI,2025-06-02,2021-07-27,2025-06-02 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
+PAP/HSFS,PAP,PAP/HSFS/ST01345,17,M,club_13_17,1.0,OUI,2026-01-30,2021-09-16,2025-02-06 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
 CAP/CALT,CAP,CAP/CALT/ST00883,11,F,club_9_12,1.0,OUI,2025-12-03,2015-09-02,2025-12-19 00:00:00,Blenzaire Etienne,Irania Fenelus,1irania / 1Pierre / 1nathalie
 PAP/CMSP,PAP,PAP/CMSP/ST01525,14,M,club_13_17,1.0,OUI,2025-10-08,2021-09-27,2025-10-28 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
 PAP/CMSP,PAP,PAP/CMSP/ST1526,13,F,club_9_12,1.0,OUI,2025-04-16,2021-09-27,2025-05-22 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
@@ -479,10 +465,9 @@ PAP/HSFS,PAP,PAP/HSFS/ST01195,10,F,club_9_12,1.0,OUI,2025-03-21,2020-10-28,2025-
 CAP/CALT,CAP,CAP/CALT/ST02331,15,F,club_13_17,1.0,NON,2025-12-29,2021-11-22,2026-01-13 00:00:00,Blenzaire Etienne,Irania Fenelus,1irania / 1Pierre / 1nathalie
 FOP/HCPT,PAP,FOP/HCPT/ST00548,11,M,club_9_12,1.0,OUI,2025-03-12,2019-04-29,2025-05-27 00:00:00,Dossous Marie Phane,Pas d'agent,Pas d'agent
 PIL/HOEP,CAP,PIL/HOEP/ST03163,15,F,club_13_17,1.0,OUI,2025-10-27,2021-11-16,2024-12-16 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Rosanie Beauliva,1rosanie
-PAP/HBMP,PAP,PAP/HBMP/ST04324,17,F,club_13_17,1.0,OUI,2024-07-19,2017-01-30,2024-09-13 00:00:00,Sabruna Lazard,Altema Mona / Saint felix Frantcy,2altema /
+PAP/HBMP,PAP,PAP/HBMP/ST04324,17,F,club_13_17,1.0,OUI,2026-01-21,2017-01-30,2025-12-15 00:00:00,Sabruna Lazard,Altema Mona / Saint felix Frantcy,2altema /
 PAP/HBMP,PAP,PAP/HBMP/ST05076,17,M,club_13_17,1.0,OUI,2024-07-19,2021-12-07,2024-09-13 00:00:00,Sabruna Lazard,Altema Mona / Saint felix Frantcy,2altema /
 PAP/HSFS,PAP,PAP/HSFS/ST01382,14,M,club_13_17,1.0,OUI,2025-03-13,2021-12-17,2025-05-23 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
-PAP/HFSC,PAP,PAP/HFSC/ST03722,17,F,club_13_17,1.0,OUI,2025-04-17,2020-10-14,2025-05-30 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PIL/HOEP,CAP,PIL/HOEP/ST03156,10,M,club_9_12,1.0,OUI,2025-11-20,2021-10-18,2025-12-10 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Rosanie Beauliva,1rosanie
 PAP/CMSP,PAP,PAP/CMSP/ST01443,9,F,club_9_12,1.0,OUI,2025-02-13,2021-07-05,2025-03-26 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
 LIM/HOSJ,CAP,LIM/HOSJ/ST02880,13,F,club_13_17,1.0,OUI,2025-11-21,2018-12-04,2025-12-03 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Joseph Jean Elie,
@@ -496,7 +481,7 @@ PAP/CMSP,PAP,PAP/CMSP/ST01606,10,M,club_9_12,1.0,OUI,2025-10-09,2022-02-15,2025-
 PAP/GCHO,PAP,PAP/GCHO/ST08090,15,M,club_13_17,1.0,OUI,2025-07-25,2021-05-07,2025-07-28 00:00:00,Sabruna Lazard,Francois Ntahalie / Thomas Higgie,2nathalie / 2 higgie
 PAP/OMFP,PAP,PAP/OMFP/MC0411J,14,M,club_9_12,1.0,NON,2025-06-13,2019-04-26,2025-06-13 00:00:00,Dossous Marie Phane,Elie Marie Florance,Florance
 PAP/CMSP,PAP,PAP/CMSP/ST01602,9,F,club_9_12,1.0,OUI,2025-07-09,2022-02-22,2025-08-06 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
-PAP/HFSC,PAP,PAP/HFSC/ST03876,16,F,club_13_17,1.0,OUI,2024-11-19,2021-06-30,2024-12-19 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
+PAP/HFSC,PAP,PAP/HFSC/ST03876,16,F,club_13_17,1.0,OUI,2025-10-16,2021-06-30,2025-12-17 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST03924,17,M,club_13_17,1.0,OUI,2025-06-09,2021-09-23,2025-06-30 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 LAG/HWLG,PAP,LAG/HWLG/ST01425,16,F,club_13_17,1.0,OUI,2024-01-10,2021-12-23,2024-09-30 00:00:00,Miss Petit Marie Gislaine,Pas d'agent,Pas d'agent
 CAP/CMSO,CAP,CAP/CMSO/ST03181,11,M,club_9_12,1.0,NON,2025-06-11,2022-05-11,2025-06-27 00:00:00,Blenzaire Etienne,Rose Ferline Dorvil,
@@ -520,12 +505,13 @@ PAP/OMFP,PAP,PAP/OMFP/ST05337,10,M,club_9_12,1.0,OUI,2024-07-24,2020-10-16,2024-
 PAP/OMFP,PAP,PAP/OMFP/ST05326,15,M,club_9_12,1.0,OUI,2025-03-12,2020-11-09,2025-04-04 00:00:00,Dossous Marie Phane,Elie Marie Florance,Florance
 PAP/HSFS,PAP,PAP/HSFS/ST01462,13,M,club_9_12,1.0,OUI,2025-05-19,2022-06-03,2025-05-23 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
 CAP/CMSO,CAP,CAP/CMSO/ST03173,14,F,club_13_17,1.0,OUI,2025-11-12,2022-04-25,2024-10-10 00:00:00,Blenzaire Etienne,Rose Ferline Dorvil,
-PAP/NPFS,PAP,PAP/NPFS/03486,12,M,club_9_12,1.0,OUI,2024-11-19,2019-09-12,2024-12-23 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
+PAP/NPFS,PAP,PAP/NPFS/03486,12,M,club_9_12,1.0,OUI,2025-12-29,2019-09-12,2024-12-23 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/HFSC,PAP,PAP/HFSC/ST04182,15,F,club_13_17,1.0,OUI,2025-05-13,2022-09-01,2025-06-30 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
+LAG/HWLG,PAP,LAG/HWLG/ST01592,16,M,club_13_17,1.0,NON,2025-05-16,2022-09-02,2025-05-20 00:00:00,Miss Petit Marie Gislaine,Pas d'agent,Pas d'agent
 PAP/CMSP,PAP,PAP/CMSP/STO1681,13,F,club_9_12,1.0,OUI,2025-01-16,2022-08-11,2025-02-11 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
 PAP/CMSP,PAP,PAP/CMSP/ST01690,15,F,club_13_17,1.0,OUI,2025-11-25,2022-08-29,2025-12-23 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
 PAP/CMSP,PAP,PAP/CMSP/ST01696,13,M,club_9_12,1.0,NON,2025-10-10,2022-10-10,2025-11-05 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
-PAP/HSFS,PAP,PAP/HSFS/ST01415,10,F,club_9_12,1.0,OUI,2025-10-24,2022-03-03,2024-10-25 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
+PAP/HSFS,PAP,PAP/HSFS/ST01415,10,F,club_9_12,1.0,OUI,2025-10-24,2022-03-03,2025-12-06 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
 CAP/HSCM,CAP,CAP/HSCM/ST04160,12,F,club_9_12,1.0,OUI,2023-11-24,2019-04-30,2025-07-25 00:00:00,Djafie Memnon / Adeline Pierre,Fleurgil Cleonie / Maselaine Meronard,1 fleurgile / 1maselaine / 1jeanelie / 1fenelus
 PAP/HBMP,PAP,PAP/HBMP/ST04984,11,F,club_9_12,1.0,OUI,2025-08-20,2021-03-01,2025-09-13 00:00:00,Sabruna Lazard,Altema Mona / Saint felix Frantcy,2altema /
 PAP/HSFS,PAP,PAP/HSFS/ST01535,15,F,club_13_17,1.0,OUI,2024-12-02,2022-11-26,2024-12-09 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
@@ -533,7 +519,6 @@ PAP/HFSC,PAP,PAP/HFSC/ST04181,17,F,club_13_17,1.0,OUI,2025-05-19,2022-08-22,2025
 PAP/CMSP,PAP,PAP/CMSP/ST01716,12,F,club_9_12,1.0,OUI,2025-07-10,2022-11-24,2025-08-06 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
 PAP/CMSP,PAP,PAP/CMSP/ST01729,17,F,club_13_17,1.0,NON,2025-09-26,2022-12-08,2025-10-13 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
 PAP/CMSP,PAP,PAP/CMSP/ST01730,14,M,club_13_17,1.0,OUI,2025-11-05,2022-12-09,2025-12-12 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
-GRO/HAMG,GON,GRO/HAMG/ST03236,14,M,club_13_17,1.0,OUI,2025-05-10,2022-04-01,2025-06-10 00:00:00,D. Frantzie / Frantz Massé,Rosena Norvilus,6norvilus
 GRO/HAMG,GON,GRO/HAMG/ST02923,15,M,club_13_17,1.0,NON,2025-11-28,2020-07-27,2025-08-28 00:00:00,D. Frantzie / Frantz Massé,Rosena Norvilus,6norvilus
 LIM/HOSJ,CAP,LIM/HOSJ/ST03242,17,M,club_13_17,1.0,OUI,2025-01-03,2021-09-14,2025-01-26 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Joseph Jean Elie,
 PAP/OMFP,PAP,PAP/OMFP/ST05653,16,F,club_13_17,1.0,OUI,2025-07-23,2023-01-23,2025-07-23 00:00:00,Dossous Marie Phane,Elie Marie Florance,Florance
@@ -542,21 +527,23 @@ PAP/HFSC,PAP,PAP/HFSC/ST04170,15,M,club_13_17,1.0,OUI,2025-04-21,2022-08-08,2025
 PAP/GCHO,PAP,PAP/GCHO/ST08127,15,F,club_13_17,1.0,OUI,2025-10-24,2021-10-01,2024-10-15 00:00:00,Sabruna Lazard,Francois Ntahalie / Thomas Higgie,2nathalie / 2 higgie
 PAP/OMFP,PAP,PAP/OMFP/ST05667,16,F,club_13_17,1.0,OUI,2025-07-23,2023-02-13,2025-07-23 00:00:00,Dossous Marie Phane,Elie Marie Florance,Florance
 GON/CSFA,GON,GON/CSFA/ST01346,11,F,club_9_12,1.0,OUI,2024-10-04,2022-12-16,2024-10-21 00:00:00,Marie Valmie Dormevil,Celian Fresnel,6fresnel
-PAP/CMSP,PAP,PAP/CMSP/ST01765,16,F,club_13_17,1.0,OUI,2024-08-16,2023-02-24,2024-09-10 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
+PAP/CMSP,PAP,PAP/CMSP/ST01765,17,F,club_13_17,1.0,OUI,2024-08-16,2023-02-24,2024-09-10 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
 PAP/CMSP,PAP,PAP/CMSP/ST01708,13,F,club_9_12,1.0,OUI,2025-05-15,2023-01-17,2025-05-16 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
 LIM/HOSJ,CAP,LIM/HOSJ/ST03218,15,M,club_13_17,1.0,OUI,2025-05-20,2021-03-05,2025-06-10 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Joseph Jean Elie,
 PAP/HOCH,PAP,PAP/HOCH/ST00311,14,M,club_9_12,1.0,OUI,2025-05-07,2022-03-10,2024-02-17 00:00:00,,,
 PAP/HOCH,PAP,PAP/HOCH/ST00006,16,F,club_13_17,1.0,OUI,2025-01-13,2018-10-18,2025-01-26 00:00:00,,,
 PAP/OMFP,PAP,PAP/OMFP/ST05651,13,M,club_9_12,1.0,OUI,2025-02-14,2023-01-16,2025-02-14 00:00:00,Dossous Marie Phane,Elie Marie Florance,Florance
-PAP/HSFS,PAP,PAP/HSFS/ST00258,9,M,club_9_12,1.0,OUI,2024-10-11,2017-12-04,2024-10-29 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
+PAP/HSFS,PAP,PAP/HSFS/ST00258,9,M,club_9_12,1.0,OUI,2025-12-01,2017-12-04,2026-01-07 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
 PAP/HOCH,PAP,PAP/HOCH/ST00408,10,F,club_9_12,1.0,OUI,2024-08-27,2023-04-03,2024-09-30 00:00:00,,,
 PAP/HOCH,PAP,PAP/HOCH/ST00409,12,M,club_9_12,1.0,OUI,2025-06-20,2023-04-03,2025-02-17 00:00:00,,,
+LAG/HWLG,PAP,LAG/HWLG/ST00967,12,F,club_9_12,1.0,OUI,2025-05-05,2022-03-15,2025-05-09 00:00:00,Miss Petit Marie Gislaine,Pas d'agent,Pas d'agent
 PAP/HSFS,PAP,PAP/HSFS/ST01540,17,F,club_13_17,1.0,OUI,2025-06-20,2022-11-24,2025-06-23 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
 PAP/HSFS,PAP,PAP/HSFS/ST01285,9,F,club_9_12,1.0,OUI,2025-03-07,2021-04-23,2025-05-23 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
-PAP/HSFS,PAP,PAP/HSFS/ST01463,10,M,club_9_12,1.0,OUI,2025-12-01,2022-06-07,2024-10-29 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
+PAP/HSFS,PAP,PAP/HSFS/ST01463,10,M,club_9_12,1.0,OUI,2025-12-01,2022-06-07,2026-01-07 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
 PAP/HFSC,PAP,PAP/HFSC/ST04244,17,F,club_13_17,1.0,OUI,2025-07-25,2022-12-01,2025-08-20 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST04095,13,F,club_9_12,1.0,OUI,2025-01-10,2022-04-18,2025-02-20 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST04135,15,F,club_13_17,1.0,OUI,2025-04-16,2022-02-02,2025-05-29 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
+PAP/HBMP,PAP,PAP/HBMP/ST05218,12,F,club_9_12,1.0,OUI,2025-09-10,2023-04-14,2025-09-28 00:00:00,Sabruna Lazard,Altema Mona / Saint felix Frantcy,2altema /
 PAP/HBMP,PAP,PAP/HBMP/ST05204,17,M,club_13_17,1.0,OUI,2024-09-11,2023-02-27,2024-10-01 00:00:00,Sabruna Lazard,Altema Mona / Saint felix Frantcy,2altema /
 PAP/HBMP,PAP,PAP/HBMP/ST05200,15,F,club_13_17,1.0,OUI,2025-01-29,2023-02-23,2025-02-06 00:00:00,Sabruna Lazard,Altema Mona / Saint felix Frantcy,2altema /
 LIM/HOSJ,CAP,LIM/HOSJ/ST03338,9,M,club_9_12,1.0,OUI,2025-11-14,2022-03-21,2025-12-03 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Joseph Jean Elie,
@@ -564,6 +551,7 @@ PAP/NPFS,PAP,PAP/NPFS/ST03338,10,M,club_9_12,1.0,OUI,2025-06-16,2019-01-03,2025-
 PAP/NPFS,PAP,PAP/NPFS/ST04287,12,M,club_9_12,1.0,OUI,2025-10-01,2023-04-12,2025-10-21 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/GCHO,PAP,PAP/GCHO/ST08514,15,M,club_13_17,1.0,OUI,2025-10-15,2023-03-13,2025-10-31 00:00:00,Sabruna Lazard,Francois Ntahalie / Thomas Higgie,2nathalie / 2 higgie
 MON/POZS,PAP,MON/POZS/ST01040,12,M,club_9_12,1.0,OUI,2025-04-29,2023-07-05,2025-06-10 00:00:00,Sabruna Lazard,/ Pierre Cleanie,/ bcleonie
+PAP/HSFS,PAP,PAP/HSFS/ST01442,12,M,club_9_12,1.0,OUI,2025-11-06,2022-04-28,2024-10-29 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
 SMA/CSSM,GON,SMA/CSSM/ST01122,16,F,club_13_17,1.0,OUI,2023-11-23,2023-09-29,2023-12-20 00:00:00,Marie Valmie Dormevil,Joseph Viviane,6joseph
 CAP/HSCM,CAP,CAP/HSCM/ST04502,10,M,club_9_12,1.0,OUI,2025-05-30,2021-09-29,2025-07-17 00:00:00,Djafie Memnon / Adeline Pierre,Fleurgil Cleonie / Maselaine Meronard,1 fleurgile / 1maselaine / 1jeanelie / 1fenelus
 FOP/HCPT,PAP,FOP/HCPT/ST01082,10,0,club_9_12,1.0,OUI,2025-05-28,2023-03-01,2025-07-05 00:00:00,Dossous Marie Phane,Pas d'agent,Pas d'agent
@@ -599,25 +587,26 @@ PAP/NPFS,PAP,PAP/NPFS/ST04357,11,F,club_9_12,1.0,OUI,2025-10-01,2023-10-03,2025-
 PAP/HFSC,PAP,PAP/HFSC/ST04388,12,F,club_9_12,1.0,OUI,2025-05-13,2023-05-25,2025-06-03 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/HFSC,PAP,PAP/HFSC/ST04418,13,M,club_9_12,1.0,OUI,2025-06-20,2023-06-29,2025-07-22 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/NPFS,PAP,PAP/NPFS/ST04368,11,M,club_9_12,1.0,NON,2026-10-08,2023-10-27,2026-01-09 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
-PAP/HFSC,PAP,PAP/HFSC/ST04505,13,M,club_9_12,1.0,OUI,2024-12-04,2023-11-13,2024-12-16 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
+PAP/HFSC,PAP,PAP/HFSC/ST04505,13,M,club_9_12,1.0,OUI,2025-12-10,2023-11-13,2025-12-30 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/NPFS,PAP,PAP/NPFS/ST04386,16,F,club_13_17,1.0,OUI,2025-11-28,2024-01-04,2025-12-26 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/OMFP,PAP,PAP/OMFP/ST04137,14,M,club_9_12,1.0,OUI,2024-11-15,2014-02-13,2024-12-18 00:00:00,Dossous Marie Phane,Elie Marie Florance,Florance
 PAP/HOCH,PAP,PAP/HOCH/ST00439,10,F,club_9_12,1.0,OUI,2025-03-05,2023-06-26,2025-05-16 00:00:00,,,
 CAP/CMSO,CAP,CAP/CMSO/ST03480,15,F,club_13_17,1.0,OUI,2025-11-12,2024-01-10,2024-05-21 00:00:00,Blenzaire Etienne,Rose Ferline Dorvil,
 PAP/OMFP,PAP,PAP/OMFP/ST05835,16,F,club_13_17,1.0,OUI,2025-09-19,2024-04-25,2025-09-19 00:00:00,Dossous Marie Phane,Elie Marie Florance,Florance
+FOP/HCPT,PAP,FOP/HCPT/ST01238,16,F,club_13_17,1.0,OUI,2025-05-23,2024-03-13,2025-07-03 00:00:00,Dossous Marie Phane,Pas d'agent,Pas d'agent
 GRO/HAMG,GON,GRO/HAMG/ST03583,16,F,club_13_17,1.0,OUI,2024-09-18,2024-04-22,2024-10-12 00:00:00,D. Frantzie / Frantz Massé,Rosena Norvilus,6norvilus
-PAP/HSFS,PAP,PAP/HSFS/ST01680,15,F,club_13_17,1.0,OUI,2025-06-17,2023-08-14,2024-12-19 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
+PAP/HSFS,PAP,PAP/HSFS/ST01680,15,F,club_13_17,1.0,OUI,2026-01-28,2023-08-14,2024-12-19 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
 PAP/HSFS,PAP,PAP/HSFS/ST01749,14,M,club_13_17,1.0,OUI,2025-07-18,2024-05-24,2025-08-19 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
-CAP/NEWH,CAP,CAP/NEWH/ST00510,15,F,club_13_17,1.0,OUI,2025-11-13,2024-07-09,2025-12-03 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Bazile Yanne Targie,
-PAP/NPFS,PAP,PAP/NPFS/ST04404,15,M,club_13_17,1.0,OUI,2025-12-05,2024-02-01,2025-01-06 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
+PAP/NPFS,PAP,PAP/NPFS/ST04404,15,M,club_13_17,1.0,OUI,2025-12-05,2024-02-01,2026-01-27 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST04403,12,F,club_9_12,1.0,OUI,2025-12-05,2024-02-15,2026-01-20 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST04376,9,M,club_9_12,1.0,OUI,2025-03-24,2024-02-15,2025-05-20 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/HFSC,PAP,PAP/HFSC/ST04617,10,F,club_9_12,1.0,OUI,2025-04-10,2024-05-28,2025-05-29 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
-PAP/HBMP,PAP,PAP/HBMP/ST05296,16,F,club_13_17,1.0,OUI,2025-06-18,2024-04-11,2025-06-27 00:00:00,Sabruna Lazard,Altema Mona / Saint felix Frantcy,2altema /
+PAP/HBMP,PAP,PAP/HBMP/ST05310,11,M,club_9_12,1.0,OUI,2024-10-11,2024-07-02,2024-10-24 00:00:00,Sabruna Lazard,Altema Mona / Saint felix Frantcy,2altema /
+PAP/HBMP,PAP,PAP/HBMP/ST05296,17,F,club_13_17,1.0,OUI,2025-06-18,2024-04-11,2025-06-27 00:00:00,Sabruna Lazard,Altema Mona / Saint felix Frantcy,2altema /
 PAP/HFSC,PAP,PAP/HFSC/ST04629,17,F,club_13_17,1.0,OUI,2025-05-29,2024-06-17,2025-06-27 00:00:00,Dossous Marie Phane,Blanfort Nixion// Simplice Marie Junie,Elcie
 PAP/OMFP,PAP,PAP/OMFP/ST05865,11,M,club_9_12,1.0,OUI,2024-07-17,2024-07-17,2024-10-04 00:00:00,Dossous Marie Phane,Elie Marie Florance,Florance
 PAP/OMFP,PAP,PAP/OMFP/ST05812,16,F,club_13_17,1.0,OUI,2025-07-23,2024-02-05,2025-05-20 00:00:00,Dossous Marie Phane,Elie Marie Florance,Florance
-PAP/HSFS,PAP,PAP/HSFS/ST01788,10,M,club_9_12,1.0,OUI,2024-11-08,2024-08-05,2024-11-29 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
+PAP/HSFS,PAP,PAP/HSFS/ST01788,10,M,club_9_12,1.0,OUI,2026-02-03,2024-08-05,2024-11-29 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
 PAP/HSFS,PAP,PAP/HSFS/ST01784,15,M,club_13_17,1.0,OUI,2024-11-22,2024-08-02,0000-00-00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
 PAP/NPFS,PAP,PAP/NPFS/ST04383,10,F,club_9_12,1.0,OUI,2025-10-22,2023-12-07,2025-11-24 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 CAP/CMBV,CAP,CAP/CMBV/ST04008,13,F,club_13_17,1.0,OUI,2025-09-26,2024-08-06,2025-10-16 00:00:00,Djafie Memnon / Adeline Pierre,Bazile Yanne Targie,
@@ -629,16 +618,15 @@ PAP/HOCH,PAP,PAP/HOCH/ST00550,15,F,club_13_17,1.0,OUI,2024-12-16,2024-09-18,2025
 FOP/HCPT,PAP,FOP/HCPT/ST01300,12,F,club_9_12,1.0,OUI,2024-12-22,2024-09-26,2025-05-13 00:00:00,Dossous Marie Phane,Pas d'agent,Pas d'agent
 MON/POZS,PAP,MON/POZS/ST00999,11,0,club_9_12,1.0,OUI,2024-12-05,2023-03-27,2025-01-07 00:00:00,Sabruna Lazard,/ Pierre Cleanie,/ bcleonie
 PAP/HOCH,PAP,PAP/HOCH/ST00570,15,F,club_13_17,1.0,OUI,2024-12-11,2024-12-11,0000-00-00,,,
-PAP/HOCH,PAP,PAP/HOCH/ST00577,16,F,club_13_17,1.0,OUI,2024-12-19,2024-12-19,2025-01-08 00:00:00,,,
 CAP/CMBV,CAP,CAP/CMBV/ST04053,10,M,club_9_12,1.0,NON,2025-06-12,2025-03-06,2025-07-31 00:00:00,Djafie Memnon / Adeline Pierre,Bazile Yanne Targie,
 PAP/CMSP,PAP,PAP/CMSP/ST01967,16,F,club_13_17,1.0,OUI,2025-10-31,2024-08-23,2025-12-09 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
 PAP/CMSP,PAP,PAP/CMSP/ST01975,13,M,club_9_12,1.0,OUI,2025-01-28,2024-09-23,2025-02-20 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
 PAP/CMSP,PAP,PAP/CMSP/ST01971,12,F,club_9_12,1.0,OUI,2025-10-01,2021-09-03,2025-10-21 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
-PAP/CMSP,PAP,PAP/CMSP/ST01963,10,M,club_9_12,1.0,NON,2025-11-07,2024-08-16,2025-08-06 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
+PAP/CMSP,PAP,PAP/CMSP/ST01963,11,M,club_9_12,1.0,NON,2025-11-07,2024-08-16,2025-08-06 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
 PAP/CMSP,PAP,PAP/CMSP/ST01953,12,M,club_9_12,1.0,OUI,2025-03-25,2024-07-19,2025-06-09 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
 PAP/CMSP,PAP,PAP/CMSP/ST01972,14,F,club_13_17,1.0,OUI,2026-03-24,2024-09-03,2025-06-09 00:00:00,Sabruna Lazard,Charles Mydarline / Alphonse Marie Elcie,Mydarling
 PAP/NPFS,PAP,PAP/NPFS/ST04308,10,F,club_9_12,1.0,OUI,2025-10-10,2023-06-26,2026-01-09 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
-CAP/NEWH,CAP,CAP/NEWH/ST00568,13,M,club_13_17,1.0,OUI,2025-11-07,2025-05-21,2025-12-02 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Bazile Yanne Targie,
+CAP/NEWH,CAP,CAP/NEWH/ST00568,14,M,club_13_17,1.0,OUI,2025-11-07,2025-05-21,2025-12-02 00:00:00,Cely Adline/Presumé Maxime Antoine Jr,Bazile Yanne Targie,
 PAP/HSFS,PAP,PAP/HSFS/ST01821,10,0,club_9_12,1.0,NON,2025-03-12,2024-09-06,2025-05-23 00:00:00,Miss Petit Marie Gislaine,Jessica Alcide,Telong
 PAP/NPFS,PAP,PAP/NPFS/ST04532,10,F,club_9_12,1.0,NON,2025-08-21,2025-03-31,2025-09-29 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
 PAP/NPFS,PAP,PAP/NPFS/ST04288,12,F,club_9_12,1.0,OUI,2025-01-15,2023-04-12,2025-02-17 00:00:00,Magdala J. Baptiste / / Christina Laforest,Christelle Norcilien/Polynice Medjina/Victor Guytchen/St Dic Yves,St DIC/ Victor/ Paula
