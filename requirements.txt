@@ -149,7 +149,7 @@ PyRect==0.2.0
 PyScreeze==1.0.1
 PySocks==1.7.1
 pytest==9.0.2
-python-dateutil==2.9.0.post0
+python-dateutil==2.9.0
 python-docx==1.2.0
 python-dotenv==1.2.1
 python-json-logger==4.0.0
