@@ -1,3 +1,6 @@
+# Standard library modules (smtplib, ssl, email, datetime) n'ont pas besoin d'être ajoutés.
+# Pour la compatibilité, on peut ajouter une note :
+# Les modules smtplib, ssl, email, datetime sont inclus dans Python standard library.
 # For loading environment variables
 python-dotenv
 altair==6.0.0
